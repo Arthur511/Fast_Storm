@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
     Quaternion _targetRotation;
     Vector3 _translation;
 
+    [SerializeField] CameraFollow _cameraFollow;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -28,30 +31,34 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-
-        Rotation();
-
-        if (Physics.Raycast(transform.position, transform.forward, _wallCheckDistance, _wallLayer))
+        float x = Input.GetAxisRaw("Horizontal");
+        float y = Input.GetAxisRaw("Vertical");
+        Vector3 direction = new Vector3(x, 0, y).normalized;
+        _translation = direction;
+        if (_translation != Vector3.zero)
         {
-            _isRunningOnWall = true;
-        }
-        else
-        {
-            _isRunningOnWall = false;
-        }
+            Rotation();
 
-        if (_isRunningOnWall)
-        {
-            MoveCharacterOnWall();
-            _rb.useGravity = false;
-        }
-        else
-        {
-            MoveCharacter();
-            _rb.useGravity = true;
-        }
+            if (Physics.Raycast(transform.position, transform.forward, _wallCheckDistance, _wallLayer))
+            {
+                _isRunningOnWall = true;
+            }
+            else
+            {
+                _isRunningOnWall = false;
+            }
 
-
+            if (_isRunningOnWall)
+            {
+                MoveCharacterOnWall();
+                _rb.useGravity = false;
+            }
+            else
+            {
+                MoveCharacter(_translation);
+                _rb.useGravity = true;
+            }
+        }
     }
 
     // Update is called once per frame
@@ -60,13 +67,20 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void MoveCharacter()
+    private void MoveCharacter(Vector3 direction)
     {
-        float x = Input.GetAxisRaw("Horizontal");
-        float y = Input.GetAxisRaw("Vertical");
-        Vector3 direction = new Vector3(x, 0, y).normalized;
-        _translation = direction;
-        _rb.AddForce(direction * _speedPlayer, ForceMode.Acceleration);
+        Vector3 forward = _cameraFollow.MainCamera.transform.forward;
+        Vector3 right = _cameraFollow.MainCamera.transform.right;
+        forward.y = 0;
+        right.y = 0;
+        forward = forward.normalized;
+        right = right.normalized;
+        Vector3 forwardRelative = direction.z * forward;
+        Vector3 rightRelative = direction.x * right;
+
+        Vector3 relativeMovement = forwardRelative + rightRelative;
+
+        _rb.AddForce(relativeMovement * _speedPlayer, ForceMode.Acceleration);
     }
     private void MoveCharacterOnWall()
     {
@@ -79,7 +93,6 @@ public class PlayerController : MonoBehaviour
             Vector3 direction = (wallTangent * inputX).normalized;
             _translation = direction;
             _rb.AddForce(direction * _speedPlayer + Vector3.up * _speedPlayer, ForceMode.Acceleration);
-
 
         }
 
