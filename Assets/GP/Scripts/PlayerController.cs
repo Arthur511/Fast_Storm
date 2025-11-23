@@ -31,14 +31,15 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //float x = Input.GetAxisRaw("Horizontal");
         float x = Input.GetAxisRaw("Horizontal");
-        float y = Input.GetAxisRaw("Vertical");
-        Vector3 direction = new Vector3(x, 0, y).normalized;
-        _translation = direction;
-        if (_translation != Vector3.zero)
-        {
-            Rotation();
+        Vector3 dirRotation = new Vector3(x, 0, 0);
+        Rotation(dirRotation);
 
+        float y = Input.GetAxisRaw("Vertical");
+        Vector3 direction = new Vector3(0, 0, y).normalized;
+        if (direction.magnitude >= 0.001f)
+        {
             if (Physics.Raycast(transform.position, transform.forward, _wallCheckDistance, _wallLayer))
             {
                 _isRunningOnWall = true;
@@ -55,7 +56,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                MoveCharacter(_translation);
+                MoveCharacter(direction);
                 _rb.useGravity = true;
             }
         }
@@ -98,9 +99,8 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void Rotation()
+    private void Rotation(Vector3 dir)
     {
-        _targetRotation = Quaternion.LookRotation(_translation, Vector3.up);
-        transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, _speedRotation * Time.deltaTime);
+        transform.Rotate(Vector3.up, dir.x * _speedRotation * Time.deltaTime);
     }
 }

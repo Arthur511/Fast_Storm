@@ -7,7 +7,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] Vector3 _offset;
     Camera _mainCamera;
     public Camera MainCamera => _mainCamera;
-    float _speedCamera = 10f;
+    float _speedCamera = 100f;
 
     Vector3 _velocity = Vector3.zero;
     private void Awake()
@@ -18,7 +18,9 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        transform.position = Vector3.SmoothDamp(transform.position, _target.TransformPoint(_offset), ref _velocity, 1f/_speedCamera);
+        Vector3 goodStatement = _target.position + _target.rotation * _offset; 
+
+        transform.position = Vector3.Lerp(transform.position,goodStatement, _speedCamera*Time.deltaTime);
 
         transform.LookAt( _target );
     }
