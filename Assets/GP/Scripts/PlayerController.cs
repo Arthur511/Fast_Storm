@@ -5,7 +5,11 @@ using static UnityEngine.LightAnchor;
 public class PlayerController : MonoBehaviour
 {
 
-    [SerializeField] float _speedPlayer;
+    public static PlayerController Instance;
+
+    [SerializeField] float _startSpeedPlayer;
+    [SerializeField] float _currentSpeedPlayer;
+    public float SpeedPlayer => _currentSpeedPlayer;
     [SerializeField] float _speedRotation;
 
     Rigidbody _rb;
@@ -17,16 +21,17 @@ public class PlayerController : MonoBehaviour
     Vector3 _wallRunDirection;
     bool _isRunningOnWall = false;
 
-    Quaternion _targetRotation;
-    Vector3 _translation;
 
+    [Header("Scripts")]
     [SerializeField] CameraFollow _cameraFollow;
+    [SerializeField] Energy _energy;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        Instance = this;
     }
 
     private void FixedUpdate()
@@ -38,28 +43,27 @@ public class PlayerController : MonoBehaviour
 
         float y = Input.GetAxisRaw("Vertical");
         Vector3 direction = new Vector3(0, 0, y).normalized;
+        if (Physics.Raycast(transform.position, transform.forward, _wallCheckDistance, _wallLayer))
+        {
+            _isRunningOnWall = true;
+        }
+        else
+        {
+            _isRunningOnWall = false;
+        }
         if (direction.magnitude >= 0.001f)
         {
-            if (Physics.Raycast(transform.position, transform.forward, _wallCheckDistance, _wallLayer))
-            {
-                _isRunningOnWall = true;
-            }
-            else
-            {
-                _isRunningOnWall = false;
-            }
 
             if (_isRunningOnWall)
             {
                 MoveCharacterOnWall();
-                _rb.useGravity = false;
             }
             else
             {
                 MoveCharacter(direction);
-                _rb.useGravity = true;
             }
         }
+
     }
 
     // Update is called once per frame
@@ -81,19 +85,18 @@ public class PlayerController : MonoBehaviour
 
         Vector3 relativeMovement = forwardRelative + rightRelative;
 
-        _rb.AddForce(relativeMovement * _speedPlayer, ForceMode.Acceleration);
+        _rb.AddForce(relativeMovement * _currentSpeedPlayer, ForceMode.Acceleration);
     }
     private void MoveCharacterOnWall()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, _wallCheckDistance, _wallLayer))
+        if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), transform.forward, out hit, _wallCheckDistance, _wallLayer))
         {
             Vector3 wallTangent = Vector3.Cross(hit.normal, Vector3.up).normalized;
             float inputX = Input.GetAxisRaw("Horizontal");
 
             Vector3 direction = (wallTangent * inputX).normalized;
-            _translation = direction;
-            _rb.AddForce(direction * _speedPlayer + Vector3.up * _speedPlayer, ForceMode.Acceleration);
+            _rb.AddForce(direction * (_currentSpeedPlayer*2) + Vector3.up * (_currentSpeedPlayer*2), ForceMode.Acceleration);
 
         }
 
@@ -103,4 +106,25 @@ public class PlayerController : MonoBehaviour
     {
         transform.Rotate(Vector3.up, dir.x * _speedRotation * Time.deltaTime);
     }
+
+    public float SetSpeed(float amountToAdd)
+    {
+        _currentSpeedPlayer += amountToAdd;
+        return _currentSpeedPlayer;
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent<ElectronicDevice>(out ElectronicDevice device))
+        {
+            if (!device.IsEmpty())
+            {
+                _energy.SetEnergy(device.EnergyToSend);
+                _currentSpeedPlayer = _startSpeedPlayer + _energy.CurrentEnergy * 0.5f;
+                device.DrainEnergy(device.EnergyToSend);
+            }
+        }
+    }
+
 }
