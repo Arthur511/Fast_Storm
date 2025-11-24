@@ -121,4 +121,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a6bc7adaa248cc4186139d6ecb563ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _naturalDrain: 1
   _energyToSend: 10

@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 relativeMovement = forwardRelative + rightRelative;
 
-        _rb.AddForce(relativeMovement * _currentSpeedPlayer, ForceMode.Acceleration);
+        _rb.AddForce(relativeMovement * _currentSpeedPlayer, ForceMode.Force);
     }
     private void MoveCharacterOnWall()
     {
@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
             float inputX = Input.GetAxisRaw("Horizontal");
 
             Vector3 direction = (wallTangent * inputX).normalized;
-            _rb.AddForce(direction * (_currentSpeedPlayer*2) + Vector3.up * (_currentSpeedPlayer*2), ForceMode.Acceleration);
+            _rb.AddForce(direction * (_currentSpeedPlayer*2) + Vector3.up * (_currentSpeedPlayer*2), ForceMode.Force);
 
         }
 
