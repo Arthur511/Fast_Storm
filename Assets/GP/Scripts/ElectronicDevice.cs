@@ -4,7 +4,9 @@ public class ElectronicDevice : MonoBehaviour
 {
     [SerializeField] float _naturalDrain;
     [SerializeField] float _energyToSend;
+    protected IDevicePower _devicePower;
     public float EnergyToSend => _energyToSend;
+    public IDevicePower DevicePower => _devicePower;
 
     float _drainTimer = 3f;
     float _currentDrainTimer;
@@ -15,7 +17,7 @@ public class ElectronicDevice : MonoBehaviour
     }
 
 
-    private void Update()
+    protected void Update()
     {
         if (!IsEmpty())
         {

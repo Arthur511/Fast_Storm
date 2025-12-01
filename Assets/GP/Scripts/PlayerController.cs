@@ -123,6 +123,7 @@ public class PlayerController : MonoBehaviour
                 _energy.SetEnergy(device.EnergyToSend);
                 _currentSpeedPlayer = _startSpeedPlayer + _energy.CurrentEnergy * 0.5f;
                 device.DrainEnergy(device.EnergyToSend);
+                device.DevicePower.ExecutePower(this.gameObject);
             }
         }
     }
