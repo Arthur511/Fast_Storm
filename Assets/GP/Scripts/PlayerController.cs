@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using static UnityEngine.LightAnchor;
 
 public class PlayerController : MonoBehaviour
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _speedRotation;
 
     Rigidbody _rb;
+    float _groundCheckDistance = 1.5f;
 
     [Header("Wall Run")]
     [SerializeField] float _wallCheckDistance;
@@ -27,6 +29,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Energy _energy;
 
 
+    bool _isGrounded = false;
+    Vector3 _currentGravityDirection = Vector3.down;
+    Vector3 _targetGravityDirection = Vector3.down;
+    RaycastHit _surfaceHit;
+    float _gravityStrenght;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -34,74 +41,65 @@ public class PlayerController : MonoBehaviour
         Instance = this;
     }
 
+    private void Update()
+    {
+        DetectWall();
+    }
+
     private void FixedUpdate()
     {
-        //float x = Input.GetAxisRaw("Horizontal");
-        float x = Input.GetAxisRaw("Horizontal");
-        Vector3 dirRotation = new Vector3(x, 0, 0);
-        Rotation(dirRotation);
+        float y = Input.GetAxisRaw("Horizontal");
+        Vector3 direction = new Vector3(y, 0, 0).normalized;
 
-        float y = Input.GetAxisRaw("Vertical");
-        Vector3 direction = new Vector3(0, 0, y).normalized;
-        if (Physics.Raycast(transform.position, transform.forward, _wallCheckDistance, _wallLayer))
+        ApplyGravityForce();
+        RotatePlayer();
+        MoveCharacter(direction);
+
+
+        /*if (Physics.Raycast(transform.position, transform.forward, _wallCheckDistance, _wallLayer))
         {
             _isRunningOnWall = true;
         }
         else
         {
             _isRunningOnWall = false;
-        }
-        if (direction.magnitude >= 0.001f)
-        {
+        }*/
+        /* if (direction.magnitude >= 0.001f)
+         {
 
-            if (_isRunningOnWall)
-            {
-                MoveCharacterOnWall();
-            }
-            else
-            {
-                MoveCharacter(direction);
-            }
-        }
+             if (_isRunningOnWall)
+             {
+                 MoveCharacterOnWall();
+             }
+             else
+             {
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+             }
+         }*/
 
     }
 
     private void MoveCharacter(Vector3 direction)
     {
-        Vector3 forward = _cameraFollow.MainCamera.transform.forward;
+        /*Vector3 forward = _cameraFollow.MainCamera.transform.forward;
         Vector3 right = _cameraFollow.MainCamera.transform.right;
         forward.y = 0;
         right.y = 0;
         forward = forward.normalized;
         right = right.normalized;
         Vector3 forwardRelative = direction.z * forward;
-        Vector3 rightRelative = direction.x * right;
+        Vector3 rightRelative = direction.x * right;;*/
 
-        Vector3 relativeMovement = forwardRelative + rightRelative;
+        Vector3 forward = Vector3.ProjectOnPlane(transform.forward, -_currentGravityDirection).normalized;
+        Vector3 right = Vector3.ProjectOnPlane(transform.right, -_currentGravityDirection).normalized;
+
+        Vector3 relativeMovement = forward + (right * direction.x);
+
+        //Vector3 relativeMovement = transform.forward + direction;
 
         _rb.AddForce(relativeMovement * _currentSpeedPlayer, ForceMode.Force);
-    }
-    private void MoveCharacterOnWall()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), transform.forward, out hit, _wallCheckDistance, _wallLayer))
-        {
-            Vector3 wallTangent = Vector3.Cross(hit.normal, Vector3.up).normalized;
-            float inputX = Input.GetAxisRaw("Horizontal");
-
-            Vector3 direction = (wallTangent * inputX).normalized;
-            _rb.AddForce(direction * (_currentSpeedPlayer*2) + Vector3.up * (_currentSpeedPlayer*2), ForceMode.Force);
-
-        }
 
     }
-
     private void Rotation(Vector3 dir)
     {
         transform.Rotate(Vector3.up, dir.x * _speedRotation * Time.deltaTime);
@@ -113,6 +111,51 @@ public class PlayerController : MonoBehaviour
         return _currentSpeedPlayer;
     }
 
+    private void DetectWall()
+    {
+        _isGrounded = false;
+
+        if (Physics.Raycast(transform.position, _currentGravityDirection, out _surfaceHit, _wallCheckDistance, _wallLayer))
+        {
+            _isGrounded = true;
+            _targetGravityDirection = _surfaceHit.normal;
+        }
+        else if (Physics.Raycast(transform.position, transform.right, out _surfaceHit, 1f, _wallLayer))
+        {
+            Debug.Log("Droite");
+            _isGrounded = true;
+            _targetGravityDirection = _surfaceHit.normal;
+        }
+        else if (Physics.Raycast(transform.position, -transform.right, out _surfaceHit, 1f, _wallLayer))
+        {
+            Debug.Log("Gauche");
+            _isGrounded = true;
+            _targetGravityDirection = _surfaceHit.normal;
+        }
+        else
+        {
+            _targetGravityDirection = Vector3.down;
+        }
+
+        _currentGravityDirection = Vector3.Lerp(_currentGravityDirection, _targetGravityDirection, Time.deltaTime * 10).normalized;
+
+    }
+
+    private void RotatePlayer()
+    {
+        if (_isGrounded)
+        {
+            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, _currentGravityDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 500);
+        }
+    }
+
+
+    private void ApplyGravityForce()
+    {
+        _rb.AddForce(_currentGravityDirection * _gravityStrenght, ForceMode.Acceleration);
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -122,10 +165,36 @@ public class PlayerController : MonoBehaviour
             {
                 _energy.SetEnergy(device.EnergyToSend);
                 _currentSpeedPlayer = _startSpeedPlayer + _energy.CurrentEnergy * 0.5f;
+                _cameraFollow.SetFieldOfview(_energy.CurrentEnergy);
                 device.DrainEnergy(device.EnergyToSend);
                 device.DevicePower.ExecutePower(this.gameObject);
             }
         }
     }
+
+
+
+
+
+    private void OnDrawGizmos()
+    {
+        if (!Application.isPlaying) return;
+
+        // Raycast de gravité
+        Gizmos.color = _isGrounded ? Color.green : Color.red;
+        Gizmos.DrawRay(transform.position, _currentGravityDirection * _groundCheckDistance);
+
+        // Raycast avant (wall)
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(transform.position, transform.forward * _wallCheckDistance);
+
+        // Normale de surface
+        if (_isGrounded)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawRay(_surfaceHit.point, _surfaceHit.normal * 2f);
+        }
+    }
+
 
 }
