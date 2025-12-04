@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float _startSpeedPlayer;
     [SerializeField] float _currentSpeedPlayer;
+    float _currentMaxSpeedPlayer;
+    bool _isAddingSpeed = false;
     public float SpeedPlayer => _currentSpeedPlayer;
     [SerializeField] float _speedRotation;
 
@@ -33,7 +35,7 @@ public class PlayerController : MonoBehaviour
     Vector3 _currentGravityDirection = Vector3.down;
     Vector3 _targetGravityDirection = Vector3.down;
     RaycastHit _surfaceHit;
-    float _gravityStrenght;
+    float _gravityStrenght = 1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -55,7 +57,13 @@ public class PlayerController : MonoBehaviour
         RotatePlayer();
         MoveCharacter(direction);
 
-
+        if (_isAddingSpeed)
+        {
+            if (_currentSpeedPlayer < _currentMaxSpeedPlayer)
+                _currentSpeedPlayer += Time.deltaTime * 10;
+            else
+                _isAddingSpeed = false;
+        }
         /*if (Physics.Raycast(transform.position, transform.forward, _wallCheckDistance, _wallLayer))
         {
             _isRunningOnWall = true;
@@ -118,19 +126,19 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(transform.position, _currentGravityDirection, out _surfaceHit, _wallCheckDistance, _wallLayer))
         {
             _isGrounded = true;
-            _targetGravityDirection = _surfaceHit.normal;
+            _targetGravityDirection = -_surfaceHit.normal;
         }
-        else if (Physics.Raycast(transform.position, transform.right, out _surfaceHit, 1f, _wallLayer))
+        else if (Physics.Raycast(transform.position, transform.right, out _surfaceHit, 2f, _wallLayer))
         {
             Debug.Log("Droite");
             _isGrounded = true;
-            _targetGravityDirection = _surfaceHit.normal;
+            _targetGravityDirection = -_surfaceHit.normal;
         }
-        else if (Physics.Raycast(transform.position, -transform.right, out _surfaceHit, 1f, _wallLayer))
+        else if (Physics.Raycast(transform.position, -transform.right, out _surfaceHit, 2f, _wallLayer))
         {
             Debug.Log("Gauche");
             _isGrounded = true;
-            _targetGravityDirection = _surfaceHit.normal;
+            _targetGravityDirection = -_surfaceHit.normal;
         }
         else
         {
@@ -164,10 +172,11 @@ public class PlayerController : MonoBehaviour
             if (!device.IsEmpty())
             {
                 _energy.SetEnergy(device.EnergyToSend);
-                _currentSpeedPlayer = _startSpeedPlayer + _energy.CurrentEnergy * 0.5f;
+                _isAddingSpeed = true;
                 _cameraFollow.SetFieldOfview(_energy.CurrentEnergy);
                 device.DrainEnergy(device.EnergyToSend);
-                device.DevicePower.ExecutePower(this.gameObject);
+                if (device.DevicePower != null)
+                    device.DevicePower.ExecutePower(gameObject);
             }
         }
     }
