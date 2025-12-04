@@ -7,7 +7,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] Vector3 _offset;
     Camera _mainCamera;
     public Camera MainCamera => _mainCamera;
-    float _speedCamera = 10f;
+    float _speedCamera = 5f;
 
     Vector3 _velocity = Vector3.zero;
 
