@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         Instance = this;
+        _currentMaxSpeedPlayer = _startSpeedPlayer;
     }
 
     private void Update()
@@ -59,51 +60,25 @@ public class PlayerController : MonoBehaviour
 
         if (_isAddingSpeed)
         {
-            if (_currentSpeedPlayer < _currentMaxSpeedPlayer)
-                _currentSpeedPlayer += Time.deltaTime * 10;
+            if (Mathf.Abs(_currentSpeedPlayer - _currentMaxSpeedPlayer) >= 0.1f)
+            {
+                _currentSpeedPlayer = Mathf.Lerp(_currentSpeedPlayer, _currentMaxSpeedPlayer, Time.deltaTime/2f);
+                _cameraFollow.SetFieldOfview(_currentSpeedPlayer);
+                _cameraFollow.SetCameraSpeed(_currentSpeedPlayer);
+                _cameraFollow.SetZAxisOfCamera(_currentSpeedPlayer);
+            }
             else
                 _isAddingSpeed = false;
         }
-        /*if (Physics.Raycast(transform.position, transform.forward, _wallCheckDistance, _wallLayer))
-        {
-            _isRunningOnWall = true;
-        }
-        else
-        {
-            _isRunningOnWall = false;
-        }*/
-        /* if (direction.magnitude >= 0.001f)
-         {
-
-             if (_isRunningOnWall)
-             {
-                 MoveCharacterOnWall();
-             }
-             else
-             {
-
-             }
-         }*/
-
     }
 
     private void MoveCharacter(Vector3 direction)
     {
-        /*Vector3 forward = _cameraFollow.MainCamera.transform.forward;
-        Vector3 right = _cameraFollow.MainCamera.transform.right;
-        forward.y = 0;
-        right.y = 0;
-        forward = forward.normalized;
-        right = right.normalized;
-        Vector3 forwardRelative = direction.z * forward;
-        Vector3 rightRelative = direction.x * right;;*/
 
         Vector3 forward = Vector3.ProjectOnPlane(transform.forward, -_currentGravityDirection).normalized;
         Vector3 right = Vector3.ProjectOnPlane(transform.right, -_currentGravityDirection).normalized;
 
         Vector3 relativeMovement = forward + (right * direction.x);
-
-        //Vector3 relativeMovement = transform.forward + direction;
 
         _rb.AddForce(relativeMovement * _currentSpeedPlayer, ForceMode.Force);
 
@@ -113,10 +88,10 @@ public class PlayerController : MonoBehaviour
         transform.Rotate(Vector3.up, dir.x * _speedRotation * Time.deltaTime);
     }
 
-    public float SetSpeed(float amountToAdd)
+    public float SetMaxSpeed(float amountToAdd)
     {
-        _currentSpeedPlayer += amountToAdd;
-        return _currentSpeedPlayer;
+        _currentMaxSpeedPlayer += amountToAdd;
+        return _currentMaxSpeedPlayer;
     }
 
     private void DetectWall()
@@ -172,8 +147,8 @@ public class PlayerController : MonoBehaviour
             if (!device.IsEmpty())
             {
                 _energy.SetEnergy(device.EnergyToSend);
+                SetMaxSpeed(_energy.CurrentEnergy);
                 _isAddingSpeed = true;
-                _cameraFollow.SetFieldOfview(_energy.CurrentEnergy);
                 device.DrainEnergy(device.EnergyToSend);
                 if (device.DevicePower != null)
                     device.DevicePower.ExecutePower(gameObject);
