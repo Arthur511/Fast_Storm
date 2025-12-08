@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ShdrGrph_CellShading_01
+  m_Name: ShdrGrph_CellShading_01 1
   m_Shader: {fileID: -6465566751694194690, guid: d780bfa2661966641a9997fba9f84f13, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -65,7 +65,7 @@ Material:
     - _CullMode: 2
     - _CullModeForward: 2
     - _DepthOffsetEnable: 0
-    - _Dithering_Radius: 3.56
+    - _Dithering_Radius: 9.57
     - _DoubleSidedEnable: 0
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
@@ -74,8 +74,8 @@ Material:
     - _EnableBlendModePreserveSpecularLighting: 0
     - _EnableFogOnTransparent: 1
     - _ExcludeFromTUAndAA: 0
-    - _High_Value_Position: 0.33
-    - _Low_Value_Position: -0.685
+    - _High_Value_Position: 0.901
+    - _Low_Value_Position: -0.204
     - _OpaqueCullMode: 2
     - _PerPixelSorting: 0
     - _RenderQueueType: 1
@@ -101,7 +101,7 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - _Base_Color: {r: 0, g: 1, b: 1, a: 1}
+    - _Base_Color: {r: 1, g: 0.7952178, b: 0.5518868, a: 1}
     - _Base_Color_Low: {r: 1, g: 0, b: 0, a: 1}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
