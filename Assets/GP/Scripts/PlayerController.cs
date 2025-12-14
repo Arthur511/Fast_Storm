@@ -8,10 +8,15 @@ public class PlayerController : MonoBehaviour
 
     public static PlayerController Instance;
 
+    [Header ("Speed parameters")]
     [SerializeField] float _startSpeedPlayer;
     [SerializeField] float _currentSpeedPlayer;
     float _currentMaxSpeedPlayer;
     bool _isAddingSpeed = false;
+    SpeedState _speedState = SpeedState.Slow;
+    //public SpeedState SpeedState => _speedState;
+
+
     public float SpeedPlayer => _currentSpeedPlayer;
     [SerializeField] float _speedRotation;
 
@@ -22,8 +27,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _wallCheckDistance;
     [SerializeField] LayerMask _wallLayer;
 
-    Vector3 _wallRunDirection;
-    bool _isRunningOnWall = false;
 
 
     [Header("Scripts")]
@@ -36,6 +39,8 @@ public class PlayerController : MonoBehaviour
     Vector3 _targetGravityDirection = Vector3.down;
     RaycastHit _surfaceHit;
     float _gravityStrenght = 1;
+    private float _velocity;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -60,12 +65,10 @@ public class PlayerController : MonoBehaviour
 
         if (_isAddingSpeed)
         {
-            if (Mathf.Abs(_currentSpeedPlayer - _currentMaxSpeedPlayer) >= 0.1f)
+            if (Mathf.Abs(_currentSpeedPlayer - _currentMaxSpeedPlayer) >= 0.01f)
             {
-                _currentSpeedPlayer = Mathf.Lerp(_currentSpeedPlayer, _currentMaxSpeedPlayer, Time.deltaTime/2f);
+                _currentSpeedPlayer += Time.deltaTime*10;
                 _cameraFollow.SetFieldOfview(_currentSpeedPlayer);
-                _cameraFollow.SetCameraSpeed(_currentSpeedPlayer);
-                _cameraFollow.SetZAxisOfCamera(_currentSpeedPlayer);
             }
             else
                 _isAddingSpeed = false;
@@ -181,4 +184,13 @@ public class PlayerController : MonoBehaviour
     }
 
 
+}
+
+
+enum SpeedState
+{
+    None, 
+    Slow,
+    Medium,
+    Fast
 }
