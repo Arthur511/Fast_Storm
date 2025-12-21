@@ -43237,6 +43237,65 @@ Light:
   m_LightUnit: 4
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1 &1331632524
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1331632526}
+  - component: {fileID: 1331632525}
+  m_Layer: 0
+  m_Name: Scripts
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1331632525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331632524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2763bd8ead2688a4e9009dcc656d5953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stepsSpeed:
+  - speedThreshold: 40
+    materialToPlayer:
+    - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+    - {fileID: 2100000, guid: 855e51f970ac02443939e35809882e4e, type: 2}
+  - speedThreshold: 60
+    materialToPlayer:
+    - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+    - {fileID: 2100000, guid: c3cc4e44115234546909f0f78306e35d, type: 2}
+    - {fileID: 2100000, guid: 2513eff2fa6e205429d9544530040dfa, type: 2}
+  - speedThreshold: 90
+    materialToPlayer:
+    - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+    - {fileID: 2100000, guid: 3789efdb57013e740826abc5335a1843, type: 2}
+    - {fileID: 2100000, guid: 884a33d56d8a564448227fb2f0d69b1e, type: 2}
+--- !u!4 &1331632526
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331632524}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.24577, y: 0.00001, z: -15.61625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1334521384
 GameObject:
   m_ObjectHideFlags: 0
@@ -77377,3 +77436,4 @@ SceneRoots:
   - {fileID: 1158428923}
   - {fileID: 629469339}
   - {fileID: 2121433087}
+  - {fileID: 1331632526}
