@@ -6,48 +6,50 @@ using UnityEngine;
 public class EffectSystem : MonoBehaviour
 {
     [SerializeField] StepSpeedEffect[] _stepsSpeed;
+    [SerializeField] GameObject _playerVisual;
 
     List<Material> _activeMaterials = new List<Material>();
-    //List<ParticleSystem> _activeParticles = new List<ParticleSystem>();
-    private void Start()
-    {
-        
-    }
+    List<GameObject> _particleGameObjects = new List<GameObject>();
 
-    private void Update()
+    float _lastSpeed = -1;
+
+    public void UpdateEffect()
     {
+        DestroyActiveParticle();
         foreach (StepSpeedEffect step in _stepsSpeed)
         {
-            if (PlayerController.Instance.SpeedPlayer > step.speedThreshold)
+            if (PlayerController.Instance.SpeedPlayer >= step.speedThreshold)
             {
-                //_activeParticles
                 _activeMaterials = step.materialToPlayer;
                 DisplayMaterials();
+                foreach (var item in step.particleSystems)
+                {
+                    GameObject particle = Instantiate(item, _playerVisual.transform);
+                    particle.transform.localPosition = Vector3.zero;
+                    _particleGameObjects.Add(particle);
+                    particle.GetComponent<ParticleSystem>().Play();
+                }
             }
         }
     }
 
+
     private void DisplayMaterials()
     {
-        PlayerController.Instance.gameObject.GetComponentInChildren<Renderer>().materials = _activeMaterials.ToArray();
+        if (_activeMaterials.Count > 0)
+            PlayerController.Instance.gameObject.GetComponentInChildren<Renderer>().materials = _activeMaterials.ToArray();
     }
 
-    private void DisplayParticles()
+    public void DestroyActiveParticle()
     {
-        
-    }
-
-    /*private void DestroyActiveParticle()
-    {
-        foreach (var item in _activeParticles)
+        foreach (var gameParticle in _particleGameObjects)
         {
-            Destroy
+            Destroy(gameParticle);
         }
-    }*/
+        _particleGameObjects.Clear();
+    }
 
 }
-
-
 
 [Serializable]
 class StepSpeedEffect

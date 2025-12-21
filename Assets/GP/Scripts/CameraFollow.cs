@@ -21,7 +21,6 @@ public class CameraFollow : MonoBehaviour
 
     [Header("Paramétres de FieldOfView de camera")]
     private float _baseFOV;
-    private float _targetFOV;
     [SerializeField] private float _fovSmoothSpeed = 5f;
 
     private float _currentPlayerSpeed;

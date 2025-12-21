@@ -13,9 +13,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _currentSpeedPlayer;
     float _currentMaxSpeedPlayer;
     bool _isAddingSpeed = false;
-    SpeedState _speedState = SpeedState.Slow;
-    //public SpeedState SpeedState => _speedState;
-
 
     public float SpeedPlayer => _currentSpeedPlayer;
     [SerializeField] float _speedRotation;
@@ -28,10 +25,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask _wallLayer;
 
 
-
     [Header("Scripts")]
     [SerializeField] CameraFollow _cameraFollow;
     [SerializeField] Energy _energy;
+    [SerializeField] EffectSystem _effectSystem;
 
 
     bool _isGrounded = false;
@@ -94,6 +91,9 @@ public class PlayerController : MonoBehaviour
     public float SetMaxSpeed(float amountToAdd)
     {
         _currentMaxSpeedPlayer += amountToAdd;
+        if (_currentMaxSpeedPlayer > 100)
+            _currentMaxSpeedPlayer = 100;
+
         return _currentMaxSpeedPlayer;
     }
 
@@ -156,41 +156,10 @@ public class PlayerController : MonoBehaviour
                 if (device.DevicePower != null)
                     device.DevicePower.ExecutePower(gameObject);
             }
+            _effectSystem.DestroyActiveParticle();
+            _effectSystem.UpdateEffect();
         }
     }
 
 
-
-
-
-    private void OnDrawGizmos()
-    {
-        if (!Application.isPlaying) return;
-
-        // Raycast de gravité
-        Gizmos.color = _isGrounded ? Color.green : Color.red;
-        Gizmos.DrawRay(transform.position, _currentGravityDirection * _groundCheckDistance);
-
-        // Raycast avant (wall)
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawRay(transform.position, transform.forward * _wallCheckDistance);
-
-        // Normale de surface
-        if (_isGrounded)
-        {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawRay(_surfaceHit.point, _surfaceHit.normal * 2f);
-        }
-    }
-
-
-}
-
-
-enum SpeedState
-{
-    None, 
-    Slow,
-    Medium,
-    Fast
 }
