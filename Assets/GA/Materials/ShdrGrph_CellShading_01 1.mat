@@ -32,6 +32,14 @@ Material:
         m_Texture: {fileID: 2800000, guid: dc587690f97f29d4881100d940a693ab, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_296543bf03f8479a9d8471847ddf17a8_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 62737d591c7a1df45908f0fe8c3d71c8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_303b5b13091a44feb1f082903d704644_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 9cc44ef3e3f1a2f4288b957e38572eb2, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_5c26479fe8974840bef504c65b7772b9_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 62737d591c7a1df45908f0fe8c3d71c8, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -69,6 +77,8 @@ Material:
     - _BlendMode: 0
     - _Clamp_High_Value: 0.8
     - _Clamp_Low_Value: 0.05
+    - _ColliderRadius: 0
+    - _ColliderRadiusFalloff: 10
     - _ConservativeDepthOffsetEnable: 0
     - _CullMode: 2
     - _CullModeForward: 2
@@ -84,7 +94,11 @@ Material:
     - _EnableFogOnTransparent: 1
     - _ExcludeFromTUAndAA: 0
     - _High_Value_Position: 0.901
+    - _High_Value_Position_0: 0.33
+    - _High_Value_Position_1: 0.5
     - _Low_Value_Position: -0.204
+    - _Low_Value_Position_0: -0.33
+    - _Low_Value_Position_1: 0
     - _OpaqueCullMode: 2
     - _PerPixelSorting: 0
     - _RenderQueueType: 1
@@ -112,8 +126,10 @@ Material:
     m_Colors:
     - _Base_Color: {r: 1, g: 0.7952178, b: 0.5518868, a: 1}
     - _Base_Color_Low: {r: 1, g: 0, b: 0, a: 1}
+    - _ColliderPos: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TargetPosition: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &8570775675010533209
