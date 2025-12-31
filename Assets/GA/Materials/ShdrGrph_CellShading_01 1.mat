@@ -76,14 +76,14 @@ Material:
     - _AlphaSrcBlend: 1
     - _BlendMode: 0
     - _Clamp_High_Value: 0.8
-    - _Clamp_Low_Value: 0.05
-    - _ColliderRadius: 0
-    - _ColliderRadiusFalloff: 10
+    - _Clamp_Low_Value: 0.08
+    - _ColliderRadius: 1.49
+    - _ColliderRadiusFalloff: 1.5
     - _ConservativeDepthOffsetEnable: 0
     - _CullMode: 2
     - _CullModeForward: 2
     - _DepthOffsetEnable: 0
-    - _Dithering_Radius: 9.57
+    - _Dithering_Radius: 8.45
     - _Dithering_Texture_Switch: 0
     - _DoubleSidedEnable: 0
     - _DoubleSidedGIMode: 0
@@ -93,11 +93,11 @@ Material:
     - _EnableBlendModePreserveSpecularLighting: 0
     - _EnableFogOnTransparent: 1
     - _ExcludeFromTUAndAA: 0
-    - _High_Value_Position: 0.901
-    - _High_Value_Position_0: 0.33
+    - _High_Value_Position: 0.33
+    - _High_Value_Position_0: 0.502
     - _High_Value_Position_1: 0.5
-    - _Low_Value_Position: -0.204
-    - _Low_Value_Position_0: -0.33
+    - _Low_Value_Position: -0.685
+    - _Low_Value_Position_0: -0.395
     - _Low_Value_Position_1: 0
     - _OpaqueCullMode: 2
     - _PerPixelSorting: 0
@@ -124,7 +124,9 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 1
     m_Colors:
-    - _Base_Color: {r: 1, g: 0.7952178, b: 0.5518868, a: 1}
+    - _Base_Color: {r: 0, g: 1, b: 1, a: 1}
+    - _Base_Color_0: {r: 0, g: 1, b: 0.45466328, a: 1}
+    - _Base_Color_1: {r: 1, g: 0.76843274, b: 0, a: 1}
     - _Base_Color_Low: {r: 1, g: 0, b: 0, a: 1}
     - _ColliderPos: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}

@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 4
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
@@ -971,12 +971,24 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 2f03e4d1ec3ace9429e9b0746928e392, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 2f03e4d1ec3ace9429e9b0746928e392, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 0873b627d7035db4baac9c6ea02a2153, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 2f03e4d1ec3ace9429e9b0746928e392, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ae71700e63279704297438f8e3fce455, type: 2}
     - target: {fileID: 919132149155446097, guid: 2f03e4d1ec3ace9429e9b0746928e392, type: 3}
       propertyPath: m_Name
       value: SuzanneForTesting
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2f03e4d1ec3ace9429e9b0746928e392, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1220,9 +1232,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 2f03e4d1ec3ace9429e9b0746928e392, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 2f03e4d1ec3ace9429e9b0746928e392, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 1e69a98d02e8f754ba3ad2f9b7d88252, type: 2}
+      objectReference: {fileID: 2100000, guid: 867a69785fed5a34297b4cb636bdbcc1, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 2f03e4d1ec3ace9429e9b0746928e392, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ae71700e63279704297438f8e3fce455, type: 2}
     - target: {fileID: 919132149155446097, guid: 2f03e4d1ec3ace9429e9b0746928e392, type: 3}
       propertyPath: m_Name
       value: SuzanneForTesting (1)
