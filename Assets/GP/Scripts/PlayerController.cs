@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
@@ -8,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     public static PlayerController Instance;
 
-    [Header ("Speed parameters")]
+    [Header("Speed parameters")]
     [SerializeField] float _startSpeedPlayer;
     [SerializeField] float _currentSpeedPlayer;
     float _currentMaxSpeedPlayer;
@@ -18,6 +19,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _speedRotation;
 
     Rigidbody _rb;
+    [SerializeField] Animator _playerAnimator;
+    int VelocityHash;
     float _groundCheckDistance = 1.5f;
 
     [Header("Wall Run")]
@@ -41,14 +44,19 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
         _rb = GetComponent<Rigidbody>();
         Instance = this;
         _currentMaxSpeedPlayer = _startSpeedPlayer;
+        _playerAnimator.SetTrigger("Run");
+        _playerAnimator.Play("Run_Animation_Tree", 0, 0f);
+        VelocityHash = Animator.StringToHash("Blend");
     }
 
     private void Update()
     {
         DetectWall();
+        SetCurrentAnimation();
     }
 
     private void FixedUpdate()
@@ -64,7 +72,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Mathf.Abs(_currentSpeedPlayer - _currentMaxSpeedPlayer) >= 0.01f)
             {
-                _currentSpeedPlayer += Time.deltaTime*10;
+                _currentSpeedPlayer += Time.deltaTime * 10;
                 _cameraFollow.SetFieldOfview(_currentSpeedPlayer);
             }
             else
@@ -96,6 +104,24 @@ public class PlayerController : MonoBehaviour
 
         return _currentMaxSpeedPlayer;
     }
+
+    private void SetCurrentAnimation()
+    {
+
+        #region SetCurrentAnimationV1
+        /*AnimatorStateInfo animatorState = _playerAnimator.GetCurrentAnimatorStateInfo(0);
+        float progression = Mathf.Clamp01(_currentSpeedPlayer/100);
+
+        _playerAnimator.Play(animatorState.fullPathHash, 0, progression);*/
+        #endregion
+
+
+        #region SetCurrentAnimationV2
+        _playerAnimator.speed = _currentSpeedPlayer / 100;
+        _playerAnimator.SetFloat(VelocityHash, _playerAnimator.speed*100);
+        #endregion
+    }
+
 
     private void DetectWall()
     {
