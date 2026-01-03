@@ -7,8 +7,8 @@ public class MainGame : MonoBehaviour
 
     public static MainGame Instance;
 
-    
-
+    [SerializeField] LayerMask _transitionLayer;
+    public LayerMask TransitionLayer => _transitionLayer;
 
     private void Awake()
     {

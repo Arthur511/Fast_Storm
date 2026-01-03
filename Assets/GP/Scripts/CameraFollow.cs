@@ -24,6 +24,11 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float _fovSmoothSpeed = 5f;
 
     private float _currentPlayerSpeed;
+    private bool _hasPassedDoors;
+    private float _transitionTimer;
+    private float _startPosition;
+
+
 
     private void Awake()
     {
@@ -32,7 +37,7 @@ public class CameraFollow : MonoBehaviour
         _mainCamera.fieldOfView = 100f;
         _baseFOV = _mainCamera.fieldOfView;
     }
-    
+
 
 
     // Update is called once per frame
@@ -43,22 +48,49 @@ public class CameraFollow : MonoBehaviour
         float targetPosition = newDist;
         transform.localPosition = new Vector3(0, 3, Mathf.Lerp(transform.localPosition.z, targetPosition, Time.deltaTime * 0.5f));*/
 
-        transform.LookAt( _target.position + Vector3.up );
+        if (_hasPassedDoors)
+        {
+            Debug.Log("Transition 3 !!!!");
+            _transitionTimer += Time.deltaTime;
+            float duration = 2f;
+            float normalizedTimer = _transitionTimer / duration;
+
+            if (normalizedTimer <= 1f)
+            {
+                float startPosition = transform.localPosition.z;
+                float t = Mathf.Sin(normalizedTimer * Mathf.PI);
+                float Z = Mathf.Lerp(startPosition, startPosition + 2, t);
+                transform.localPosition = new Vector3(0, 3, Z);
+            }
+            else
+                _hasPassedDoors = false;
+        }
+
+        transform.LookAt(_target.position + Vector3.up);
     }
 
-    
+
     float UpdateVertigoDistance(float currentFOV)
     {
-        float baseTan = Mathf.Tan(_baseFOV *0.5f * Mathf.Deg2Rad);
-        float currentTan = Mathf.Tan(currentFOV * 0.5f* Mathf.Deg2Rad);
+        float baseTan = Mathf.Tan(_baseFOV * 0.5f * Mathf.Deg2Rad);
+        float currentTan = Mathf.Tan(currentFOV * 0.5f * Mathf.Deg2Rad);
 
-        return _baseDistance * (baseTan/currentTan);
+        return _baseDistance * (baseTan / currentTan);
     }
 
     public void SetFieldOfview(float energy)
     {
         float targetFOV = Mathf.Clamp(_mainCamera.fieldOfView - energy * 0.05f, 0f, 100f);
-        _mainCamera.fieldOfView = Mathf.Lerp(_mainCamera.fieldOfView, targetFOV, Time.deltaTime*2f);
+        _mainCamera.fieldOfView = Mathf.Lerp(_mainCamera.fieldOfView, targetFOV, Time.deltaTime * 2f);
+    }
+
+    public void SetHasPassedDoorsGood()
+    {
+
+        Debug.Log("Transition 2 !!!!");
+        _hasPassedDoors = true;
+        _startPosition = transform.localPosition.z;
+        _transitionTimer = 0f;
     }
 
 
@@ -72,7 +104,7 @@ public class CameraFollow : MonoBehaviour
     public void SetZAxisOfCamera(float speed)
     {
         float targetZ = Mathf.Lerp(-10, -5, speed / 100);
-        _currentOffsetZ = Mathf.Lerp(_currentOffsetZ, targetZ, Time.deltaTime*0.5f);
+        _currentOffsetZ = Mathf.Lerp(_currentOffsetZ, targetZ, Time.deltaTime * 0.5f);
         //_offset.z = _currentOffsetZ;
     }
     #endregion

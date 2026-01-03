@@ -44,6 +44,8 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        
+
 
         _rb = GetComponent<Rigidbody>();
         Instance = this;
@@ -185,6 +187,14 @@ public class PlayerController : MonoBehaviour
             _effectSystem.DestroyActiveParticle();
             _effectSystem.UpdateEffect();
         }
+        Debug.Log(MainGame.Instance.TransitionLayer.value);
+        Debug.Log(other.gameObject.layer);
+        if (other.gameObject.layer == MainGame.Instance.TransitionLayer.value)
+        {
+            Debug.Log("Transition !!!!");
+            _cameraFollow.SetHasPassedDoorsGood();
+        }
+
     }
 
 
