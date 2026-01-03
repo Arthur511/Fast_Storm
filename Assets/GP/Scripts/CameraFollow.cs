@@ -27,7 +27,8 @@ public class CameraFollow : MonoBehaviour
     private bool _hasPassedDoors;
     private float _transitionTimer;
     private float _startPosition;
-
+    [SerializeField] float _transitionDuration;
+    [SerializeField] AnimationCurve _velocityTransitionCurve;
 
 
     private void Awake()
@@ -50,16 +51,13 @@ public class CameraFollow : MonoBehaviour
 
         if (_hasPassedDoors)
         {
-            Debug.Log("Transition 3 !!!!");
             _transitionTimer += Time.deltaTime;
-            float duration = 2f;
-            float normalizedTimer = _transitionTimer / duration;
+            float normalizedTimer = _transitionTimer / _transitionDuration;
 
             if (normalizedTimer <= 1f)
             {
-                float startPosition = transform.localPosition.z;
-                float t = Mathf.Sin(normalizedTimer * Mathf.PI);
-                float Z = Mathf.Lerp(startPosition, startPosition + 2, t);
+                float t  = _velocityTransitionCurve.Evaluate(normalizedTimer);
+                float Z = Mathf.Lerp(_startPosition, _startPosition - 3, t);
                 transform.localPosition = new Vector3(0, 3, Z);
             }
             else
@@ -87,7 +85,6 @@ public class CameraFollow : MonoBehaviour
     public void SetHasPassedDoorsGood()
     {
 
-        Debug.Log("Transition 2 !!!!");
         _hasPassedDoors = true;
         _startPosition = transform.localPosition.z;
         _transitionTimer = 0f;
