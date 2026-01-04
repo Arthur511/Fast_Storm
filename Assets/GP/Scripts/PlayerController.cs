@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -26,7 +27,18 @@ public class PlayerController : MonoBehaviour
     [Header("Wall Run")]
     [SerializeField] float _wallCheckDistance;
     [SerializeField] LayerMask _wallLayer;
+    float _minSurfaceAngle = 45f;
+    Vector3 _currentGravityDirection = Vector3.down;
+    Vector3 _targetGravityDirection = Vector3.down;
+    Vector3 _currentSurfaceNormal = Vector3.up;
+    bool _isGrounded = false;
+    bool _hasRotate = false;
 
+    [Header("Rotation for WallRun")]
+    Quaternion _startRotation;
+    Quaternion _targetRotation;
+    float _rotationProgress;
+    [SerializeField]AnimationCurve _rotationCurve;
 
     [Header("Scripts")]
     [SerializeField] CameraFollow _cameraFollow;
@@ -34,12 +46,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] EffectSystem _effectSystem;
 
 
-    bool _isGrounded = false;
-    Vector3 _currentGravityDirection = Vector3.down;
-    Vector3 _targetGravityDirection = Vector3.down;
     RaycastHit _surfaceHit;
     float _gravityStrenght = 1;
     private float _velocity;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -54,7 +64,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        DetectWall();
+        if (!_hasRotate)
+            DetectWall();
+
         SetCurrentAnimation();
     }
 
@@ -82,11 +94,10 @@ public class PlayerController : MonoBehaviour
     private void MoveCharacter(Vector3 direction)
     {
 
-        Vector3 forward = Vector3.ProjectOnPlane(transform.forward, -_currentGravityDirection).normalized;
-        Vector3 right = Vector3.ProjectOnPlane(transform.right, -_currentGravityDirection).normalized;
+        Vector3 forward = Vector3.ProjectOnPlane(transform.forward, _currentSurfaceNormal).normalized;
+        Vector3 right = Vector3.ProjectOnPlane(transform.right, _currentSurfaceNormal).normalized;
 
         Vector3 relativeMovement = forward + (right * direction.x);
-
         _rb.AddForce(relativeMovement * _currentSpeedPlayer, ForceMode.Force);
 
     }
@@ -117,38 +128,42 @@ public class PlayerController : MonoBehaviour
 
         #region SetCurrentAnimationV2
         _playerAnimator.speed = _currentSpeedPlayer / 100;
-        _playerAnimator.SetFloat(VelocityHash, _playerAnimator.speed*100);
+        _playerAnimator.SetFloat(VelocityHash, _playerAnimator.speed * 100);
         #endregion
     }
 
-
+    #region WallMovement
     private void DetectWall()
     {
+
         _isGrounded = false;
 
-        if (Physics.Raycast(transform.position, _currentGravityDirection, out _surfaceHit, _wallCheckDistance, _wallLayer))
+        Vector3[] WallPositions = new Vector3[]
         {
-            _isGrounded = true;
-            _targetGravityDirection = -_surfaceHit.normal;
-        }
-        else if (Physics.Raycast(transform.position, transform.right, out _surfaceHit, 2f, _wallLayer))
+            _currentGravityDirection,
+            transform.right,
+            -transform.right
+        };
+
+        foreach (Vector3 wallPosition in WallPositions)
         {
-            Debug.Log("Droite");
-            _isGrounded = true;
-            _targetGravityDirection = -_surfaceHit.normal;
-        }
-        else if (Physics.Raycast(transform.position, -transform.right, out _surfaceHit, 2f, _wallLayer))
-        {
-            Debug.Log("Gauche");
-            _isGrounded = true;
-            _targetGravityDirection = -_surfaceHit.normal;
-        }
-        else
-        {
-            _targetGravityDirection = Vector3.down;
+            if (Physics.Raycast(transform.position, wallPosition, out _surfaceHit, _wallCheckDistance, _wallLayer))
+            {
+                float angle = Vector3.Angle(Vector3.up, _surfaceHit.normal);
+                if (angle > _minSurfaceAngle || wallPosition == _currentGravityDirection)
+                {
+
+                    _isGrounded = true;
+                    StartCoroutine(DelayAfterRotateOnSurface());
+                    _currentSurfaceNormal = _surfaceHit.normal;
+                    _targetGravityDirection = -_surfaceHit.normal;
+
+                    Debug.DrawRay(_surfaceHit.point, _surfaceHit.normal * 2f, Color.green);
+                    break;
+                }
+            }
         }
 
-        _currentGravityDirection = Vector3.Lerp(_currentGravityDirection, _targetGravityDirection, Time.deltaTime * 10).normalized;
 
     }
 
@@ -156,8 +171,21 @@ public class PlayerController : MonoBehaviour
     {
         if (_isGrounded)
         {
-            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, _currentGravityDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 500);
+            Quaternion newTargetRotation = Quaternion.FromToRotation(transform.up, _currentSurfaceNormal) * transform.rotation;
+            
+            if (Quaternion.Angle(newTargetRotation, _targetRotation) > 2.5f)
+            {
+                _startRotation = transform.rotation;
+                _targetRotation = newTargetRotation;
+                _rotationProgress = 0f;
+            }
+            
+            _rotationProgress += Time.deltaTime * 1f;
+            _rotationProgress = Mathf.Clamp01(_rotationProgress);
+            
+            float curvedProgress = _rotationCurve.Evaluate(_rotationProgress);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, curvedProgress);
         }
     }
 
@@ -166,6 +194,16 @@ public class PlayerController : MonoBehaviour
     {
         _rb.AddForce(_currentGravityDirection * _gravityStrenght, ForceMode.Acceleration);
     }
+
+    private IEnumerator DelayAfterRotateOnSurface()
+    {
+        _hasRotate = true;
+        yield return new WaitForSeconds(0.5f);
+        _hasRotate = false;
+    }
+
+    #endregion
+
 
 
     private void OnTriggerEnter(Collider other)
@@ -187,7 +225,6 @@ public class PlayerController : MonoBehaviour
 
         if (MainGame.Instance.TransitionLayer.value == 1 << other.gameObject.layer)
         {
-            Debug.Log("Transition !!!!");
             _cameraFollow.SetHasPassedDoorsGood();
         }
 

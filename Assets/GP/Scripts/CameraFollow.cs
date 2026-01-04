@@ -40,8 +40,6 @@ public class CameraFollow : MonoBehaviour
     }
 
 
-
-    // Update is called once per frame
     void LateUpdate()
     {
         /*float newDist = UpdateVertigoDistance(_mainCamera.fieldOfView);
@@ -57,7 +55,7 @@ public class CameraFollow : MonoBehaviour
             if (normalizedTimer <= 1f)
             {
                 float t  = _velocityTransitionCurve.Evaluate(normalizedTimer);
-                float Z = Mathf.Lerp(_startPosition, _startPosition - 3, t);
+                float Z = Mathf.Lerp(_startPosition, _startPosition - 5, t);
                 transform.localPosition = new Vector3(0, 3, Z);
             }
             else
