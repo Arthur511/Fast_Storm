@@ -31,14 +31,15 @@ public class PlayerController : MonoBehaviour
     Vector3 _currentGravityDirection = Vector3.down;
     Vector3 _targetGravityDirection = Vector3.down;
     Vector3 _currentSurfaceNormal = Vector3.up;
+    Vector3 _lockedSurfaceNormal = Vector3.up;
     bool _isGrounded = false;
-    bool _hasRotate = false;
+    float _hasRotateDelay = 0f;
 
     [Header("Rotation for WallRun")]
     Quaternion _startRotation;
     Quaternion _targetRotation;
     float _rotationProgress;
-    [SerializeField]AnimationCurve _rotationCurve;
+    [SerializeField] AnimationCurve _rotationCurve;
 
     [Header("Scripts")]
     [SerializeField] CameraFollow _cameraFollow;
@@ -64,9 +65,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (!_hasRotate)
-            DetectWall();
+        if (_hasRotateDelay > 0f)
+            _hasRotateDelay -= Time.deltaTime;
 
+        DetectWall();
         SetCurrentAnimation();
     }
 
@@ -136,6 +138,9 @@ public class PlayerController : MonoBehaviour
     private void DetectWall()
     {
 
+        if (_hasRotateDelay > 0)
+            return;
+
         _isGrounded = false;
 
         Vector3[] WallPositions = new Vector3[]
@@ -152,9 +157,10 @@ public class PlayerController : MonoBehaviour
                 float angle = Vector3.Angle(Vector3.up, _surfaceHit.normal);
                 if (angle > _minSurfaceAngle || wallPosition == _currentGravityDirection)
                 {
-
                     _isGrounded = true;
-                    StartCoroutine(DelayAfterRotateOnSurface());
+                    Debug.Log(_hasRotateDelay);
+                    if (_hasRotateDelay <= 0)
+                        _hasRotateDelay = 0.7f;
                     _currentSurfaceNormal = _surfaceHit.normal;
                     _targetGravityDirection = -_surfaceHit.normal;
 
@@ -172,17 +178,17 @@ public class PlayerController : MonoBehaviour
         if (_isGrounded)
         {
             Quaternion newTargetRotation = Quaternion.FromToRotation(transform.up, _currentSurfaceNormal) * transform.rotation;
-            
-            if (Quaternion.Angle(newTargetRotation, _targetRotation) > 2.5f)
+
+            if (Quaternion.Angle(newTargetRotation, _targetRotation) > 5f)
             {
                 _startRotation = transform.rotation;
                 _targetRotation = newTargetRotation;
                 _rotationProgress = 0f;
             }
-            
-            _rotationProgress += Time.deltaTime * 1f;
+
+            _rotationProgress += Time.deltaTime;
             _rotationProgress = Mathf.Clamp01(_rotationProgress);
-            
+
             float curvedProgress = _rotationCurve.Evaluate(_rotationProgress);
 
             transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, curvedProgress);
@@ -195,12 +201,12 @@ public class PlayerController : MonoBehaviour
         _rb.AddForce(_currentGravityDirection * _gravityStrenght, ForceMode.Acceleration);
     }
 
-    private IEnumerator DelayAfterRotateOnSurface()
+    /*private IEnumerator DelayAfterRotateOnSurface()
     {
         _hasRotate = true;
         yield return new WaitForSeconds(0.5f);
         _hasRotate = false;
-    }
+    }*/
 
     #endregion
 
