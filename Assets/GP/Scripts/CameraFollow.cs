@@ -5,6 +5,8 @@ public class CameraFollow : MonoBehaviour
 {
 
     [SerializeField] Transform _target;
+    public Transform Target => _target;
+
     float _currentOffsetZ;
     Camera _mainCamera;
     public Camera MainCamera => _mainCamera;
@@ -76,7 +78,7 @@ public class CameraFollow : MonoBehaviour
 
     public void SetFieldOfview(float energy)
     {
-        float targetFOV = Mathf.Clamp(_mainCamera.fieldOfView - energy * 0.05f, 0f, 100f);
+        float targetFOV = Mathf.Clamp(_mainCamera.fieldOfView - energy * 0.05f, 20f, 100f);
         _mainCamera.fieldOfView = Mathf.Lerp(_mainCamera.fieldOfView, targetFOV, Time.deltaTime * 2f);
     }
 

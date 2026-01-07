@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using static UnityEngine.LightAnchor;
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour
     [Header("Wall Run")]
     [SerializeField] float _wallCheckDistance;
     [SerializeField] LayerMask _wallLayer;
+    public LayerMask WallLayer => _wallLayer;
     float _minSurfaceAngle = 45f;
     Vector3 _currentGravityDirection = Vector3.down;
     Vector3 _targetGravityDirection = Vector3.down;
@@ -47,7 +49,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] EffectSystem _effectSystem;
 
 
+    bool _isOnGround = true;
+
     RaycastHit _surfaceHit;
+    RaycastHit _hit;
     float _gravityStrenght = 1;
     private float _velocity;
 
@@ -65,10 +70,21 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+
+        /*if (Physics.SphereCast(_cameraFollow.Target.position, 1f, Vector3.down, out _hit, 1, WallLayer))
+        {
+            _isOnGround = true;
+        }
+        else
+            _isOnGround = false;*/
+
+
         if (_hasRotateDelay > 0f)
             _hasRotateDelay -= Time.deltaTime;
+        else
+            DetectWall();
 
-        DetectWall();
+        Debug.Log(_isOnGround);
         SetCurrentAnimation();
     }
 
@@ -83,7 +99,7 @@ public class PlayerController : MonoBehaviour
 
         if (_isAddingSpeed)
         {
-            if (Mathf.Abs(_currentSpeedPlayer - _currentMaxSpeedPlayer) >= 0.01f)
+            if (_currentSpeedPlayer < _currentMaxSpeedPlayer && Mathf.Abs(_currentSpeedPlayer - _currentMaxSpeedPlayer) >= 0.1f)
             {
                 _currentSpeedPlayer += Time.deltaTime * 10;
                 _cameraFollow.SetFieldOfview(_currentSpeedPlayer);
@@ -95,13 +111,11 @@ public class PlayerController : MonoBehaviour
 
     private void MoveCharacter(Vector3 direction)
     {
-
         Vector3 forward = Vector3.ProjectOnPlane(transform.forward, _currentSurfaceNormal).normalized;
         Vector3 right = Vector3.ProjectOnPlane(transform.right, _currentSurfaceNormal).normalized;
 
         Vector3 relativeMovement = forward + (right * direction.x);
         _rb.AddForce(relativeMovement * _currentSpeedPlayer, ForceMode.Force);
-
     }
     private void Rotation(Vector3 dir)
     {
@@ -116,6 +130,13 @@ public class PlayerController : MonoBehaviour
 
         return _currentMaxSpeedPlayer;
     }
+
+    public bool SetOnGround(bool value)
+    {
+        _isOnGround = value;
+        return _isOnGround;
+    }
+
 
     private void SetCurrentAnimation()
     {
@@ -158,7 +179,6 @@ public class PlayerController : MonoBehaviour
                 if (angle > _minSurfaceAngle || wallPosition == _currentGravityDirection)
                 {
                     _isGrounded = true;
-                    Debug.Log(_hasRotateDelay);
                     if (_hasRotateDelay <= 0)
                         _hasRotateDelay = 0.7f;
                     _currentSurfaceNormal = _surfaceHit.normal;
@@ -169,8 +189,6 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-
-
     }
 
     private void RotatePlayer()
@@ -198,16 +216,12 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyGravityForce()
     {
-        _rb.AddForce(_currentGravityDirection * _gravityStrenght, ForceMode.Acceleration);
+        if (_isOnGround)
+            _gravityStrenght = 1f;
+        else
+            _gravityStrenght = 30f;
+        _rb.AddForce(_currentGravityDirection * _gravityStrenght, ForceMode.Force);
     }
-
-    /*private IEnumerator DelayAfterRotateOnSurface()
-    {
-        _hasRotate = true;
-        yield return new WaitForSeconds(0.5f);
-        _hasRotate = false;
-    }*/
-
     #endregion
 
 
@@ -236,5 +250,10 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(_cameraFollow.Target.position - new Vector3(0, 1f,0), 0.2f);
+    }
 
 }
