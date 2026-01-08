@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
     bool _isOnGround = true;
 
     RaycastHit _surfaceHit;
-    RaycastHit _hit;
+    RaycastHit[] _hit;
     float _gravityStrenght = 1;
     private float _velocity;
 
@@ -71,20 +71,20 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
 
-        /*if (Physics.SphereCast(_cameraFollow.Target.position, 1f, Vector3.down, out _hit, 1, WallLayer))
+        //CheckGround();
+
+        if (Physics.SphereCastAll(_cameraFollow.Target.position, 0.2f, -transform.up, 10, _wallLayer, QueryTriggerInteraction.Ignore).Length > 0)
         {
             _isOnGround = true;
         }
         else
-            _isOnGround = false;*/
-
+            _isOnGround = false;
 
         if (_hasRotateDelay > 0f)
             _hasRotateDelay -= Time.deltaTime;
         else
             DetectWall();
 
-        Debug.Log(_isOnGround);
         SetCurrentAnimation();
     }
 
@@ -219,7 +219,7 @@ public class PlayerController : MonoBehaviour
         if (_isOnGround)
             _gravityStrenght = 1f;
         else
-            _gravityStrenght = 30f;
+            _gravityStrenght = 50f;
         _rb.AddForce(_currentGravityDirection * _gravityStrenght, ForceMode.Force);
     }
     #endregion
@@ -253,7 +253,9 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawSphere(_cameraFollow.Target.position - new Vector3(0, 1f,0), 0.2f);
+        Gizmos.DrawSphere(_cameraFollow.Target.position - new Vector3(0, 0.5f, 0), 0.2f);
     }
+
+
 
 }
