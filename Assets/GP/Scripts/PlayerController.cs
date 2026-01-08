@@ -70,9 +70,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-
-        //CheckGround();
-
+        float y = Input.GetAxisRaw("Horizontal");
         if (Physics.SphereCastAll(_cameraFollow.Target.position, 0.2f, -transform.up, 10, _wallLayer, QueryTriggerInteraction.Ignore).Length > 0)
         {
             _isOnGround = true;
@@ -80,10 +78,10 @@ public class PlayerController : MonoBehaviour
         else
             _isOnGround = false;
 
-        if (_hasRotateDelay > 0f)
-            _hasRotateDelay -= Time.deltaTime;
+        //if (_hasRotateDelay > 0f)
+        //    _hasRotateDelay -= Time.deltaTime;
         else
-            DetectWall();
+            DetectWall(new Vector3(y,0,0));
 
         SetCurrentAnimation();
     }
@@ -114,13 +112,11 @@ public class PlayerController : MonoBehaviour
         Vector3 forward = Vector3.ProjectOnPlane(transform.forward, _currentSurfaceNormal).normalized;
         Vector3 right = Vector3.ProjectOnPlane(transform.right, _currentSurfaceNormal).normalized;
 
-        Vector3 relativeMovement = forward + (right * direction.x);
-        _rb.AddForce(relativeMovement * _currentSpeedPlayer, ForceMode.Force);
+        _rb.AddForce(forward * _currentSpeedPlayer, ForceMode.Acceleration);
+
+        transform.position += (right * direction.x) * 0.5f;
     }
-    private void Rotation(Vector3 dir)
-    {
-        transform.Rotate(Vector3.up, dir.x * _speedRotation * Time.deltaTime);
-    }
+    
 
     public float SetMaxSpeed(float amountToAdd)
     {
@@ -131,11 +127,7 @@ public class PlayerController : MonoBehaviour
         return _currentMaxSpeedPlayer;
     }
 
-    public bool SetOnGround(bool value)
-    {
-        _isOnGround = value;
-        return _isOnGround;
-    }
+    
 
 
     private void SetCurrentAnimation()
@@ -156,7 +148,7 @@ public class PlayerController : MonoBehaviour
     }
 
     #region WallMovement
-    private void DetectWall()
+    private void DetectWall(Vector3 direction)
     {
 
         if (_hasRotateDelay > 0)
@@ -164,23 +156,39 @@ public class PlayerController : MonoBehaviour
 
         _isGrounded = false;
 
-        Vector3[] WallPositions = new Vector3[]
+        Vector3 wallDetection = direction.x > 0 ? transform.right : -transform.right;
+        Debug.Log(wallDetection);
+
+        if (Physics.Raycast(_cameraFollow.Target.position, wallDetection, out _surfaceHit, _wallCheckDistance, _wallLayer, QueryTriggerInteraction.Ignore))
+        {
+            float angle = Vector3.Angle(Vector3.up, _surfaceHit.normal);
+            if (angle > _minSurfaceAngle || wallDetection == _currentGravityDirection)
+            {
+                _isGrounded = true;
+                if (_hasRotateDelay <= 0)
+                    _hasRotateDelay = 0.2f;
+                _currentSurfaceNormal = _surfaceHit.normal;
+                _targetGravityDirection = -_surfaceHit.normal;
+
+                Debug.DrawRay(_surfaceHit.point, _surfaceHit.normal * 2f, Color.green);
+            }
+        }
+        /*Vector3[] WallPositions = new Vector3[]
         {
             _currentGravityDirection,
             transform.right,
             -transform.right
         };
-
         foreach (Vector3 wallPosition in WallPositions)
         {
-            if (Physics.Raycast(transform.position, wallPosition, out _surfaceHit, _wallCheckDistance, _wallLayer))
+            if (Physics.Raycast(_cameraFollow.Target.position, wallPosition, out _surfaceHit, _wallCheckDistance, _wallLayer, QueryTriggerInteraction.Ignore))
             {
                 float angle = Vector3.Angle(Vector3.up, _surfaceHit.normal);
                 if (angle > _minSurfaceAngle || wallPosition == _currentGravityDirection)
                 {
                     _isGrounded = true;
                     if (_hasRotateDelay <= 0)
-                        _hasRotateDelay = 0.7f;
+                        _hasRotateDelay = 0.2f;
                     _currentSurfaceNormal = _surfaceHit.normal;
                     _targetGravityDirection = -_surfaceHit.normal;
 
@@ -188,7 +196,7 @@ public class PlayerController : MonoBehaviour
                     break;
                 }
             }
-        }
+        }*/
     }
 
     private void RotatePlayer()
@@ -256,6 +264,17 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawSphere(_cameraFollow.Target.position - new Vector3(0, 0.5f, 0), 0.2f);
     }
 
+    #region Obsolete
+    private void Rotation(Vector3 dir)
+    {
+        transform.Rotate(Vector3.up, dir.x * _speedRotation * Time.deltaTime);
+    }
 
+    public bool SetOnGround(bool value)
+    {
+        _isOnGround = value;
+        return _isOnGround;
+    }
+    #endregion
 
 }
