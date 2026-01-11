@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         float y = Input.GetAxisRaw("Horizontal");
-        if (Physics.SphereCastAll(_cameraFollow.Target.position, 0.05f, -transform.up, 10, _wallLayer, QueryTriggerInteraction.Ignore).Length > 0)
+        if (Physics.SphereCastAll(_cameraFollow.Target.position, 0.05f, -transform.up, 5, _wallLayer, QueryTriggerInteraction.Ignore).Length > 0)
         {
             _isOnGround = true;
             _isBackToStartRot = false;
