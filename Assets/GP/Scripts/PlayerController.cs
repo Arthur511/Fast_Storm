@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
     Quaternion _targetRotation;
     float _rotationProgress;
     [SerializeField] AnimationCurve _rotationCurve;
+    bool _isBackToStartRot = false;
 
 
     bool _lateralRotation = false;
@@ -73,12 +74,19 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         float y = Input.GetAxisRaw("Horizontal");
-        if (Physics.SphereCastAll(_cameraFollow.Target.position, 0.2f, -transform.up, 10, _wallLayer, QueryTriggerInteraction.Ignore).Length > 0)
+        if (Physics.SphereCastAll(_cameraFollow.Target.position, 0.05f, -transform.up, 10, _wallLayer, QueryTriggerInteraction.Ignore).Length > 0)
         {
             _isOnGround = true;
+            _isBackToStartRot = false;
         }
         else
+        {
             _isOnGround = false;
+            _currentGravityDirection = Vector3.down;
+            _currentSurfaceNormal = Vector3.up;
+            _isBackToStartRot = true;
+            
+        }
 
         DetectWall(new Vector3(y, 0, 0));
 
@@ -89,12 +97,13 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Mouse0)) //Gauche
             {
                 transform.Rotate(Vector3.up, -90);
+                _lateralRotation = false;
             }
             else if (Input.GetKeyDown(KeyCode.Mouse1)) // Droite 
             {
                 transform.Rotate(Vector3.up, 90);
+                _lateralRotation = false;
             }
-
         }
 
     }
@@ -105,7 +114,10 @@ public class PlayerController : MonoBehaviour
         Vector3 direction = new Vector3(y, 0, 0).normalized;
 
         ApplyGravityForce();
-        RotatePlayer();
+        if (!_isBackToStartRot)
+            RotatePlayer();
+        else
+            BackToStartRotation();
         MoveCharacter(direction);
 
         if (_isAddingSpeed)
@@ -128,6 +140,7 @@ public class PlayerController : MonoBehaviour
         _rb.AddForce(forward * _currentSpeedPlayer, ForceMode.Acceleration);
 
         transform.position += (right * direction.x) * 0.5f;
+        
     }
 
 
@@ -181,30 +194,6 @@ public class PlayerController : MonoBehaviour
                 Debug.DrawRay(_surfaceHit.point, _surfaceHit.normal * 2f, Color.green);
             }
         }
-        /*Vector3[] WallPositions = new Vector3[]
-        {
-            _currentGravityDirection,
-            transform.right,
-            -transform.right
-        };
-        foreach (Vector3 wallPosition in WallPositions)
-        {
-            if (Physics.Raycast(_cameraFollow.Target.position, wallPosition, out _surfaceHit, _wallCheckDistance, _wallLayer, QueryTriggerInteraction.Ignore))
-            {
-                float angle = Vector3.Angle(Vector3.up, _surfaceHit.normal);
-                if (angle > _minSurfaceAngle || wallPosition == _currentGravityDirection)
-                {
-                    _isGrounded = true;
-                    if (_hasRotateDelay <= 0)
-                        _hasRotateDelay = 0.2f;
-                    _currentSurfaceNormal = _surfaceHit.normal;
-                    _targetGravityDirection = -_surfaceHit.normal;
-
-                    Debug.DrawRay(_surfaceHit.point, _surfaceHit.normal * 2f, Color.green);
-                    break;
-                }
-            }
-        }*/
     }
 
     private void RotatePlayer()
@@ -226,12 +215,26 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, curvedProgress);
 
     }
+    private void BackToStartRotation()
+    {
+        _startRotation = transform.rotation;
+        _targetRotation = _targetRotation = Quaternion.Euler(0, 0, 0);
+        _rotationProgress = 0f;
+        _rotationProgress += Time.deltaTime * 2;
+        _rotationProgress = Mathf.Clamp01(_rotationProgress);
+
+        float curvedProgress = _rotationCurve.Evaluate(_rotationProgress);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, curvedProgress);
+    }
+
+
 
 
     private void ApplyGravityForce()
     {
         if (_isOnGround)
-            _gravityStrenght = 1f;
+            _gravityStrenght = 0f;
         else
             _gravityStrenght = 50f;
         _rb.AddForce(_currentGravityDirection * _gravityStrenght, ForceMode.Force);
