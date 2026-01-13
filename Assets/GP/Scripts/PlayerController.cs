@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
     float _rotationProgress;
     [SerializeField] AnimationCurve _rotationCurve;
     bool _isBackToStartRot = false;
+    bool _isWallDetected = false;
 
 
     bool _lateralRotation = false;
@@ -85,7 +86,6 @@ public class PlayerController : MonoBehaviour
             _currentGravityDirection = Vector3.down;
             _currentSurfaceNormal = Vector3.up;
             _isBackToStartRot = true;
-            
         }
 
         DetectWall(new Vector3(y, 0, 0));
@@ -96,12 +96,12 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Mouse0)) //Gauche
             {
-                transform.Rotate(Vector3.up, -90);
+                transform.Rotate(0, 0, -90 * (Time.deltaTime * 2), Space.World);
                 _lateralRotation = false;
             }
             else if (Input.GetKeyDown(KeyCode.Mouse1)) // Droite 
             {
-                transform.Rotate(Vector3.up, 90);
+                transform.Rotate(0, 0, 90 * (Time.deltaTime * 2), Space.World);
                 _lateralRotation = false;
             }
         }
@@ -114,10 +114,16 @@ public class PlayerController : MonoBehaviour
         Vector3 direction = new Vector3(y, 0, 0).normalized;
 
         ApplyGravityForce();
-        if (!_isBackToStartRot)
+        if (_isWallDetected)
             RotatePlayer();
-        else
+        if (_isBackToStartRot)
             BackToStartRotation();
+
+        /*if (_isRotateLeftRight)
+        {
+            RotateLeftRight(_currentLateralRotationValue);
+        }*/
+
         MoveCharacter(direction);
 
         if (_isAddingSpeed)
@@ -140,7 +146,7 @@ public class PlayerController : MonoBehaviour
         _rb.AddForce(forward * _currentSpeedPlayer, ForceMode.Acceleration);
 
         transform.position += (right * direction.x) * 0.5f;
-        
+
     }
 
 
@@ -185,6 +191,7 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(_cameraFollow.Target.position, wallDetection, out _surfaceHit, _wallCheckDistance, _wallLayer, QueryTriggerInteraction.Ignore))
         {
+            _isWallDetected = true;
             float angle = Vector3.Angle(_cameraFollow.Target.up, _surfaceHit.normal);
             if (angle > _minSurfaceAngle || wallDetection == _currentGravityDirection)
             {
@@ -193,6 +200,10 @@ public class PlayerController : MonoBehaviour
 
                 Debug.DrawRay(_surfaceHit.point, _surfaceHit.normal * 2f, Color.green);
             }
+        }
+        else
+        {
+            _isWallDetected = false;
         }
     }
 
@@ -218,7 +229,7 @@ public class PlayerController : MonoBehaviour
     private void BackToStartRotation()
     {
         _startRotation = transform.rotation;
-        _targetRotation = _targetRotation = Quaternion.Euler(0, 0, 0);
+        _targetRotation = Quaternion.Euler(0, 0, 0);
         _rotationProgress = 0f;
         _rotationProgress += Time.deltaTime * 2;
         _rotationProgress = Mathf.Clamp01(_rotationProgress);
@@ -227,6 +238,26 @@ public class PlayerController : MonoBehaviour
 
         transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, curvedProgress);
     }
+
+
+    /*private void RotateLeftRight(float ZRotation)
+    {
+        _startRotation = transform.rotation;
+        _targetRotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z + ZRotation);
+        _rotationProgress = 0f;
+        _rotationProgress += Time.deltaTime * 2;
+        _rotationProgress = Mathf.Clamp01(_rotationProgress);
+
+        float curvedProgress = _rotationCurve.Evaluate(_rotationProgress);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, curvedProgress);
+
+        if (curvedProgress >= 1)
+        {
+            _isRotateLeftRight = false;
+            _currentLateralRotationValue = 0f;
+        }
+    }*/
 
 
 
