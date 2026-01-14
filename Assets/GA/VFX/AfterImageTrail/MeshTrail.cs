@@ -24,6 +24,7 @@ public class MeshTrail : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && !isTrailActive)
         {
+            Debug.Log("GetKeyDown Detected While Trail Inactive");
             isTrailActive = true;
             StartCoroutine(ActivateTrail(activeTime));
         }
@@ -31,17 +32,21 @@ public class MeshTrail : MonoBehaviour
 
     IEnumerator ActivateTrail (float timeActive)
     {
+        Debug.Log("IEnumerator ActivateTrail n°01/04");
         while (timeActive < 0)
         {
+            Debug.Log("IEnumerator ActivateTrail n°02/04 time active");
             timeActive -= meshRefreshRate;
 
             if (skinnedMeshRenderers == null)
             {
+                Debug.Log("IEnumerator ActivateTrail n°03/04 if mesh renderer");
                 skinnedMeshRenderers = GetComponentInChildren<SkinnedMeshRenderer[]>();
             }
 
             for(int i=0; i<skinnedMeshRenderers.Length; i++)
             {
+                Debug.Log("IEnumerator ActivateTrail n°04/04 for i in .length");
                 GameObject gObj = new GameObject();
                 gObj.transform.SetPositionAndRotation(positionToSpawn.position, positionToSpawn.rotation);
 
@@ -64,14 +69,17 @@ public class MeshTrail : MonoBehaviour
         }
 
         isTrailActive = false;
+        Debug.Log("set TrailActive false");
     }
 
     IEnumerator AnimateMaterialFloat (Material mat, float goal, float rate, float refreshRate)
     {
+        Debug.Log("IEnumerator AnimateMaterialFloat n°01/02");
         float ValueToAnimate = mat.GetFloat(shaderVarRef);
 
         while (ValueToAnimate > goal)
         {
+            Debug.Log("IEnumerator AnimateMaterialFloat n°02/02");
             ValueToAnimate -= rate;
             mat.SetFloat(shaderVarRef, ValueToAnimate);
             yield return new WaitForSeconds(refreshRate);
