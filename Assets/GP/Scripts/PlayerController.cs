@@ -71,9 +71,11 @@ public class PlayerController : MonoBehaviour
         _playerAnimator.Play("Run_Animation_Tree", 0, 0f);
         VelocityHash = Animator.StringToHash("Blend");
     }
-
     private void Update()
     {
+
+        Debug.Log(_isWallDetected);
+
         float y = Input.GetAxisRaw("Horizontal");
         if (Physics.SphereCastAll(_cameraFollow.Target.position, 0.05f, -transform.up, 5, _wallLayer, QueryTriggerInteraction.Ignore).Length > 0)
         {
@@ -114,8 +116,8 @@ public class PlayerController : MonoBehaviour
         Vector3 direction = new Vector3(y, 0, 0).normalized;
 
         ApplyGravityForce();
-        if (_isWallDetected)
-            RotatePlayer();
+        RotatePlayer();
+        //if (_isWallDetected)
         if (_isBackToStartRot)
             BackToStartRotation();
 
@@ -187,7 +189,7 @@ public class PlayerController : MonoBehaviour
             return;
 
         Vector3 wallDetection = direction.x > 0 ? _cameraFollow.Target.right : -_cameraFollow.Target.right;
-        Debug.Log(wallDetection);
+        //Debug.Log(wallDetection);
 
         if (Physics.Raycast(_cameraFollow.Target.position, wallDetection, out _surfaceHit, _wallCheckDistance, _wallLayer, QueryTriggerInteraction.Ignore))
         {
