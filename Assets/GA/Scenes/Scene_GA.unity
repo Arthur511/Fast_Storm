@@ -1480,7 +1480,7 @@ PrefabInstance:
       addedObject: {fileID: 1226746231}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2f03e4d1ec3ace9429e9b0746928e392, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1226746230}
+      addedObject: {fileID: 1226746232}
   m_SourcePrefab: {fileID: 100100000, guid: 2f03e4d1ec3ace9429e9b0746928e392, type: 3}
 --- !u!4 &1226746225 stripped
 Transform:
@@ -1505,26 +1505,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 388119859}
---- !u!114 &1226746230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1226746226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 301c45d92562c514f884dcc12b65428e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activeTime: 2
-  meshRefreshRate: 0.1
-  meshDestroyDelay: 3
-  positionToSpawn: {fileID: 1226746225}
-  mat: {fileID: 2100000, guid: d33ae3bb1b2ea604294484f0efc9a4d0, type: 2}
-  shaderVarRef: 
-  shaderVarRate: 0.1
-  shaderVarRefreshRate: 0.05
 --- !u!114 &1226746231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1538,6 +1518,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+--- !u!114 &1226746232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226746226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 206b40ab9f7a6f649afb3c1a5721b841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeTime: 2
+  meshRefreshRate: 0.1
+  meshDestroyDelay: 3
+  positionToSpawn: {fileID: 1226746225}
+  mat: {fileID: 2100000, guid: d33ae3bb1b2ea604294484f0efc9a4d0, type: 2}
+  shaderVarRef: 
+  shaderVarRate: 0.1
+  shaderVarRefreshRate: 0.05
 --- !u!1 &1236276076
 GameObject:
   m_ObjectHideFlags: 0

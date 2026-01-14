@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeshTrail : MonoBehaviour
+public class MeshTrail_BaseVer : MonoBehaviour
 {
     public float activeTime = 2f;
 
@@ -41,10 +41,10 @@ public class MeshTrail : MonoBehaviour
             if (skinnedMeshRenderers == null)
             {
                 Debug.Log("IEnumerator ActivateTrail n°03/04 if mesh renderer");
-                skinnedMeshRenderers = GetComponentInChildren<SkinnedMeshRenderer[]>();
+                skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
             }
 
-            for(int i=0; i<skinnedMeshRenderers.Length; i++)
+            for (int i=0; i<skinnedMeshRenderers.Length; i++)
             {
                 Debug.Log("IEnumerator ActivateTrail n°04/04 for i in .length");
                 GameObject gObj = new GameObject();
