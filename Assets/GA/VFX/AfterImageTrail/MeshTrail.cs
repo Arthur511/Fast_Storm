@@ -33,7 +33,7 @@ public class MeshTrail : MonoBehaviour
     IEnumerator ActivateTrail (float timeActive)
     {
         Debug.Log("IEnumerator ActivateTrail n°01/04");
-        while (timeActive < 0)
+        while (timeActive > 0)
         {
             Debug.Log("IEnumerator ActivateTrail n°02/04 time active");
             timeActive -= meshRefreshRate;
