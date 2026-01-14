@@ -1534,7 +1534,7 @@ MonoBehaviour:
   meshRefreshRate: 0.1
   meshDestroyDelay: 3
   positionToSpawn: {fileID: 1226746225}
-  mat: {fileID: 2100000, guid: d33ae3bb1b2ea604294484f0efc9a4d0, type: 2}
+  mat: {fileID: 2100000, guid: 36580405429d242478e4010d3da2beab, type: 2}
   shaderVarRef: 
   shaderVarRate: 0.1
   shaderVarRefreshRate: 0.05
@@ -3064,12 +3064,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 2f03e4d1ec3ace9429e9b0746928e392, type: 3}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 2f03e4d1ec3ace9429e9b0746928e392, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 2ee5b29ca86c73c47a2c1ea3180acb91, type: 2}
+      objectReference: {fileID: 2100000, guid: 36580405429d242478e4010d3da2beab, type: 2}
     - target: {fileID: -7511558181221131132, guid: 2f03e4d1ec3ace9429e9b0746928e392, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 

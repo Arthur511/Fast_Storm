@@ -19,6 +19,7 @@ public class MeshTrail_Rework : MonoBehaviour
 
     private MeshRenderer[] skinnedMeshRenderers;
     private bool isTrailActive;
+    private MeshFilter[] meshFilters;
 
     void Update()
     {
@@ -38,28 +39,22 @@ public class MeshTrail_Rework : MonoBehaviour
             Debug.Log("IEnumerator ActivateTrail n°02/04 time active");
             timeActive -= meshRefreshRate;
 
-            if (skinnedMeshRenderers == null)
+            if (meshFilters == null)
             {
-                Debug.Log("IEnumerator ActivateTrail n°03/04 if mesh renderer");
-                skinnedMeshRenderers = GetComponentsInChildren<MeshRenderer>();
+                meshFilters = GetComponentsInChildren<MeshFilter>();
             }
 
-            for (int i = 0; i < skinnedMeshRenderers.Length; i++)
+            for (int i = 0; i < meshFilters.Length; i++)
             {
-                Debug.Log("IEnumerator ActivateTrail n°04/04 for i in .length");
                 GameObject gObj = new GameObject();
                 gObj.transform.SetPositionAndRotation(positionToSpawn.position, positionToSpawn.rotation);
 
-                MeshRenderer mr = gObj.AddComponent<MeshRenderer>();
                 MeshFilter mf = gObj.AddComponent<MeshFilter>();
+                MeshRenderer mr = gObj.AddComponent<MeshRenderer>();
 
-                Mesh mesh = new Mesh();
-                //skinnedMeshRenderers[i].BakeMesh(mesh);
-
-                mf.mesh = mesh;
-                mr.material = mat;
-
-                //StartCoroutine(AnimateMaterialFloat(mr.material, 0, shaderVarRate, shaderVarRefreshRate));
+                gObj.transform.localScale = Vector3.one * 100f;
+                mf.mesh = Instantiate(meshFilters[i].sharedMesh);
+                mr.material =mat;
 
                 Destroy(gObj, meshDestroyDelay);
             }
