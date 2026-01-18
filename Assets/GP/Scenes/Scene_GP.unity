@@ -32509,7 +32509,7 @@ Transform:
   m_GameObject: {fileID: 946658167}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -107.19, y: -18.7, z: 7265.6}
+  m_LocalPosition: {x: 66, y: 0, z: 166.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -32567,6 +32567,9 @@ MonoBehaviour:
   _cameraFollow: {fileID: 56465904}
   _energy: {fileID: 946658170}
   _effectSystem: {fileID: 1331632525}
+  _doors:
+  - {fileID: 1862942406}
+  - {fileID: 1260118997}
 --- !u!114 &946658170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42601,13 +42604,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2499839261431289259, guid: d80ef98e263a352438b36bd24e748370, type: 3}
       propertyPath: _doorTimer
-      value: 30
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d80ef98e263a352438b36bd24e748370, type: 3}
+--- !u!114 &1260118997 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2499839261431289259, guid: d80ef98e263a352438b36bd24e748370, type: 3}
+  m_PrefabInstance: {fileID: 1260118996}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc95c7c65aed5834c85ba878a0f56643, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Doors
 --- !u!1 &1260378307
 GameObject:
   m_ObjectHideFlags: 0
@@ -68007,6 +68021,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d80ef98e263a352438b36bd24e748370, type: 3}
+--- !u!114 &1862942406 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2499839261431289259, guid: d80ef98e263a352438b36bd24e748370, type: 3}
+  m_PrefabInstance: {fileID: 1862942405}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc95c7c65aed5834c85ba878a0f56643, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Doors
 --- !u!1 &1863543855
 GameObject:
   m_ObjectHideFlags: 0

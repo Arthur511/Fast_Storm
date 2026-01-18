@@ -34,6 +34,9 @@ public class PlayerController : MonoBehaviour
     Vector3 _targetGravityDirection = Vector3.down;
     Vector3 _currentSurfaceNormal = Vector3.up;
     float _hasRotateDelay = 0f;
+    Coroutine _delayCoroutine;
+
+
 
     [Header("Rotation for WallRun")]
     Quaternion _startRotation;
@@ -50,6 +53,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] CameraFollow _cameraFollow;
     [SerializeField] Energy _energy;
     [SerializeField] EffectSystem _effectSystem;
+    [SerializeField] List<Doors> _doors;
+    int _doorsIndex = 0;
 
 
     bool _isOnGround = true;
@@ -69,12 +74,15 @@ public class PlayerController : MonoBehaviour
         _playerAnimator.SetTrigger("Run");
         _playerAnimator.Play("Run_Animation_Tree", 0, 0f);
         VelocityHash = Animator.StringToHash("Blend");
+
+        _doors[_doorsIndex].SetIsClosing(true);
     }
 
     private void Update()
     {
         float y = Input.GetAxisRaw("Horizontal");
-        if (Physics.SphereCastAll(_cameraFollow.Target.position, 0.05f, -transform.up, 5, _wallLayer, QueryTriggerInteraction.Ignore).Length > 0)
+        Debug.Log(_currentGravityDirection);
+        if (Physics.SphereCastAll(_cameraFollow.Target.position, 0.25f, -transform.up, 1f, _wallLayer, QueryTriggerInteraction.Ignore).Length > 0)
         {
             _isOnGround = true;
             _isBackToStartRot = false;
@@ -82,10 +90,9 @@ public class PlayerController : MonoBehaviour
         else
         {
             _isOnGround = false;
-            _currentGravityDirection = Vector3.down;
-            _currentSurfaceNormal = Vector3.up;
-            _isBackToStartRot = true;
-            
+            if (_delayCoroutine == null)
+                _delayCoroutine = StartCoroutine(DelayResetGravity());
+            //_isBackToStartRot = true; 
         }
 
         DetectWall(new Vector3(y, 0, 0));
@@ -140,7 +147,7 @@ public class PlayerController : MonoBehaviour
         _rb.AddForce(forward * _currentSpeedPlayer, ForceMode.Acceleration);
 
         transform.position += (right * direction.x) * 0.5f;
-        
+
     }
 
 
@@ -181,7 +188,6 @@ public class PlayerController : MonoBehaviour
             return;
 
         Vector3 wallDetection = direction.x > 0 ? _cameraFollow.Target.right : -_cameraFollow.Target.right;
-        Debug.Log(wallDetection);
 
         if (Physics.Raycast(_cameraFollow.Target.position, wallDetection, out _surfaceHit, _wallCheckDistance, _wallLayer, QueryTriggerInteraction.Ignore))
         {
@@ -189,7 +195,7 @@ public class PlayerController : MonoBehaviour
             if (angle > _minSurfaceAngle || wallDetection == _currentGravityDirection)
             {
                 _currentSurfaceNormal = _surfaceHit.normal;
-                _targetGravityDirection = -_surfaceHit.normal;
+                _currentGravityDirection = -_surfaceHit.normal;
 
                 Debug.DrawRay(_surfaceHit.point, _surfaceHit.normal * 2f, Color.green);
             }
@@ -229,14 +235,22 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    private IEnumerator DelayResetGravity()
+    {
+        yield return new WaitForSeconds(0.75f);
+        _currentGravityDirection = Vector3.down;
+        _currentSurfaceNormal = Vector3.up;
+        _isBackToStartRot = true;
 
+        _delayCoroutine = null;
+    }
 
     private void ApplyGravityForce()
     {
         if (_isOnGround)
             _gravityStrenght = 0f;
         else
-            _gravityStrenght = 50f;
+            _gravityStrenght = 150f;
         _rb.AddForce(_currentGravityDirection * _gravityStrenght, ForceMode.Force);
     }
     #endregion
@@ -269,6 +283,9 @@ public class PlayerController : MonoBehaviour
         if (MainGame.Instance.TransitionLayer.value == 1 << other.gameObject.layer)
         {
             _cameraFollow.SetHasPassedDoorsGood();
+            if (_doorsIndex != _doors.Count)
+                _doorsIndex++;
+            _doors[_doorsIndex].SetIsClosing(true);
         }
 
     }
