@@ -64,7 +64,7 @@ public class CameraFollow : MonoBehaviour
                 _hasPassedDoors = false;
         }
 
-        //transform.LookAt(_target.position + Vector3.up*3);
+        transform.LookAt(_target.position + Vector3.up);
     }
 
 
