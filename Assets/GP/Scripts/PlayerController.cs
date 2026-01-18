@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     Vector3 _targetGravityDirection = Vector3.down;
     Vector3 _currentSurfaceNormal = Vector3.up;
     float _hasRotateDelay = 0f;
+    bool _isRotating = false;
     Coroutine _delayCoroutine;
 
 
@@ -81,25 +82,30 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         float y = Input.GetAxisRaw("Horizontal");
-        Debug.Log(_currentGravityDirection);
-        if (Physics.SphereCastAll(_cameraFollow.Target.position, 0.25f, -transform.up, 1f, _wallLayer, QueryTriggerInteraction.Ignore).Length > 0)
+        if (!_isRotating)
         {
-            _isOnGround = true;
-            _isBackToStartRot = false;
-        }
-        else
-        {
-            _isOnGround = false;
-            if (_delayCoroutine == null)
-                _delayCoroutine = StartCoroutine(DelayResetGravity());
-            //_isBackToStartRot = true; 
-        }
+            if (Physics.SphereCastAll(_cameraFollow.Target.position, 0.2f, _currentGravityDirection, 1f, _wallLayer, QueryTriggerInteraction.Ignore).Length > 0)
+            {
+                _isOnGround = true;
+                _isBackToStartRot = false;
+            }
+            else
+            {
+                _isOnGround = false;
+                if (_delayCoroutine == null)
+                    _delayCoroutine = StartCoroutine(DelayResetGravity());
 
+                //_currentGravityDirection = Vector3.down;
+                //_currentSurfaceNormal = Vector3.up;
+                //_isBackToStartRot = true;
+            }
+
+        }
         DetectWall(new Vector3(y, 0, 0));
 
         SetCurrentAnimation();
 
-        if (_lateralRotation)
+        /*if (_lateralRotation)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0)) //Gauche
             {
@@ -111,7 +117,7 @@ public class PlayerController : MonoBehaviour
                 transform.Rotate(Vector3.up, 90);
                 _lateralRotation = false;
             }
-        }
+        }*/
 
     }
 
@@ -126,6 +132,9 @@ public class PlayerController : MonoBehaviour
         else
             BackToStartRotation();
         MoveCharacter(direction);
+
+         if (_isOnGround)
+            SnapToSurface();
 
         if (_isAddingSpeed)
         {
@@ -146,7 +155,7 @@ public class PlayerController : MonoBehaviour
 
         _rb.AddForce(forward * _currentSpeedPlayer, ForceMode.Acceleration);
 
-        transform.position += (right * direction.x) * 0.5f;
+        transform.position += (right * direction.x) * 0.75f;
 
     }
 
@@ -159,8 +168,6 @@ public class PlayerController : MonoBehaviour
 
         return _currentMaxSpeedPlayer;
     }
-
-
 
 
     private void SetCurrentAnimation()
@@ -206,12 +213,16 @@ public class PlayerController : MonoBehaviour
     {
         Quaternion newTargetRotation = Quaternion.FromToRotation(transform.up, _currentSurfaceNormal) * transform.rotation;
 
-        if (Quaternion.Angle(newTargetRotation, _targetRotation) > 5f)
+        if (Quaternion.Angle(newTargetRotation, _targetRotation) > 0.5f)
         {
             _startRotation = transform.rotation;
             _targetRotation = newTargetRotation;
+            _isRotating = true;
             _rotationProgress = 0f;
         }
+        else
+            _isRotating = false;
+
 
         _rotationProgress += Time.deltaTime;
         _rotationProgress = Mathf.Clamp01(_rotationProgress);
@@ -221,6 +232,26 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, curvedProgress);
 
     }
+
+    private void SnapToSurface()
+    {
+        if (Physics.Raycast(transform.position, _currentGravityDirection, out RaycastHit hit, 1.5f, _wallLayer))
+        {
+            float distanceToSurface = hit.distance;
+
+            if (distanceToSurface > 0.1f)
+            {
+                float correction = distanceToSurface - 0.1f;
+                transform.position += _currentGravityDirection * correction;
+            }
+            else if (distanceToSurface < 0.1f * 0.5f)
+            {
+                float correction = 0.1f * 0.5f - distanceToSurface;
+                transform.position -= _currentGravityDirection * correction;
+            }
+        }
+    }
+
     private void BackToStartRotation()
     {
         _startRotation = transform.rotation;
@@ -235,15 +266,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private IEnumerator DelayResetGravity()
-    {
-        yield return new WaitForSeconds(0.75f);
-        _currentGravityDirection = Vector3.down;
-        _currentSurfaceNormal = Vector3.up;
-        _isBackToStartRot = true;
 
-        _delayCoroutine = null;
-    }
 
     private void ApplyGravityForce()
     {
@@ -283,7 +306,7 @@ public class PlayerController : MonoBehaviour
         if (MainGame.Instance.TransitionLayer.value == 1 << other.gameObject.layer)
         {
             _cameraFollow.SetHasPassedDoorsGood();
-            if (_doorsIndex != _doors.Count)
+            if (_doorsIndex < _doors.Count - 1)
                 _doorsIndex++;
             _doors[_doorsIndex].SetIsClosing(true);
         }
@@ -297,13 +320,20 @@ public class PlayerController : MonoBehaviour
             _lateralRotation = false;
         }
     }
-
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        //Gizmos.DrawLine(_cameraFollow.Target.position, -transform.up);
+        Gizmos.DrawRay(transform.position, -transform.up);
+    }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(_cameraFollow.Target.position - new Vector3(0, 0.5f, 0), 0.2f);
     }
+
+
 
     #region Obsolete
     private void Rotation(Vector3 dir)
@@ -316,6 +346,18 @@ public class PlayerController : MonoBehaviour
         _isOnGround = value;
         return _isOnGround;
     }
+
+    private IEnumerator DelayResetGravity()
+    {
+        yield return new WaitForSeconds(0.4f);
+        _currentGravityDirection = Vector3.down;
+        //_targetGravityDirection = Vector3.down;
+        _currentSurfaceNormal = Vector3.up;
+        _isBackToStartRot = true;
+
+        _delayCoroutine = null;
+    }
+
     #endregion
 
 }
