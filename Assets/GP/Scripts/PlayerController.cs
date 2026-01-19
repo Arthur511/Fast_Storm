@@ -200,7 +200,7 @@ public class PlayerController : MonoBehaviour
                 _currentSurfaceNormal = _surfaceHit.normal;
                 _currentGravityDirection = -_surfaceHit.normal;
 
-                Debug.DrawRay(_surfaceHit.point, _surfaceHit.normal * 2f, Color.green);
+                //Debug.DrawRay(_surfaceHit.point, _surfaceHit.normal * 2f, Color.green);
             }
         }
     }
@@ -230,14 +230,14 @@ public class PlayerController : MonoBehaviour
     private void BackToStartRotation()
     {
         _startRotation = transform.rotation;
-        _targetRotation = _targetRotation = Quaternion.Euler(0, 0, 0);
+        _targetRotation = Quaternion.Euler(0, 0, 0);
         _rotationProgress = 0f;
         _rotationProgress += Time.deltaTime * 2;
         _rotationProgress = Mathf.Clamp01(_rotationProgress);
 
         float curvedProgress = _rotationCurve.Evaluate(_rotationProgress);
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, curvedProgress);
+        transform.rotation = Quaternion.Slerp(_startRotation, _targetRotation, curvedProgress);
     }
 
     private void SnapToSurface()
@@ -264,7 +264,8 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         _currentGravityDirection = Vector3.down;
         _currentSurfaceNormal = Vector3.up;
-        _isBackToStartRot = false;
+        _isBackToStartRot = true;
+
         _delayCoroutine = null;
 
     }
