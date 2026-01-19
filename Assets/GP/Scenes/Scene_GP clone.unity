@@ -24383,7 +24383,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.38268322, w: 0.9238797}
   m_LocalPosition: {x: -111.59999, y: -8, z: 2061}
-  m_LocalScale: {x: 72.26733, y: 32, z: 3828.7722}
+  m_LocalScale: {x: -72.26733, y: 32, z: 3828.7722}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -34064,7 +34064,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &816743224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38350,7 +38350,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.38268322, w: 0.9238797}
   m_LocalPosition: {x: -139.59999, y: -22, z: 10096}
-  m_LocalScale: {x: 72.26733, y: 32, z: 3828.7722}
+  m_LocalScale: {x: -72.26733, y: 32, z: 3828.7722}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -43842,9 +43842,7 @@ MonoBehaviour:
   _cameraFollow: {fileID: 56465904}
   _energy: {fileID: 946658170}
   _effectSystem: {fileID: 1331632525}
-  _doors:
-  - {fileID: 1849244868}
-  - {fileID: 1049936044}
+  _doors: []
 --- !u!114 &946658170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48816,17 +48814,6 @@ Light:
   m_LightUnit: 4
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!114 &1049936044 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2499839261431289259, guid: d80ef98e263a352438b36bd24e748370, type: 3}
-  m_PrefabInstance: {fileID: 1260118996}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc95c7c65aed5834c85ba878a0f56643, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Doors
 --- !u!1 &1052084870
 GameObject:
   m_ObjectHideFlags: 0
@@ -54306,7 +54293,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 70.8, y: -16, z: 5140}
-  m_LocalScale: {x: 72.26733, y: 32, z: 10057.847}
+  m_LocalScale: {x: -72.26733, y: 32, z: 10057.847}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -85235,17 +85222,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -179.866, z: 0}
---- !u!114 &1849244868 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2499839261431289259, guid: d80ef98e263a352438b36bd24e748370, type: 3}
-  m_PrefabInstance: {fileID: 1862942405}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc95c7c65aed5834c85ba878a0f56643, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Doors
 --- !u!1 &1855057967
 GameObject:
   m_ObjectHideFlags: 0
