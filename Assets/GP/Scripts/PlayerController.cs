@@ -80,9 +80,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(_isOnGround);
-
-        float y = Input.GetAxisRaw("Horizontal");
+            float y = Input.GetAxisRaw("Horizontal");
         if (!_isRotating)
         {
             if (Physics.SphereCastAll(_cameraFollow.Target.position, 0.2f, _currentGravityDirection, 1f, _wallLayer, QueryTriggerInteraction.Ignore).Length > 0)
@@ -269,7 +267,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator DelayResetGravity()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
         _currentGravityDirection = Vector3.down;
         _currentSurfaceNormal = Vector3.up;
         _isBackToStartRot = true;
