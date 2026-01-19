@@ -49,6 +49,8 @@ public class EffectSystem : MonoBehaviour
         _particleGameObjects.Clear();
     }
 
+    
+
 }
 
 [Serializable]

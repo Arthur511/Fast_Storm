@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.Rendering.HighDefinition;
 using static UnityEngine.LightAnchor;
 
 public class PlayerController : MonoBehaviour
@@ -37,6 +38,7 @@ public class PlayerController : MonoBehaviour
     float _hasRotateDelay = 0f;
     Coroutine _delayCoroutine;
     bool _isRotating = false;
+    bool _isOnGround = true;
 
 
     [Header("Rotation for WallRun")]
@@ -57,7 +59,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] List<Doors> _doors;
     int _doorsIndex = 0;
 
-    bool _isOnGround = true;
+
+    [SerializeField] private CustomPassVolume _customPassVolume;
+    private Material _speedLineMaterial;
+
 
     RaycastHit _surfaceHit;
     RaycastHit[] _hit;
@@ -76,6 +81,15 @@ public class PlayerController : MonoBehaviour
         VelocityHash = Animator.StringToHash("Blend");
 
         _doors[_doorsIndex].SetIsClosing(true);
+
+        var customPass = _customPassVolume.customPasses[0] as FullScreenCustomPass;
+        if (customPass != null)
+        {
+            _speedLineMaterial = customPass.fullscreenPassMaterial;
+        }
+        _speedLineMaterial.SetFloat("_Alpha", 0f);
+        _speedLineMaterial.SetFloat("_Mask_Size", 1f);
+
     }
 
     private void Update()
@@ -124,7 +138,6 @@ public class PlayerController : MonoBehaviour
     {
         float y = Input.GetAxisRaw("Horizontal");
         Vector3 direction = new Vector3(y, 0, 0).normalized;
-
         ApplyGravityForce();
         if (!_isBackToStartRot)
             RotatePlayer();
@@ -146,6 +159,7 @@ public class PlayerController : MonoBehaviour
             else
                 _isAddingSpeed = false;
         }
+        ChangeAlphaOfSpeedLine();
     }
 
     private void MoveCharacter(Vector3 direction)
@@ -287,6 +301,13 @@ public class PlayerController : MonoBehaviour
     }
     #endregion
 
+
+    private void ChangeAlphaOfSpeedLine()
+    {
+        float normalizedSpeed = _currentSpeedPlayer / 100f;
+        _speedLineMaterial.SetFloat("_Alpha", normalizedSpeed);
+        _speedLineMaterial.SetFloat("_Mask_Size", 1 - normalizedSpeed*0.5f);
+    }
 
 
     private void OnTriggerEnter(Collider other)
