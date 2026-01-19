@@ -41,9 +41,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Alpha: 0.99999624
+    - _Alpha: 1.0000012
     - _Mask_Contrast: 0.5
-    - _Mask_Size: 0.5000019
+    - _Mask_Size: 0.4999994
     - _RadiusSpread: 3.72
     - _Speed: 0
     m_Colors:

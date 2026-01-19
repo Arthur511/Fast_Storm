@@ -169,7 +169,7 @@ public class PlayerController : MonoBehaviour
 
         _rb.AddForce(forward * _currentSpeedPlayer, ForceMode.Acceleration);
 
-        transform.position += (right * direction.x) * 0.75f;
+        transform.position += (right * direction.x) * 1f;
 
     }
 
@@ -177,8 +177,8 @@ public class PlayerController : MonoBehaviour
     public float SetMaxSpeed(float amountToAdd)
     {
         _currentMaxSpeedPlayer += amountToAdd;
-        if (_currentMaxSpeedPlayer > 100)
-            _currentMaxSpeedPlayer = 100;
+        if (_currentMaxSpeedPlayer > 70)
+            _currentMaxSpeedPlayer = 70;
 
         return _currentMaxSpeedPlayer;
     }
@@ -304,7 +304,7 @@ public class PlayerController : MonoBehaviour
 
     private void ChangeAlphaOfSpeedLine()
     {
-        float normalizedSpeed = _currentSpeedPlayer / 100f;
+        float normalizedSpeed = _currentSpeedPlayer / 70f;
         _speedLineMaterial.SetFloat("_Alpha", normalizedSpeed);
         _speedLineMaterial.SetFloat("_Mask_Size", 1 - normalizedSpeed*0.5f);
     }
