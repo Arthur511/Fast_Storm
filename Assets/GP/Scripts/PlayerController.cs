@@ -80,6 +80,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(_isOnGround);
+
         float y = Input.GetAxisRaw("Horizontal");
         if (!_isRotating)
         {
@@ -87,6 +89,12 @@ public class PlayerController : MonoBehaviour
             {
                 _isOnGround = true;
                 _isBackToStartRot = false;
+
+                if (_delayCoroutine != null)
+                {
+                    StopCoroutine(_delayCoroutine);
+                    _delayCoroutine = null;
+                }
             }
             else
             {
@@ -261,7 +269,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator DelayResetGravity()
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.5f);
         _currentGravityDirection = Vector3.down;
         _currentSurfaceNormal = Vector3.up;
         _isBackToStartRot = true;
@@ -324,6 +332,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(_cameraFollow.Target.position, _currentGravityDirection);
+    }
 
     private void OnDrawGizmosSelected()
     {
