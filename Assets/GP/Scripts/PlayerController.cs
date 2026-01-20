@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _startSpeedPlayer;
     [SerializeField] float _currentSpeedPlayer;
     float _currentMaxSpeedPlayer;
+    [Range(0.5f, 1.5f)][SerializeField] float _lateralSpeed;
     bool _isAddingSpeed = false;
 
     public float SpeedPlayer => _currentSpeedPlayer;
@@ -169,7 +170,7 @@ public class PlayerController : MonoBehaviour
 
         _rb.AddForce(forward * _currentSpeedPlayer, ForceMode.Acceleration);
 
-        transform.position += (right * direction.x) * 1f;
+        transform.position += (right * direction.x) * _lateralSpeed;
 
     }
 
@@ -296,7 +297,7 @@ public class PlayerController : MonoBehaviour
         if (_isOnGround)
             _gravityStrenght = 0f;
         else
-            _gravityStrenght = 150f;
+            _gravityStrenght = 100f;
         _rb.AddForce(_currentGravityDirection * _gravityStrenght, ForceMode.Force);
     }
     #endregion
