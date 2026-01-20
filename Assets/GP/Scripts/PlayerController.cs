@@ -17,7 +17,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _startSpeedPlayer;
     [SerializeField] float _currentSpeedPlayer;
     float _currentMaxSpeedPlayer;
-    [Range(0.5f, 1.5f)][SerializeField] float _lateralSpeed;
+    /*[Range(0.5f, 1.5f)]*/
+    [SerializeField] float _lateralSpeed;
     bool _isAddingSpeed = false;
 
     public float SpeedPlayer => _currentSpeedPlayer;
@@ -48,6 +49,14 @@ public class PlayerController : MonoBehaviour
     float _rotationProgress;
     [SerializeField] AnimationCurve _rotationCurve;
     bool _isBackToStartRot = false;
+
+    List<Vector3> _groundPlan = new List<Vector3>
+    {
+        Vector3.right,
+        Vector3.left,
+        Vector3.up,
+        Vector3.down
+    };
 
 
     bool _lateralRotation = false;
@@ -95,7 +104,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-            float y = Input.GetAxisRaw("Horizontal");
+        float y = Input.GetAxisRaw("Horizontal");
         if (!_isRotating)
         {
             if (Physics.SphereCastAll(_cameraFollow.Target.position, 0.2f, _currentGravityDirection, 1f, _wallLayer, QueryTriggerInteraction.Ignore).Length > 0)
@@ -168,7 +177,19 @@ public class PlayerController : MonoBehaviour
         Vector3 forward = Vector3.ProjectOnPlane(transform.forward, _currentSurfaceNormal).normalized;
         Vector3 right = Vector3.ProjectOnPlane(transform.right, _currentSurfaceNormal).normalized;
 
+        Debug.Log(right);
+
         _rb.AddForce(forward * _currentSpeedPlayer, ForceMode.Acceleration);
+
+        /*_rb.linearVelocity = new Vector3(direction.x * right.x * _lateralSpeed, _rb.linearVelocity.x * right.x * _lateralSpeed, _rb.linearVelocity.z);
+        foreach (Vector3 plan in _groundPlan)
+        {
+            if (plan == right)
+            {
+                Debug.Log(_rb.linearVelocity);
+            }
+        }*/
+
 
         transform.position += (right * direction.x) * _lateralSpeed;
 
@@ -239,7 +260,7 @@ public class PlayerController : MonoBehaviour
         }
         else
             _isRotating = false;
-        
+
         _rotationProgress += Time.deltaTime;
         _rotationProgress = Mathf.Clamp01(_rotationProgress);
 
@@ -297,7 +318,7 @@ public class PlayerController : MonoBehaviour
         if (_isOnGround)
             _gravityStrenght = 0f;
         else
-            _gravityStrenght = 100f;
+            _gravityStrenght = 50f;
         _rb.AddForce(_currentGravityDirection * _gravityStrenght, ForceMode.Force);
     }
     #endregion
@@ -307,7 +328,7 @@ public class PlayerController : MonoBehaviour
     {
         float normalizedSpeed = _currentSpeedPlayer / 70f;
         _speedLineMaterial.SetFloat("_Alpha", normalizedSpeed);
-        _speedLineMaterial.SetFloat("_Mask_Size", 1 - normalizedSpeed*0.5f);
+        _speedLineMaterial.SetFloat("_Mask_Size", 1 - normalizedSpeed * 0.5f);
     }
 
 
