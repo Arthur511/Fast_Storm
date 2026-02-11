@@ -12,27 +12,46 @@ public class PlayerController : MonoBehaviour
 {
 
     public static PlayerController Instance;
+    public float SpeedPlayer => _currentSpeedPlayer;
+    public LayerMask WallLayer => _wallLayer;
 
     [Header("Speed parameters")]
     [SerializeField] float _startSpeedPlayer;
     [SerializeField] float _currentSpeedPlayer;
-    float _currentMaxSpeedPlayer;
-    /*[Range(0.5f, 1.5f)]*/
     [SerializeField] float _lateralSpeed;
-    bool _isAddingSpeed = false;
-
-    public float SpeedPlayer => _currentSpeedPlayer;
+    [SerializeField] float _lowestSpeedPlayer;
+    [SerializeField] float _highestSpeedPlayer;
+    /*[Range(0.5f, 1.5f)]*/
     [SerializeField] float _speedRotation;
-
-    Rigidbody _rb;
     [SerializeField] Animator _playerAnimator;
-    int VelocityHash;
-    float _groundCheckDistance = 1.5f;
 
     [Header("Wall Run")]
     [SerializeField] float _wallCheckDistance;
     [SerializeField] LayerMask _wallLayer;
-    public LayerMask WallLayer => _wallLayer;
+
+    [Header("Rotation for WallRun")]
+    [SerializeField] AnimationCurve _rotationCurve;
+    [SerializeField] LayerMask _cornerLayer;
+
+    [Header("Scripts")]
+    [SerializeField] CameraFollow _cameraFollow;
+    [SerializeField] Energy _energy;
+    [SerializeField] EffectSystem _effectSystem;
+    [SerializeField] PowersManager _powersManager;
+    [SerializeField] UIManager _uiManager;
+    [SerializeField] List<Doors> _doors;
+
+    [SerializeField] private CustomPassVolume _customPassVolume;
+
+
+    float _currentMaxSpeedPlayer;
+    bool _isAddingSpeed = false;
+    bool _isLosingSpeed = false;
+
+    Rigidbody _rb;
+    int VelocityHash;
+    float _groundCheckDistance = 1.5f;
+
     float _minSurfaceAngle = 45f;
     Vector3 _currentGravityDirection = Vector3.down;
     Vector3 _targetGravityDirection = Vector3.down;
@@ -42,12 +61,10 @@ public class PlayerController : MonoBehaviour
     bool _isRotating = false;
     bool _isOnGround = true;
 
-
-    [Header("Rotation for WallRun")]
     Quaternion _startRotation;
     Quaternion _targetRotation;
     float _rotationProgress;
-    [SerializeField] AnimationCurve _rotationCurve;
+
     bool _isBackToStartRot = false;
 
     List<Vector3> _groundPlan = new List<Vector3>
@@ -58,33 +75,27 @@ public class PlayerController : MonoBehaviour
         Vector3.down
     };
 
-
     bool _lateralRotation = false;
-    [SerializeField] LayerMask _cornerLayer;
 
-    [Header("Scripts")]
-    [SerializeField] CameraFollow _cameraFollow;
-    [SerializeField] Energy _energy;
-    [SerializeField] EffectSystem _effectSystem;
-    [SerializeField] List<Doors> _doors;
     int _doorsIndex = 0;
 
+    Material _speedLineMaterial;
 
-    [SerializeField] private CustomPassVolume _customPassVolume;
-    private Material _speedLineMaterial;
-
-
+    float _gravityStrenght = 1;
     RaycastHit _surfaceHit;
     RaycastHit[] _hit;
-    float _gravityStrenght = 1;
-    private float _velocity;
+    float _velocity;
 
+
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody>();
+        Instance = this;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _rb = GetComponent<Rigidbody>();
-        Instance = this;
         _currentMaxSpeedPlayer = _startSpeedPlayer;
         _playerAnimator.SetTrigger("Run");
         _playerAnimator.Play("Run_Animation_Tree", 0, 0f);
@@ -100,10 +111,17 @@ public class PlayerController : MonoBehaviour
         _speedLineMaterial.SetFloat("_Alpha", 0f);
         _speedLineMaterial.SetFloat("_Mask_Size", 1f);
 
+        _uiManager.refreshEnergyJauge(_energy.CurrentEnergy, _energy.MaxEnergy);
     }
 
     private void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            UsingJump();
+        }
+
         float y = Input.GetAxisRaw("Horizontal");
         if (!_isRotating)
         {
@@ -161,7 +179,7 @@ public class PlayerController : MonoBehaviour
 
         if (_isAddingSpeed)
         {
-            if (_currentSpeedPlayer < _currentMaxSpeedPlayer && Mathf.Abs(_currentSpeedPlayer - _currentMaxSpeedPlayer) >= 0.1f)
+            if (_currentSpeedPlayer < _currentMaxSpeedPlayer && Mathf.Abs(_currentSpeedPlayer - _currentMaxSpeedPlayer) >= 0.01f)
             {
                 _currentSpeedPlayer += Time.deltaTime * 10;
                 _cameraFollow.SetFieldOfview(_currentSpeedPlayer);
@@ -169,6 +187,17 @@ public class PlayerController : MonoBehaviour
             else
                 _isAddingSpeed = false;
         }
+        else if (_isLosingSpeed)
+        {
+            if (_currentSpeedPlayer > _currentMaxSpeedPlayer && Mathf.Abs(_currentSpeedPlayer - _currentMaxSpeedPlayer) >= 0.01f)
+            {
+                _currentSpeedPlayer -= Time.deltaTime * 10;
+                _cameraFollow.SetFieldOfview(_currentSpeedPlayer);
+            }
+            else
+                _isLosingSpeed = false;
+        }
+
         ChangeAlphaOfSpeedLine();
     }
 
@@ -195,18 +224,28 @@ public class PlayerController : MonoBehaviour
 
     }
 
-
-    public float SetMaxSpeed(float amountToAdd)
+    private void UsingJump()
     {
-        _currentMaxSpeedPlayer += amountToAdd;
-        if (_currentMaxSpeedPlayer > 70)
-            _currentMaxSpeedPlayer = 70;
-
-        return _currentMaxSpeedPlayer;
+        if (_energy.CurrentEnergy >= _powersManager.EnergyCost)
+        {
+            _powersManager.MakeJump(gameObject);
+            _energy.CurrentEnergy -= _powersManager.EnergyCost;
+            SetMaxSpeed(_energy.CurrentEnergy);
+            _isLosingSpeed = true;
+            _uiManager.refreshEnergyJauge(_energy.CurrentEnergy, _energy.MaxEnergy);
+        }
     }
 
 
-
+    public float SetMaxSpeed(float amountToAdd)
+    {
+        _currentMaxSpeedPlayer = amountToAdd;
+        if (_currentMaxSpeedPlayer > _highestSpeedPlayer)
+            _currentMaxSpeedPlayer = _highestSpeedPlayer;
+        else if (_currentMaxSpeedPlayer < _lowestSpeedPlayer)
+            _currentMaxSpeedPlayer = _lowestSpeedPlayer;
+        return _currentMaxSpeedPlayer;
+    }
 
     private void SetCurrentAnimation()
     {
@@ -338,17 +377,17 @@ public class PlayerController : MonoBehaviour
         {
             if (!device.IsEmpty())
             {
-                _energy.SetEnergy(device.EnergyToSend);
-                SetMaxSpeed(_energy.CurrentEnergy);
+                _energy.CurrentEnergy += device.EnergyToSend;
+                SetMaxSpeed((_energy.CurrentEnergy * (_highestSpeedPlayer - _lowestSpeedPlayer)) / _energy.MaxEnergy + _lowestSpeedPlayer);
                 _isAddingSpeed = true;
                 device.DrainEnergy(device.EnergyToSend);
                 if (device.DevicePower != null)
                     device.DevicePower.ExecutePower(gameObject);
+                _uiManager.refreshEnergyJauge(_energy.CurrentEnergy, _energy.MaxEnergy);
             }
             _effectSystem.DestroyActiveParticle();
             _effectSystem.UpdateEffect();
         }
-
 
         if (_cornerLayer.value == 1 << other.gameObject.layer)
         {

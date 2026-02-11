@@ -2,12 +2,23 @@ using UnityEngine;
 
 public class Energy : MonoBehaviour
 {
-    [SerializeField]float _currentEnergy;
-    public float CurrentEnergy => _currentEnergy;
-
-    public float SetEnergy(float amount)
+    public float CurrentEnergy
     {
-        _currentEnergy += amount;
-        return _currentEnergy;
+        get { return _currentEnergy; }
+        set { _currentEnergy = value; }
     }
+    public int MaxEnergy { 
+        get => _maxEnergy; 
+        set { _maxEnergy = value; } 
+    }
+    
+    [SerializeField]float _currentEnergy;
+
+    int _maxEnergy;
+    
+    private void Awake()
+    {
+        _maxEnergy = 50;
+    }
+
 }
