@@ -3,34 +3,38 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-
-    [SerializeField] Transform _target;
+    
     public Transform Target => _target;
+    public Camera MainCamera => _mainCamera;
+    
+    
+    [SerializeField] Transform _target;
+    [SerializeField] float _rotationSpeed = 5f;
+    
+    [SerializeField] private float _fovSmoothSpeed = 5f;
 
+    [SerializeField] float _transitionDuration;
+    [SerializeField] AnimationCurve _velocityTransitionCurve;
+
+    
     float _currentOffsetZ;
     Camera _mainCamera;
-    public Camera MainCamera => _mainCamera;
     float _speedCamera = 5f;
 
     Vector3 _velocity = Vector3.zero;
     float _velocityCam;
 
-    [SerializeField] float _rotationSpeed = 5f;
     private Quaternion _targetRotation;
 
-    [Header("Paramétres de distances de camera")]
     private float _baseDistance;
 
-    [Header("Paramétres de FieldOfView de camera")]
-    private float _baseFOV;
-    [SerializeField] private float _fovSmoothSpeed = 5f;
+    private float _minFOV;
+    private float _maxFOV;
 
     private float _currentPlayerSpeed;
     private bool _hasPassedDoors;
     private float _transitionTimer;
     private float _startPosition;
-    [SerializeField] float _transitionDuration;
-    [SerializeField] AnimationCurve _velocityTransitionCurve;
 
 
     private void Awake()
@@ -38,7 +42,8 @@ public class CameraFollow : MonoBehaviour
         _mainCamera = GetComponent<Camera>();
         _baseDistance = transform.localPosition.z;
         _mainCamera.fieldOfView = 100f;
-        _baseFOV = _mainCamera.fieldOfView;
+        _maxFOV = 100;
+        _minFOV = 20;
     }
 
 
@@ -70,7 +75,7 @@ public class CameraFollow : MonoBehaviour
 
     float UpdateVertigoDistance(float currentFOV)
     {
-        float baseTan = Mathf.Tan(_baseFOV * 0.5f * Mathf.Deg2Rad);
+        float baseTan = Mathf.Tan(_minFOV * 0.5f * Mathf.Deg2Rad);
         float currentTan = Mathf.Tan(currentFOV * 0.5f * Mathf.Deg2Rad);
 
         return _baseDistance * (baseTan / currentTan);
@@ -78,8 +83,8 @@ public class CameraFollow : MonoBehaviour
 
     public void SetFieldOfview(float energy)
     {
-        float targetFOV = Mathf.Clamp(_mainCamera.fieldOfView - energy * 0.05f, 20f, 100f);
-        _mainCamera.fieldOfView = Mathf.Lerp(_mainCamera.fieldOfView, targetFOV, Time.deltaTime * 2f);
+        float targetFOV = _maxFOV - energy;
+        _mainCamera.fieldOfView = Mathf.Lerp(_mainCamera.fieldOfView, targetFOV, Time.deltaTime);
     }
 
     public void SetHasPassedDoorsGood()

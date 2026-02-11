@@ -117,12 +117,17 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
 
+        float y = Input.GetAxisRaw("Horizontal");
         if (Input.GetKeyDown(KeyCode.Q))
         {
             UsingJump();
         }
 
-        float y = Input.GetAxisRaw("Horizontal");
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            UsingLateralDash(new Vector3(y, 0, 0));
+        }
+
         if (!_isRotating)
         {
             if (Physics.SphereCastAll(_cameraFollow.Target.position, 0.2f, _currentGravityDirection, 1f, _wallLayer, QueryTriggerInteraction.Ignore).Length > 0)
@@ -182,7 +187,7 @@ public class PlayerController : MonoBehaviour
             if (_currentSpeedPlayer < _currentMaxSpeedPlayer && Mathf.Abs(_currentSpeedPlayer - _currentMaxSpeedPlayer) >= 0.01f)
             {
                 _currentSpeedPlayer += Time.deltaTime * 10;
-                _cameraFollow.SetFieldOfview(_currentSpeedPlayer);
+                _cameraFollow.SetFieldOfview(_energy.CurrentEnergy);
             }
             else
                 _isAddingSpeed = false;
@@ -192,7 +197,7 @@ public class PlayerController : MonoBehaviour
             if (_currentSpeedPlayer > _currentMaxSpeedPlayer && Mathf.Abs(_currentSpeedPlayer - _currentMaxSpeedPlayer) >= 0.01f)
             {
                 _currentSpeedPlayer -= Time.deltaTime * 10;
-                _cameraFollow.SetFieldOfview(_currentSpeedPlayer);
+                _cameraFollow.SetFieldOfview(_energy.CurrentEnergy);
             }
             else
                 _isLosingSpeed = false;
@@ -235,6 +240,19 @@ public class PlayerController : MonoBehaviour
             _uiManager.refreshEnergyJauge(_energy.CurrentEnergy, _energy.MaxEnergy);
         }
     }
+
+    private void UsingLateralDash(Vector3 lateralDirection)
+    {
+        if (_energy.CurrentEnergy >= _powersManager.EnergyCost)
+        {
+            _powersManager.MakeLateralDash(gameObject, lateralDirection);
+            _energy.CurrentEnergy -= _powersManager.EnergyCost;
+            SetMaxSpeed(_energy.CurrentEnergy);
+            _isLosingSpeed = true;
+            _uiManager.refreshEnergyJauge(_energy.CurrentEnergy, _energy.MaxEnergy);
+        }
+    }
+
 
 
     public float SetMaxSpeed(float amountToAdd)
