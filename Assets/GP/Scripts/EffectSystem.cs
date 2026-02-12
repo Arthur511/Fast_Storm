@@ -10,24 +10,27 @@ public class EffectSystem : MonoBehaviour
 
     List<Material> _activeMaterials = new List<Material>();
     List<GameObject> _particleGameObjects = new List<GameObject>();
-
-    float _lastSpeed = -1;
+    StepSpeedEffect _lastStepBefore;
 
     public void UpdateEffect()
     {
-        DestroyActiveParticle();
         foreach (StepSpeedEffect step in _stepsSpeed)
         {
-            if (PlayerController.Instance.SpeedPlayer >= step.speedThreshold)
+            if (PlayerController.Instance.SpeedPlayer >= step._lowSpeedThreshold && PlayerController.Instance.SpeedPlayer < step._highSpeedThreshold)
             {
-                _activeMaterials = step.materialToPlayer;
-                DisplayMaterials();
-                foreach (var item in step.particleSystems)
+                if (step != _lastStepBefore)
                 {
-                    GameObject particle = Instantiate(item, _playerVisual.transform);
-                    particle.transform.localPosition = Vector3.zero;
-                    _particleGameObjects.Add(particle);
-                    particle.GetComponent<ParticleSystem>().Play();
+                    DestroyActiveParticle();
+                    _lastStepBefore = step;
+                    _activeMaterials = step.materialToPlayer;
+                    DisplayMaterials();
+                    foreach (var item in step.particleSystems)
+                    {
+                        GameObject particle = Instantiate(item, _playerVisual.transform);
+                        particle.transform.localPosition = Vector3.zero;
+                        _particleGameObjects.Add(particle);
+                        particle.GetComponent<ParticleSystem>().Play();
+                    }
                 }
             }
         }
@@ -49,14 +52,15 @@ public class EffectSystem : MonoBehaviour
         _particleGameObjects.Clear();
     }
 
-    
+
 
 }
 
 [Serializable]
 class StepSpeedEffect
 {
-    public float speedThreshold;
+    public float _lowSpeedThreshold;
+    public float _highSpeedThreshold;
     public List<Material> materialToPlayer;
     public List<GameObject> particleSystems;
 }

@@ -204,6 +204,8 @@ public class PlayerController : MonoBehaviour
         }
 
         ChangeAlphaOfSpeedLine();
+
+        _effectSystem.UpdateEffect();
     }
 
     private void MoveCharacter(Vector3 direction)
@@ -403,7 +405,6 @@ public class PlayerController : MonoBehaviour
                     device.DevicePower.ExecutePower(gameObject);
                 _uiManager.refreshEnergyJauge(_energy.CurrentEnergy, _energy.MaxEnergy);
             }
-            _effectSystem.DestroyActiveParticle();
             _effectSystem.UpdateEffect();
         }
 

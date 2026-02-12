@@ -87358,6 +87358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentEnergy: 0
+  _maxEnergy: 50
 --- !u!136 &946658171
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -118580,19 +118581,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stepsSpeed:
-  - speedThreshold: 20
+  - _lowSpeedThreshold: 20
+    _highSpeedThreshold: 35
     materialToPlayer:
     - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
     - {fileID: 2100000, guid: 855e51f970ac02443939e35809882e4e, type: 2}
     particleSystems: []
-  - speedThreshold: 40
+  - _lowSpeedThreshold: 35
+    _highSpeedThreshold: 60
     materialToPlayer:
     - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
     - {fileID: 2100000, guid: c3cc4e44115234546909f0f78306e35d, type: 2}
     - {fileID: 2100000, guid: 2513eff2fa6e205429d9544530040dfa, type: 2}
     particleSystems:
     - {fileID: 1008539522999608356, guid: 04965563ed6a803438db797932580bbb, type: 3}
-  - speedThreshold: 60
+  - _lowSpeedThreshold: 60
+    _highSpeedThreshold: 100
     materialToPlayer:
     - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
     - {fileID: 2100000, guid: 3789efdb57013e740826abc5335a1843, type: 2}

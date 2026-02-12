@@ -5,20 +5,18 @@ public class Energy : MonoBehaviour
     public float CurrentEnergy
     {
         get { return _currentEnergy; }
-        set { _currentEnergy = value; }
+        set
+        {
+            _currentEnergy = Mathf.Min(value, _maxEnergy);
+        }
     }
-    public int MaxEnergy { 
-        get => _maxEnergy; 
-        set { _maxEnergy = value; } 
-    }
-    
-    [SerializeField]float _currentEnergy;
-
-    int _maxEnergy;
-    
-    private void Awake()
+    public int MaxEnergy
     {
-        _maxEnergy = 50;
+        get => _maxEnergy;
+        set { _maxEnergy = value; }
     }
 
+    [SerializeField] int _maxEnergy;
+
+    float _currentEnergy;
 }
