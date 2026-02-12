@@ -1,4 +1,6 @@
 using UnityEditor.Rendering;
+using UnityEngine.Rendering.HighDefinition;
+
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour

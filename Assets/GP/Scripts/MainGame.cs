@@ -7,9 +7,15 @@ public class MainGame : MonoBehaviour
 {
 
     public static MainGame Instance;
+    public LayerMask TransitionLayer => _transitionLayer;
+    public LayerMask ObstacleLayer => _obstacleLayer;
+    //public EffectSystem EffectSystem { get; }
 
     [SerializeField] LayerMask _transitionLayer;
-    public LayerMask TransitionLayer => _transitionLayer;
+    [SerializeField] LayerMask _obstacleLayer;
+
+    /*[Header("Scripts")]
+    [SerializeField] EffectSystem _effectSystem;*/
 
     private void Awake()
     {

@@ -5,8 +5,8 @@ public class PowersManager : MonoBehaviour
 {
     public int EnergyCost;
 
-    [Header("BumperPower")]
-    [SerializeField] float _bumperSpeed = 30f;
+    [Header("JumpPower")]
+    [SerializeField] float _jumpSpeed = 30f;
     [Header("LateralDashPower")]
     [SerializeField] float _dashSpeed = 20f;
     [SerializeField] float _dashDuration = 1.0f;
@@ -19,16 +19,25 @@ public class PowersManager : MonoBehaviour
         g.GetComponent<Rigidbody>().linearVelocity = new Vector3(dashDirection.x, dashDirection.y, g.GetComponent<Rigidbody>().linearVelocity.z);
         StartCoroutine(DashDuration(g));
     }
-
-    public void MakeJump(GameObject g)
-    {
-        g.GetComponent<Rigidbody>().AddForce(g.transform.up * _bumperSpeed, ForceMode.Impulse);
-    }
-
     IEnumerator DashDuration(GameObject g)
     {
         yield return new WaitForSeconds(_dashDuration);
         g.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, g.GetComponent<Rigidbody>().linearVelocity.z);
+    }
+
+    public void MakeJump(GameObject g)
+    {
+        g.GetComponent<Rigidbody>().AddForce(g.transform.up * _jumpSpeed, ForceMode.Impulse);
+    }
+
+    public void MakeInvertTeleportation()
+    {
+
+    }
+
+    public void ActivePassThroughMode()
+    {
+
     }
 
 }

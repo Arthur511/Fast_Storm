@@ -7,6 +7,7 @@ public class EffectSystem : MonoBehaviour
 {
     [SerializeField] StepSpeedEffect[] _stepsSpeed;
     [SerializeField] GameObject _playerVisual;
+    [SerializeField] GameObject _deathParticle;
 
     List<Material> _activeMaterials = new List<Material>();
     List<GameObject> _particleGameObjects = new List<GameObject>();
@@ -53,6 +54,11 @@ public class EffectSystem : MonoBehaviour
     }
 
 
+    public void DisplayDeathParticle(Vector3 pos)
+    {
+        GameObject go = Instantiate(_deathParticle, pos, Quaternion.identity);
+        Destroy(go, 1.5f);
+    }
 
 }
 

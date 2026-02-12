@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.Rendering.HighDefinition;
+using UnityEngine.SceneManagement;
 using static UnityEngine.LightAnchor;
 
 public class PlayerController : MonoBehaviour
@@ -225,8 +226,6 @@ public class PlayerController : MonoBehaviour
                 Debug.Log(_rb.linearVelocity);
             }
         }*/
-
-
         transform.position += (right * direction.x) * _lateralSpeed;
 
     }
@@ -429,6 +428,22 @@ public class PlayerController : MonoBehaviour
         {
             _lateralRotation = false;
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (MainGame.Instance.ObstacleLayer.value == 1 << collision.gameObject.layer)
+        {
+            StartCoroutine(DelayBeforeRestart());
+        }
+    }
+
+    IEnumerator DelayBeforeRestart()
+    {
+        _effectSystem.DisplayDeathParticle(transform.position);
+        GetComponentInChildren<MeshRenderer>().enabled = false;
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void OnDrawGizmos()
