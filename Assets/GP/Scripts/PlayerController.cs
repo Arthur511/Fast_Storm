@@ -415,6 +415,7 @@ public class PlayerController : MonoBehaviour
         if (MainGame.Instance.TransitionLayer.value == 1 << other.gameObject.layer)
         {
             _cameraFollow.SetHasPassedDoorsGood();
+            MainGame.Instance.SaveSystem.SaveData();
             if (_doorsIndex < _doors.Count - 1)
                 _doorsIndex++;
             _doors[_doorsIndex].SetIsClosing(true);
@@ -443,7 +444,8 @@ public class PlayerController : MonoBehaviour
         _effectSystem.DisplayDeathParticle(transform.position);
         GetComponentInChildren<MeshRenderer>().enabled = false;
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        MainGame.Instance.SaveSystem?.LoadData();
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void OnDrawGizmos()

@@ -10,6 +10,8 @@ public class PowersManager : MonoBehaviour
     [Header("LateralDashPower")]
     [SerializeField] float _dashSpeed = 20f;
     [SerializeField] float _dashDuration = 1.0f;
+    [Header("PassThroughPower")]
+    [SerializeField] float _passThroughDuration = 1.0f;
  
     public void MakeLateralDash(GameObject g, Vector3 direction)
     {
@@ -27,7 +29,7 @@ public class PowersManager : MonoBehaviour
 
     public void MakeJump(GameObject g)
     {
-        g.GetComponent<Rigidbody>().AddForce(g.transform.up * _jumpSpeed, ForceMode.Impulse);
+        g.GetComponent<Rigidbody>().linearVelocity = new Vector3(g.GetComponent<Rigidbody>().linearVelocity.x, _jumpSpeed, g.GetComponent<Rigidbody>().linearVelocity.z);
     }
 
     public void MakeInvertTeleportation()
@@ -35,9 +37,14 @@ public class PowersManager : MonoBehaviour
 
     }
 
-    public void ActivePassThroughMode()
+    public void ActivePassThroughMode(GameObject g)
     {
+        StartCoroutine(DelayEndPassThrough(g));
+    }
 
+    IEnumerator DelayEndPassThrough(GameObject g)
+    {
+        yield return new WaitForSeconds(_passThroughDuration);
     }
 
 }

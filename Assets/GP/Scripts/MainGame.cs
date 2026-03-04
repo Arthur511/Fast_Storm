@@ -9,10 +9,12 @@ public class MainGame : MonoBehaviour
     public static MainGame Instance;
     public LayerMask TransitionLayer => _transitionLayer;
     public LayerMask ObstacleLayer => _obstacleLayer;
+    public SaveSystem SaveSystem => _saveSystem;
     //public EffectSystem EffectSystem { get; }
 
     [SerializeField] LayerMask _transitionLayer;
     [SerializeField] LayerMask _obstacleLayer;
+    [SerializeField] SaveSystem _saveSystem;
 
     /*[Header("Scripts")]
     [SerializeField] EffectSystem _effectSystem;*/
