@@ -822,6 +822,7 @@ GameObject:
   - component: {fileID: 519414684}
   - component: {fileID: 519414683}
   - component: {fileID: 519414682}
+  - component: {fileID: 519414685}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -982,7 +983,7 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 6056281
+  m_Intensity: 1000
   m_Range: 10
   m_SpotAngle: 92.311226
   m_InnerSpotAngle: 21.80208
@@ -1045,12 +1046,35 @@ Transform:
   m_GameObject: {fileID: 519414681}
   serializedVersion: 2
   m_LocalRotation: {x: 0.6666541, y: -0.22502933, z: 0.6892792, w: 0.17270854}
-  m_LocalPosition: {x: -0.90513015, y: 2.39, z: 5.86843}
+  m_LocalPosition: {x: 1.8, y: 2.39, z: 5.86843}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1206401492}
   m_LocalEulerAnglesHint: {x: 147.283, y: -90.672, z: 4.222}
+--- !u!114 &519414685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519414681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1001 &672685393
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1397,6 +1421,79 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &972573268
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 048034399b1447e418c76672bedeaf8f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 048034399b1447e418c76672bedeaf8f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 048034399b1447e418c76672bedeaf8f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 048034399b1447e418c76672bedeaf8f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -58.6
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 048034399b1447e418c76672bedeaf8f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 048034399b1447e418c76672bedeaf8f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.520325
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 048034399b1447e418c76672bedeaf8f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 048034399b1447e418c76672bedeaf8f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 048034399b1447e418c76672bedeaf8f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 048034399b1447e418c76672bedeaf8f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 048034399b1447e418c76672bedeaf8f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 048034399b1447e418c76672bedeaf8f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 048034399b1447e418c76672bedeaf8f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 048034399b1447e418c76672bedeaf8f, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 048034399b1447e418c76672bedeaf8f, type: 3}
+      propertyPath: m_Name
+      value: Corridor_01_BridgeNoDeco
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 048034399b1447e418c76672bedeaf8f, type: 3}
 --- !u!1 &1124731842
 GameObject:
   m_ObjectHideFlags: 0
@@ -1528,7 +1625,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 2f03e4d1ec3ace9429e9b0746928e392, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7eb1c9adf34071d47a8f84e00c0357e4, type: 2}
+      objectReference: {fileID: 2100000, guid: 99fcd59632565e546a0412abb7d11d07, type: 2}
     - target: {fileID: 919132149155446097, guid: 2f03e4d1ec3ace9429e9b0746928e392, type: 3}
       propertyPath: m_Name
       value: SuzanneForTesting
@@ -3138,7 +3235,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 2f03e4d1ec3ace9429e9b0746928e392, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 36580405429d242478e4010d3da2beab, type: 2}
+      objectReference: {fileID: 2100000, guid: 79ecee4d02d43234ba9976f830f30eb1, type: 2}
     - target: {fileID: -7511558181221131132, guid: 2f03e4d1ec3ace9429e9b0746928e392, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
@@ -3174,3 +3271,4 @@ SceneRoots:
   - {fileID: 787758900}
   - {fileID: 1206401492}
   - {fileID: 672685393}
+  - {fileID: 972573268}
