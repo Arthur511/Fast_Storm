@@ -14,6 +14,7 @@ public class SaveSystem : MonoBehaviour
         {
             PlayerPosition = controller.transform.position,
             EnergyInStock = controller.gameObject.GetComponent<Energy>().CurrentEnergy,
+            Score = controller.Score,
         };
 
         string jsonData = JsonUtility.ToJson(gameData);
@@ -31,6 +32,7 @@ public class SaveSystem : MonoBehaviour
 
         controller.transform.position = gameData.PlayerPosition;
         controller.gameObject.GetComponent<Energy>().CurrentEnergy = gameData.EnergyInStock;
+        controller.Score = gameData.Score;
         controller.GetComponentInChildren<MeshRenderer>().enabled = true;
         foreach (ElectronicDevice device in _electronicDevices)
         {
@@ -44,4 +46,5 @@ public class GameData
 {
     public Vector3 PlayerPosition;
     public float EnergyInStock;
+    public int Score;
 }

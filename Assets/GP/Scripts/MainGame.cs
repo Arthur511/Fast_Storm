@@ -15,6 +15,8 @@ public class MainGame : MonoBehaviour
     [SerializeField] LayerMask _transitionLayer;
     [SerializeField] LayerMask _obstacleLayer;
     [SerializeField] SaveSystem _saveSystem;
+    [SerializeField] UIManager _uiManager;
+    [SerializeField] PlayerController _playerController;
 
     /*[Header("Scripts")]
     [SerializeField] EffectSystem _effectSystem;*/
@@ -35,5 +37,8 @@ public class MainGame : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        if (Input.GetKeyDown(KeyCode.O))
+            _uiManager.DisplayScorePanel(_playerController.Score);
     }
 }

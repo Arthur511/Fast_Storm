@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    
     public Transform Target => _target;
     public Camera MainCamera => _mainCamera;
     

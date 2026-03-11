@@ -15,6 +15,11 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
     public float SpeedPlayer => _currentSpeedPlayer;
     public LayerMask WallLayer => _wallLayer;
+    public int Score 
+    { 
+        get => _score; 
+        set {Score = value; } 
+    }
 
     [Header("Speed parameters")]
     [SerializeField] float _startSpeedPlayer;
@@ -46,6 +51,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float _fallMultiplier;
     [SerializeField] float _jumpCutMultiplier;
+
+
+    int _score = 0;
 
     float _currentMaxSpeedPlayer;
     bool _isAddingSpeed = false;
@@ -307,9 +315,9 @@ public class PlayerController : MonoBehaviour
             if (angle > _minSurfaceAngle || wallDetection == _currentGravityDirection)
             {
 
-                Vector3 right = Vector3.ProjectOnPlane(transform.right, _surfaceHit.normal).normalized;
+                /*Vector3 right = Vector3.ProjectOnPlane(transform.right, _surfaceHit.normal).normalized;
                 float lateralSpeed = Vector3.Dot(_rb.linearVelocity, right);
-                _rb.linearVelocity = right * lateralSpeed;
+                _rb.linearVelocity = right * lateralSpeed;*/
 
                 _currentSurfaceNormal = _surfaceHit.normal;
                 _currentGravityDirection = -_surfaceHit.normal;
@@ -377,9 +385,9 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.4f);
 
-        Vector3 right = Vector3.ProjectOnPlane(transform.right, _surfaceHit.normal).normalized;
+        /*Vector3 right = Vector3.ProjectOnPlane(transform.right, _surfaceHit.normal).normalized;
         float lateralSpeed = Vector3.Dot(_rb.linearVelocity, right);
-        _rb.linearVelocity = right * lateralSpeed;
+        _rb.linearVelocity = right * lateralSpeed;*/
 
         _currentGravityDirection = Vector3.down;
         _currentSurfaceNormal = Vector3.up;
@@ -425,6 +433,7 @@ public class PlayerController : MonoBehaviour
             if (!device.IsEmpty())
             {
                 _energy.CurrentEnergy += device.EnergyToSend;
+                _score += 100;
                 SetMaxSpeed((_energy.CurrentEnergy * (_highestSpeedPlayer - _lowestSpeedPlayer)) / _energy.MaxEnergy + _lowestSpeedPlayer);
                 _isAddingSpeed = true;
                 device.DrainEnergy(device.EnergyToSend);
