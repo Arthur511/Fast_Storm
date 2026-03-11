@@ -59066,7 +59066,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _startSpeedPlayer: 20
   _currentSpeedPlayer: 20
-  _lateralSpeed: 1.5
+  _lateralSpeed: 60
   _lowestSpeedPlayer: 20
   _highestSpeedPlayer: 100
   _speedRotation: 200
@@ -59111,6 +59111,8 @@ MonoBehaviour:
   - {fileID: 1835070568}
   - {fileID: 1899030242}
   _customPassVolume: {fileID: 45012802}
+  _fallMultiplier: 8
+  _jumpCutMultiplier: 3
 --- !u!114 &570518300
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59124,9 +59126,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnergyCost: 10
-  _jumpSpeed: 40
+  _jumpSpeed: 100
   _dashSpeed: 200
   _dashDuration: 0.5
+  _passThroughDuration: 1
 --- !u!114 &570518301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159673,7 +159676,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 29.8517, y: -5.9064026}
+  m_AnchoredPosition: {x: 29.851685, y: -5.906372}
   m_SizeDelta: {x: 59.7035, y: -90.9352}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1676110797
@@ -200939,7 +200942,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 29.8517, y: -5.9064026}
+  m_AnchoredPosition: {x: 29.851685, y: -5.906372}
   m_SizeDelta: {x: 59.7035, y: -90.9352}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2127887333
