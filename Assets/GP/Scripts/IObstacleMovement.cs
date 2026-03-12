@@ -30,3 +30,12 @@ public class RotationMovement : IObstacleMovement
         obj.Rotate(new Vector3(0, 0, rotZ));
     }
 }
+public class ChainMovement : IObstacleMovement
+{
+    public void Move(Transform obj, float speed)
+    {
+        obj.position += new Vector3(speed * Time.deltaTime, 0 , 0);
+        if (obj.position.x >= obj.GetComponent<Obstacle>().LimitPointChainDistance.position.x)
+            obj.position = obj.GetComponent<Obstacle>().RestartPointChainMovement.position;
+    }
+}
