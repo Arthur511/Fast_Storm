@@ -9,6 +9,7 @@ public class MainGame : MonoBehaviour
     public static MainGame Instance;
     public LayerMask TransitionLayer => _transitionLayer;
     public LayerMask ObstacleLayer => _obstacleLayer;
+    public LayerMask WallLayer => _wallLayer;
     public SaveSystem SaveSystem => _saveSystem;
     public PlayerController PlayerController => _playerController;
 
@@ -16,6 +17,7 @@ public class MainGame : MonoBehaviour
 
     [SerializeField] LayerMask _transitionLayer;
     [SerializeField] LayerMask _obstacleLayer;
+    [SerializeField] LayerMask _wallLayer;
     [SerializeField] SaveSystem _saveSystem;
     [SerializeField] UIManager _uiManager;
     [SerializeField] PlayerController _playerController;

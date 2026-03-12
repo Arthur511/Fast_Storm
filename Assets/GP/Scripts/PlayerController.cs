@@ -20,6 +20,17 @@ public class PlayerController : MonoBehaviour
         get => _score;
         set { Score = value; }
     }
+    public Vector3 CurrentSurfaceNormal
+    {
+        get => _currentSurfaceNormal;
+        set { CurrentSurfaceNormal = value; }
+    }
+    public Vector3 CurrentGravityDirection
+    {
+        get => _currentGravityDirection;
+        set { CurrentGravityDirection = value; }
+    }
+
 
     [Header("Speed parameters")]
     [SerializeField] float _startSpeedPlayer;
@@ -51,7 +62,6 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float _fallMultiplier;
     [SerializeField] float _jumpCutMultiplier;
-
 
     int _score = 0;
 
@@ -129,7 +139,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-
+        Debug.Log(Score);
         float y = Input.GetAxisRaw("Horizontal");
         if (Input.GetKeyDown(KeyCode.Q) && _isOnGround)
         {
@@ -139,6 +149,11 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             UsingLateralDash(new Vector3(y, 0, 0));
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            UsingInvert();
         }
 
         if (!_isRotating)
@@ -234,6 +249,17 @@ public class PlayerController : MonoBehaviour
         if (_energy.CurrentEnergy >= _powersManager.EnergyCost)
         {
             _powersManager.MakeJump(gameObject);
+            _energy.CurrentEnergy -= _powersManager.EnergyCost;
+            SetMaxSpeed(_energy.CurrentEnergy * (_highestSpeedPlayer - _lowestSpeedPlayer) / _energy.MaxEnergy + _lowestSpeedPlayer);
+            _isLosingSpeed = true;
+            _uiManager.refreshEnergyJauge(_energy.CurrentEnergy, _energy.MaxEnergy);
+        }
+    }
+    private void UsingInvert()
+    {
+        if (_energy.CurrentEnergy >= _powersManager.EnergyCost)
+        {
+            _powersManager.MakeInvertTeleportation();
             _energy.CurrentEnergy -= _powersManager.EnergyCost;
             SetMaxSpeed(_energy.CurrentEnergy * (_highestSpeedPlayer - _lowestSpeedPlayer) / _energy.MaxEnergy + _lowestSpeedPlayer);
             _isLosingSpeed = true;
@@ -471,6 +497,8 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(_cameraFollow.Target.position - new Vector3(0, 0.5f, 0), 0.2f);
+        //Ray hit = Physics.Raycast(MainGame.Instance.PlayerController.transform.position, MainGame.Instance.PlayerController.transform.up, 100, MainGame.Instance.WallLayer)
+        //Gizmos.DrawLine(_cameraFollow.Target.position, _cameraFollow.Target.up * 100);
     }
 
     #region Obsolete
