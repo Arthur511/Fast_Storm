@@ -5,6 +5,9 @@
     "m_Properties": [
         {
             "m_Id": "48ccebfda0324c1aaf3d4702ba71b7cc"
+        },
+        {
+            "m_Id": "74ffa8666a38475c9f5d77297e5bc26a"
         }
     ],
     "m_Keywords": [],
@@ -38,6 +41,9 @@
         },
         {
             "m_Id": "eea0f3c2931e42fb9d131a4637c99a08"
+        },
+        {
+            "m_Id": "9225cd97a5fe420196e75e6e20f6bda6"
         }
     ],
     "m_GroupDatas": [],
@@ -69,6 +75,20 @@
                     "m_Id": "54ba9a1e1e464d0088a69b2ae078f1d8"
                 },
                 "m_SlotId": 1
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "9225cd97a5fe420196e75e6e20f6bda6"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "54ba9a1e1e464d0088a69b2ae078f1d8"
+                },
+                "m_SlotId": 4
             }
         },
         {
@@ -289,6 +309,9 @@
     },
     "m_Slots": [
         {
+            "m_Id": "e64b4d28db954cf3908a49d580ee6f48"
+        },
+        {
             "m_Id": "09253f7004c64290af88fc22a2583188"
         },
         {
@@ -459,6 +482,85 @@
         "m_SerializableColors": []
     },
     "m_SerializedDescriptor": "VertexDescription.Tangent"
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
+    "m_ObjectId": "74ffa8666a38475c9f5d77297e5bc26a",
+    "m_Guid": {
+        "m_GuidSerialized": "17afffd9-9075-4160-85e7-6fcc4e21e4b9"
+    },
+    "m_Name": "RimTreshold",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "RimTreshold",
+    "m_DefaultReferenceName": "_RimTreshold",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": 0.0,
+    "m_FloatType": 0,
+    "m_RangeValues": {
+        "x": 0.0,
+        "y": 1.0
+    }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "9225cd97a5fe420196e75e6e20f6bda6",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -628.0,
+            "y": 125.0,
+            "width": 139.0,
+            "height": 34.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "995753caecf84f0b8904219a0f5a008f"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "74ffa8666a38475c9f5d77297e5bc26a"
+    }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "995753caecf84f0b8904219a0f5a008f",
+    "m_Id": 0,
+    "m_DisplayName": "RimTreshold",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
 }
 
 {
@@ -658,6 +760,21 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "e64b4d28db954cf3908a49d580ee6f48",
+    "m_Id": 4,
+    "m_DisplayName": "RimTreshold",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "RimTreshold",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
     "m_ObjectId": "eea0f3c2931e42fb9d131a4637c99a08",
     "m_Group": {
@@ -757,6 +874,9 @@
     "m_ChildObjectList": [
         {
             "m_Id": "48ccebfda0324c1aaf3d4702ba71b7cc"
+        },
+        {
+            "m_Id": "74ffa8666a38475c9f5d77297e5bc26a"
         }
     ]
 }
