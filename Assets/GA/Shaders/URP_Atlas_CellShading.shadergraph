@@ -2578,8 +2578,8 @@
     "m_ObjectId": "5fd448941c4446cb8b13d03902b85143",
     "m_Title": "Logic comparator - SATURATION",
     "m_Position": {
-        "x": -2918.999755859375,
-        "y": 1332.0
+        "x": -2919.0,
+        "y": 1331.999755859375
     }
 }
 
@@ -5029,8 +5029,8 @@
     "m_ObjectId": "ce7cb737e6634696881e9c59a8bb9a35",
     "m_Title": "Multiple Lights Detection",
     "m_Position": {
-        "x": -3801.99951171875,
-        "y": -117.00003051757813
+        "x": -3802.0,
+        "y": -116.99977111816406
     }
 }
 
@@ -5227,7 +5227,7 @@
     "m_ObjectId": "d3dd860c3b284f3e96f842e16d663f2a",
     "m_Title": "Logic comparator - VALUE",
     "m_Position": {
-        "x": -2904.999755859375,
+        "x": -2905.0,
         "y": -1570.999755859375
     }
 }
