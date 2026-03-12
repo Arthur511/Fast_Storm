@@ -2,11 +2,16 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
-    public enum MovementType { Static, Translation, Rotation }
+    public enum MovementType { Static, Translation, Chain, Rotation }
     public Vector3 StartPosition => _startPosition;
+    public Transform RestartPointChainMovement => _restartPointChainMovement;
+    public Transform LimitPointChainDistance => _limitPointChainMovement;
 
     [SerializeField] MovementType _movementType;
     [SerializeField] float _obstacleMovementSpeed;
+
+    [SerializeField] Transform _restartPointChainMovement;
+    [SerializeField] Transform _limitPointChainMovement;
 
     private IObstacleMovement _typeMovement;
     private Vector3 _startPosition;
@@ -22,6 +27,9 @@ public class Obstacle : MonoBehaviour
                 break;
             case MovementType.Translation:
                 _typeMovement = new TranslationMovement();
+                break;
+            case MovementType.Chain:
+                _typeMovement = new ChainMovement();
                 break;
             case MovementType.Rotation:
                 _typeMovement = new RotationMovement();
