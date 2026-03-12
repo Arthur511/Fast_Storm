@@ -15,6 +15,11 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
     public float SpeedPlayer => _currentSpeedPlayer;
     public LayerMask WallLayer => _wallLayer;
+    public int Score 
+    { 
+        get => _score; 
+        set {Score = value; } 
+    }
 
     [Header("Speed parameters")]
     [SerializeField] float _startSpeedPlayer;
@@ -44,6 +49,11 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private CustomPassVolume _customPassVolume;
 
+    [SerializeField] float _fallMultiplier;
+    [SerializeField] float _jumpCutMultiplier;
+
+
+    int _score = 0;
 
     float _currentMaxSpeedPlayer;
     bool _isAddingSpeed = false;
@@ -83,6 +93,7 @@ public class PlayerController : MonoBehaviour
     Material _speedLineMaterial;
 
     float _gravityStrenght = 1;
+
     RaycastHit _surfaceHit;
     RaycastHit[] _hit;
     float _velocity;
@@ -119,7 +130,7 @@ public class PlayerController : MonoBehaviour
     {
 
         float y = Input.GetAxisRaw("Horizontal");
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && _isOnGround)
         {
             UsingJump();
         }
@@ -214,9 +225,15 @@ public class PlayerController : MonoBehaviour
         Vector3 forward = Vector3.ProjectOnPlane(transform.forward, _currentSurfaceNormal).normalized;
         Vector3 right = Vector3.ProjectOnPlane(transform.right, _currentSurfaceNormal).normalized;
 
-        Debug.Log(right);
+        //Debug.Log(right);
 
         _rb.AddForce(forward * _currentSpeedPlayer, ForceMode.Acceleration);
+
+        if (direction.x != 0)
+        {
+            Vector3 lateralMove = right * direction.x * _lateralSpeed * Time.deltaTime;
+            _rb.MovePosition(_rb.position + lateralMove);
+        }
 
         /*_rb.linearVelocity = new Vector3(direction.x * right.x * _lateralSpeed, _rb.linearVelocity.x * right.x * _lateralSpeed, _rb.linearVelocity.z);
         foreach (Vector3 plan in _groundPlan)
@@ -226,7 +243,7 @@ public class PlayerController : MonoBehaviour
                 Debug.Log(_rb.linearVelocity);
             }
         }*/
-        transform.position += (right * direction.x) * _lateralSpeed;
+        //transform.position += (right * direction.x) * _lateralSpeed;
 
     }
 
@@ -297,6 +314,11 @@ public class PlayerController : MonoBehaviour
             float angle = Vector3.Angle(_cameraFollow.Target.up, _surfaceHit.normal);
             if (angle > _minSurfaceAngle || wallDetection == _currentGravityDirection)
             {
+
+                /*Vector3 right = Vector3.ProjectOnPlane(transform.right, _surfaceHit.normal).normalized;
+                float lateralSpeed = Vector3.Dot(_rb.linearVelocity, right);
+                _rb.linearVelocity = right * lateralSpeed;*/
+
                 _currentSurfaceNormal = _surfaceHit.normal;
                 _currentGravityDirection = -_surfaceHit.normal;
 
@@ -362,10 +384,14 @@ public class PlayerController : MonoBehaviour
     private IEnumerator DelayResetGravity()
     {
         yield return new WaitForSeconds(0.4f);
+
+        /*Vector3 right = Vector3.ProjectOnPlane(transform.right, _surfaceHit.normal).normalized;
+        float lateralSpeed = Vector3.Dot(_rb.linearVelocity, right);
+        _rb.linearVelocity = right * lateralSpeed;*/
+
         _currentGravityDirection = Vector3.down;
         _currentSurfaceNormal = Vector3.up;
         _isBackToStartRot = true;
-
         _delayCoroutine = null;
 
     }
@@ -373,10 +399,20 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyGravityForce()
     {
+
+        bool isOnWall = _isOnGround && _currentSurfaceNormal != Vector3.up;
+
         if (_isOnGround)
-            _gravityStrenght = 0f;
+            _gravityStrenght = isOnWall ? 5f : 0f;
         else
-            _gravityStrenght = 50f;
+        {
+            if (_rb.linearVelocity.y < 0f)
+                _gravityStrenght = 50f * _fallMultiplier;
+            else if (_rb.linearVelocity.y > 0f)
+                _gravityStrenght = 50f * _jumpCutMultiplier;
+            else
+                _gravityStrenght = 50f;
+        }
         _rb.AddForce(_currentGravityDirection * _gravityStrenght, ForceMode.Force);
     }
     #endregion
@@ -397,6 +433,7 @@ public class PlayerController : MonoBehaviour
             if (!device.IsEmpty())
             {
                 _energy.CurrentEnergy += device.EnergyToSend;
+                _score += 100;
                 SetMaxSpeed((_energy.CurrentEnergy * (_highestSpeedPlayer - _lowestSpeedPlayer)) / _energy.MaxEnergy + _lowestSpeedPlayer);
                 _isAddingSpeed = true;
                 device.DrainEnergy(device.EnergyToSend);
@@ -415,6 +452,7 @@ public class PlayerController : MonoBehaviour
         if (MainGame.Instance.TransitionLayer.value == 1 << other.gameObject.layer)
         {
             _cameraFollow.SetHasPassedDoorsGood();
+            MainGame.Instance.SaveSystem.SaveData();
             if (_doorsIndex < _doors.Count - 1)
                 _doorsIndex++;
             _doors[_doorsIndex].SetIsClosing(true);
@@ -443,7 +481,8 @@ public class PlayerController : MonoBehaviour
         _effectSystem.DisplayDeathParticle(transform.position);
         GetComponentInChildren<MeshRenderer>().enabled = false;
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        MainGame.Instance.SaveSystem?.LoadData();
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void OnDrawGizmos()

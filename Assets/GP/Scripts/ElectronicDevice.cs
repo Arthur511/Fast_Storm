@@ -2,17 +2,22 @@ using UnityEngine;
 
 public class ElectronicDevice : MonoBehaviour
 {
-    [SerializeField] float _naturalDrain;
-    [SerializeField] float _energyToSend;
-    protected IDevicePower _devicePower;
     public float EnergyToSend => _energyToSend;
     public IDevicePower DevicePower => _devicePower;
+    
+    [SerializeField] float _naturalDrain;
+    [SerializeField] float _energyToSend;
+    
+    protected IDevicePower _devicePower;
 
     float _drainTimer = 3f;
     float _currentDrainTimer;
+    float _startEnergy;
+
 
     private void Start()
     {
+        _startEnergy = _energyToSend;
         _currentDrainTimer = _drainTimer;
     }
 
@@ -39,5 +44,10 @@ public class ElectronicDevice : MonoBehaviour
     public bool IsEmpty()
     {
         return _energyToSend <= 0;
+    }
+
+    public void ResetEnergy()
+    {
+        _energyToSend = _startEnergy;
     }
 }
