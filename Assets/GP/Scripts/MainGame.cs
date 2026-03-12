@@ -10,6 +10,8 @@ public class MainGame : MonoBehaviour
     public LayerMask TransitionLayer => _transitionLayer;
     public LayerMask ObstacleLayer => _obstacleLayer;
     public SaveSystem SaveSystem => _saveSystem;
+    public PlayerController PlayerController => _playerController;
+
     //public EffectSystem EffectSystem { get; }
 
     [SerializeField] LayerMask _transitionLayer;

@@ -15,10 +15,10 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
     public float SpeedPlayer => _currentSpeedPlayer;
     public LayerMask WallLayer => _wallLayer;
-    public int Score 
-    { 
-        get => _score; 
-        set {Score = value; } 
+    public int Score
+    {
+        get => _score;
+        set { Score = value; }
     }
 
     [Header("Speed parameters")]
@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour
     Vector3 _currentGravityDirection = Vector3.down;
     Vector3 _targetGravityDirection = Vector3.down;
     Vector3 _currentSurfaceNormal = Vector3.up;
+    Vector3 _smoothedSurfaceNormal = Vector3.up;
     float _hasRotateDelay = 0f;
     Coroutine _delayCoroutine;
     bool _isRotating = false;
@@ -156,33 +157,22 @@ public class PlayerController : MonoBehaviour
             else
             {
                 _isOnGround = false;
-                if (_delayCoroutine == null)
-                    _delayCoroutine = StartCoroutine(DelayResetGravity());
+                /*if (_delayCoroutine == null)
+                    _delayCoroutine = StartCoroutine(DelayResetGravity());*/
             }
         }
         DetectWall(new Vector3(y, 0, 0));
 
         SetCurrentAnimation();
 
-        /*if (_lateralRotation)
-        {
-            if (Input.GetKeyDown(KeyCode.Mouse0)) //Gauche
-            {
-                transform.Rotate(Vector3.up, -90);
-                _lateralRotation = false;
-            }
-            else if (Input.GetKeyDown(KeyCode.Mouse1)) // Droite 
-            {
-                transform.Rotate(Vector3.up, 90);
-                _lateralRotation = false;
-            }
-        }*/
-
     }
     private void FixedUpdate()
     {
         float y = Input.GetAxisRaw("Horizontal");
         Vector3 direction = new Vector3(y, 0, 0).normalized;
+
+        _smoothedSurfaceNormal = Vector3.Slerp(_smoothedSurfaceNormal, _currentSurfaceNormal, Time.deltaTime * 20f);
+
         ApplyGravityForce();
         if (!_isBackToStartRot)
             RotatePlayer();
@@ -192,7 +182,6 @@ public class PlayerController : MonoBehaviour
 
         if (_isOnGround)
             SnapToSurface();
-
 
         if (_isAddingSpeed)
         {
@@ -222,28 +211,21 @@ public class PlayerController : MonoBehaviour
 
     private void MoveCharacter(Vector3 direction)
     {
-        Vector3 forward = Vector3.ProjectOnPlane(transform.forward, _currentSurfaceNormal).normalized;
-        Vector3 right = Vector3.ProjectOnPlane(transform.right, _currentSurfaceNormal).normalized;
+        Vector3 forward = Vector3.ProjectOnPlane(transform.forward, _smoothedSurfaceNormal).normalized;
+        Vector3 right = Vector3.ProjectOnPlane(transform.right, _smoothedSurfaceNormal).normalized;
 
         //Debug.Log(right);
 
         _rb.AddForce(forward * _currentSpeedPlayer, ForceMode.Acceleration);
 
-        if (direction.x != 0)
-        {
-            Vector3 lateralMove = right * direction.x * _lateralSpeed * Time.deltaTime;
-            _rb.MovePosition(_rb.position + lateralMove);
-        }
 
-        /*_rb.linearVelocity = new Vector3(direction.x * right.x * _lateralSpeed, _rb.linearVelocity.x * right.x * _lateralSpeed, _rb.linearVelocity.z);
-        foreach (Vector3 plan in _groundPlan)
-        {
-            if (plan == right)
-            {
-                Debug.Log(_rb.linearVelocity);
-            }
-        }*/
-        //transform.position += (right * direction.x) * _lateralSpeed;
+        float forwardSpeed = Vector3.Dot(_rb.linearVelocity, forward);
+        float gravitySpeed = Vector3.Dot(_rb.linearVelocity, _currentGravityDirection);
+        float targetLateralSpeed = direction.x * _lateralSpeed;
+
+        _rb.linearVelocity = forward * forwardSpeed
+                           + right * targetLateralSpeed
+                           + _currentGravityDirection * gravitySpeed;
 
     }
 
@@ -253,7 +235,7 @@ public class PlayerController : MonoBehaviour
         {
             _powersManager.MakeJump(gameObject);
             _energy.CurrentEnergy -= _powersManager.EnergyCost;
-            SetMaxSpeed(_energy.CurrentEnergy);
+            SetMaxSpeed(_energy.CurrentEnergy * (_highestSpeedPlayer - _lowestSpeedPlayer) / _energy.MaxEnergy + _lowestSpeedPlayer);
             _isLosingSpeed = true;
             _uiManager.refreshEnergyJauge(_energy.CurrentEnergy, _energy.MaxEnergy);
         }
@@ -265,7 +247,7 @@ public class PlayerController : MonoBehaviour
         {
             _powersManager.MakeLateralDash(gameObject, lateralDirection);
             _energy.CurrentEnergy -= _powersManager.EnergyCost;
-            SetMaxSpeed(_energy.CurrentEnergy);
+            SetMaxSpeed(_energy.CurrentEnergy * (_highestSpeedPlayer - _lowestSpeedPlayer) / _energy.MaxEnergy + _lowestSpeedPlayer);
             _isLosingSpeed = true;
             _uiManager.refreshEnergyJauge(_energy.CurrentEnergy, _energy.MaxEnergy);
         }
@@ -314,14 +296,8 @@ public class PlayerController : MonoBehaviour
             float angle = Vector3.Angle(_cameraFollow.Target.up, _surfaceHit.normal);
             if (angle > _minSurfaceAngle || wallDetection == _currentGravityDirection)
             {
-
-                /*Vector3 right = Vector3.ProjectOnPlane(transform.right, _surfaceHit.normal).normalized;
-                float lateralSpeed = Vector3.Dot(_rb.linearVelocity, right);
-                _rb.linearVelocity = right * lateralSpeed;*/
-
                 _currentSurfaceNormal = _surfaceHit.normal;
                 _currentGravityDirection = -_surfaceHit.normal;
-
                 //Debug.DrawRay(_surfaceHit.point, _surfaceHit.normal * 2f, Color.green);
             }
         }
@@ -383,7 +359,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator DelayResetGravity()
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.1f);
 
         /*Vector3 right = Vector3.ProjectOnPlane(transform.right, _surfaceHit.normal).normalized;
         float lateralSpeed = Vector3.Dot(_rb.linearVelocity, right);
@@ -403,7 +379,7 @@ public class PlayerController : MonoBehaviour
         bool isOnWall = _isOnGround && _currentSurfaceNormal != Vector3.up;
 
         if (_isOnGround)
-            _gravityStrenght = isOnWall ? 5f : 0f;
+            _gravityStrenght = isOnWall ? 0f : 0f;
         else
         {
             if (_rb.linearVelocity.y < 0f)

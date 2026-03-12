@@ -39,3 +39,10 @@ public class ChainMovement : IObstacleMovement
             obj.position = obj.GetComponent<Obstacle>().RestartPointChainMovement.position;
     }
 }
+public class ForwardMovement : IObstacleMovement
+{
+    public void Move(Transform obj, float speed)
+    {
+        obj.position -= new Vector3(0, 0, speed * Time.deltaTime);
+    }
+}

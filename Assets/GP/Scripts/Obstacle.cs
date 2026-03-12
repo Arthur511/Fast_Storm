@@ -6,12 +6,15 @@ public class Obstacle : MonoBehaviour
     public Vector3 StartPosition => _startPosition;
     public Transform RestartPointChainMovement => _restartPointChainMovement;
     public Transform LimitPointChainDistance => _limitPointChainMovement;
+    //public BoxCollider TriggerForwardMovement => _triggerForwardMovement;
 
     [SerializeField] MovementType _movementType;
     [SerializeField] float _obstacleMovementSpeed;
 
     [SerializeField] Transform _restartPointChainMovement;
     [SerializeField] Transform _limitPointChainMovement;
+
+    //[SerializeField] BoxCollider _triggerForwardMovement;
 
     private IObstacleMovement _typeMovement;
     private Vector3 _startPosition;
