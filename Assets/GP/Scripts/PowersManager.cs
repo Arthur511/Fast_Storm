@@ -37,17 +37,28 @@ public class PowersManager : MonoBehaviour
     public void MakeInvertTeleportation()
     {
         RaycastHit hit;
-        Debug.Log("Invert");
-        if (Physics.Raycast(MainGame.Instance.PlayerController.transform.position, MainGame.Instance.PlayerController.transform.up, out hit, 100, MainGame.Instance.WallLayer))
+        var player = MainGame.Instance.PlayerController;
+
+        // On vise la surface opposée en tirant le rayon à l'opposé de la gravité actuelle
+        Vector3 origin = player.transform.position;
+        Vector3 direction = -player.CurrentGravityDirection;
+
+        if (Physics.Raycast(origin, direction, out hit, 100f, player.WallLayer, QueryTriggerInteraction.Ignore))
         {
-            MainGame.Instance.PlayerController.transform.position = hit.point;
-            MainGame.Instance.PlayerController.transform.rotation = MainGame.Instance.PlayerController.transform.rotation * new Quaternion(0, 0, 180f, 0);
+            player.transform.position = hit.point+ hit.normal * 0.1f;
+            //player.transform.rotation = Quaternion.AngleAxis(180, player.transform.forward) * player.transform.rotation;
 
-            MainGame.Instance.PlayerController.CurrentSurfaceNormal = -MainGame.Instance.PlayerController.CurrentSurfaceNormal;
-            MainGame.Instance.PlayerController.CurrentGravityDirection = -MainGame.Instance.PlayerController.CurrentGravityDirection;
+            player.CurrentSurfaceNormal = hit.normal;
+            player.CurrentGravityDirection = -hit.normal;
 
+            player.IsInverting = true;
+
+            float currentSpeed = GetComponent<Rigidbody>().linearVelocity.magnitude;
+            GetComponent<Rigidbody>().linearVelocity = player.transform.forward * currentSpeed;
         }
     }
+
+
 
     public void ActivePassThroughMode(GameObject g)
     {

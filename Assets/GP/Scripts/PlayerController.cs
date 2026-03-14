@@ -18,19 +18,23 @@ public class PlayerController : MonoBehaviour
     public int Score
     {
         get => _score;
-        set { Score = value; }
+        set => _score = value;
     }
     public Vector3 CurrentSurfaceNormal
     {
         get => _currentSurfaceNormal;
-        set { CurrentSurfaceNormal = value; }
+        set => _currentSurfaceNormal = value;
     }
     public Vector3 CurrentGravityDirection
     {
         get => _currentGravityDirection;
-        set { CurrentGravityDirection = value; }
+        set => _currentGravityDirection = value;
     }
-
+    public bool IsInverting
+    {
+        get => _isInverting;
+        set => _isInverting = value;
+    }
 
     [Header("Speed parameters")]
     [SerializeField] float _startSpeedPlayer;
@@ -77,6 +81,7 @@ public class PlayerController : MonoBehaviour
     Vector3 _currentGravityDirection = Vector3.down;
     Vector3 _targetGravityDirection = Vector3.down;
     Vector3 _currentSurfaceNormal = Vector3.up;
+    Vector3 _lastSurfaceNormal = Vector3.up;
     Vector3 _smoothedSurfaceNormal = Vector3.up;
     float _hasRotateDelay = 0f;
     Coroutine _delayCoroutine;
@@ -88,6 +93,7 @@ public class PlayerController : MonoBehaviour
     float _rotationProgress;
 
     bool _isBackToStartRot = false;
+    bool _isInverting = false;
 
     List<Vector3> _groundPlan = new List<Vector3>
     {
@@ -139,7 +145,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(Score);
         float y = Input.GetAxisRaw("Horizontal");
         if (Input.GetKeyDown(KeyCode.Q) && _isOnGround)
         {
@@ -156,7 +161,7 @@ public class PlayerController : MonoBehaviour
             UsingInvert();
         }
 
-        if (!_isRotating)
+        if (!_isRotating && !_isInverting)
         {
             if (Physics.SphereCastAll(_cameraFollow.Target.position, 0.2f, _currentGravityDirection, 1f, _wallLayer, QueryTriggerInteraction.Ignore).Length > 0)
             {
@@ -176,9 +181,12 @@ public class PlayerController : MonoBehaviour
                     _delayCoroutine = StartCoroutine(DelayResetGravity());*/
             }
         }
-        DetectWall(new Vector3(y, 0, 0));
+        if (!_isInverting)
+            DetectWall(new Vector3(y, 0, 0));
 
         SetCurrentAnimation();
+
+        //_lastSurfaceNormal = _currentSurfaceNormal;
 
     }
     private void FixedUpdate()
@@ -189,10 +197,7 @@ public class PlayerController : MonoBehaviour
         _smoothedSurfaceNormal = Vector3.Slerp(_smoothedSurfaceNormal, _currentSurfaceNormal, Time.deltaTime * 20f);
 
         ApplyGravityForce();
-        if (!_isBackToStartRot)
-            RotatePlayer();
-        else
-            BackToStartRotation();
+        RotatePlayer();
         MoveCharacter(direction);
 
         if (_isOnGround)
@@ -331,7 +336,7 @@ public class PlayerController : MonoBehaviour
 
     private void RotatePlayer()
     {
-        Quaternion newTargetRotation = Quaternion.FromToRotation(transform.up, _currentSurfaceNormal) * transform.rotation;
+        Quaternion newTargetRotation = Quaternion.LookRotation(transform.forward, _currentSurfaceNormal);
 
         if (Quaternion.Angle(newTargetRotation, _targetRotation) > 0.5f)
         {
@@ -341,13 +346,15 @@ public class PlayerController : MonoBehaviour
             _rotationProgress = 0f;
         }
         else
+        {
             _isRotating = false;
+            _isInverting = false;
+        }
 
         _rotationProgress += Time.deltaTime;
         _rotationProgress = Mathf.Clamp01(_rotationProgress);
 
         float curvedProgress = _rotationCurve.Evaluate(_rotationProgress);
-
         transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, curvedProgress);
 
     }

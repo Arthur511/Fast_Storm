@@ -145698,6 +145698,9 @@ MonoBehaviour:
   _obstacleLayer:
     serializedVersion: 2
     m_Bits: 1024
+  _wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
   _saveSystem: {fileID: 1509504375}
   _uiManager: {fileID: 1509504371}
   _playerController: {fileID: 570518299}
@@ -203295,7 +203298,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5392215602759085210, guid: 8cecb5b8b793f6e4f8303e07af52b236, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6
+      value: 7.425
       objectReference: {fileID: 0}
     - target: {fileID: 5392215602759085210, guid: 8cecb5b8b793f6e4f8303e07af52b236, type: 3}
       propertyPath: m_LocalPosition.z
