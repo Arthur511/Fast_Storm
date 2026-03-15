@@ -4,17 +4,24 @@ using UnityEngine;
 
 public class SaveSystem : MonoBehaviour
 {
-
     [SerializeField] PlayerController controller;
     [SerializeField] List<ElectronicDevice> _electronicDevices;
+    [SerializeField] List<GameObject> _transporters;
+
+    private void Start()
+    {
+        SaveData();
+    }
 
     public void SaveData()
     {
         GameData gameData = new GameData()
         {
             PlayerPosition = controller.transform.position,
+            StartPlayerSectionSpeed = controller.CurrentSpeedPlayer,
             EnergyInStock = controller.gameObject.GetComponent<Energy>().CurrentEnergy,
             Score = controller.Score,
+            ActualNextdoor = controller.ActualNextDoor,
         };
 
         string jsonData = JsonUtility.ToJson(gameData);
@@ -38,6 +45,17 @@ public class SaveSystem : MonoBehaviour
         {
             device.ResetEnergy();
         }
+        foreach (GameObject transporter in _transporters)
+        {
+            transporter.SetActive(true);
+            transporter.GetComponentInChildren<TransporterObstacle>().ResetTransportersPosition();
+        }
+        controller.ActualNextDoor.Progression = 0;
+        controller.ActualNextDoor.IsClosing = true;
+
+        MainGame.Instance.UIManager.refreshEnergyJauge(controller.gameObject.GetComponent<Energy>().CurrentEnergy, controller.gameObject.GetComponent<Energy>().MaxEnergy);
+
+
     }
 }
 
@@ -45,6 +63,8 @@ public class SaveSystem : MonoBehaviour
 public class GameData
 {
     public Vector3 PlayerPosition;
+    public float StartPlayerSectionSpeed;
     public float EnergyInStock;
     public int Score;
+    public Doors ActualNextdoor;
 }

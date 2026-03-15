@@ -11,7 +11,7 @@ public class PowersManager : MonoBehaviour
     [SerializeField] float _dashSpeed = 20f;
     [SerializeField] float _dashDuration = 1.0f;
     [Header("PassThroughPower")]
-    [SerializeField] float _passThroughDuration = 1.0f;
+    [SerializeField] float _passThroughDuration = 3.0f;
 
     public void MakeLateralDash(GameObject g, Vector3 direction)
     {
@@ -39,11 +39,9 @@ public class PowersManager : MonoBehaviour
         RaycastHit hit;
         var player = MainGame.Instance.PlayerController;
 
-        // On vise la surface opposée en tirant le rayon à l'opposé de la gravité actuelle
         Vector3 origin = player.transform.position;
         Vector3 direction = -player.CurrentGravityDirection;
-
-        if (Physics.Raycast(origin, direction, out hit, 100f, player.WallLayer, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(origin, direction, out hit, 1000f, player.WallLayer, QueryTriggerInteraction.Ignore))
         {
             player.transform.position = hit.point+ hit.normal * 0.1f;
             //player.transform.rotation = Quaternion.AngleAxis(180, player.transform.forward) * player.transform.rotation;
@@ -58,8 +56,6 @@ public class PowersManager : MonoBehaviour
         }
     }
 
-
-
     public void ActivePassThroughMode(GameObject g)
     {
         StartCoroutine(DelayEndPassThrough(g));
@@ -67,7 +63,9 @@ public class PowersManager : MonoBehaviour
 
     IEnumerator DelayEndPassThrough(GameObject g)
     {
+        g.GetComponent<Collider>().excludeLayers = MainGame.Instance.ObstacleLayer;
         yield return new WaitForSeconds(_passThroughDuration);
+        g.GetComponent<Collider>().excludeLayers = new LayerMask();
     }
 
 }

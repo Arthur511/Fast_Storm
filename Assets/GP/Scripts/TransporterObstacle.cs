@@ -7,6 +7,18 @@ public class TransporterObstacle : MonoBehaviour
     [SerializeField] float _speedTransporter;
 
     bool _isMoving = false;
+    Vector3[] _transportersStartPositions;
+    int _indexTransporter = 0;
+
+    private void Start()
+    {
+        _transportersStartPositions = new Vector3[_transporters.Count];
+        foreach (var transporter in _transporters)
+        {
+            _transportersStartPositions[_indexTransporter] = transporter.transform.position;
+            _indexTransporter++;
+        }
+    }
 
     // Update is called once per frame
     void Update()
@@ -29,5 +41,17 @@ public class TransporterObstacle : MonoBehaviour
     {
         _isMoving = true;
     }
+
+    public void ResetTransportersPosition()
+    {
+        _isMoving = false;
+        _indexTransporter = 0;
+        foreach (var transporter in _transporters)
+        {
+            transporter.transform.position = _transportersStartPositions[_indexTransporter];
+            _indexTransporter++;
+        }
+    }
+
 
 }

@@ -13,8 +13,9 @@ public class PlayerController : MonoBehaviour
 {
 
     public static PlayerController Instance;
-    public float SpeedPlayer => _currentSpeedPlayer;
+    public float CurrentSpeedPlayer => _currentSpeedPlayer;
     public LayerMask WallLayer => _wallLayer;
+    public Doors ActualNextDoor => _actualNextDoor;
     public int Score
     {
         get => _score;
@@ -35,6 +36,12 @@ public class PlayerController : MonoBehaviour
         get => _isInverting;
         set => _isInverting = value;
     }
+    public bool IsOnPause
+    {
+        get => _isOnPause;
+        set => _isOnPause = value;
+    }
+
 
     [Header("Speed parameters")]
     [SerializeField] float _startSpeedPlayer;
@@ -94,6 +101,7 @@ public class PlayerController : MonoBehaviour
 
     bool _isBackToStartRot = false;
     bool _isInverting = false;
+    bool _isOnPause = false;
 
     List<Vector3> _groundPlan = new List<Vector3>
     {
@@ -106,6 +114,7 @@ public class PlayerController : MonoBehaviour
     bool _lateralRotation = false;
 
     int _doorsIndex = 0;
+    Doors _actualNextDoor;
 
     Material _speedLineMaterial;
 
@@ -125,12 +134,15 @@ public class PlayerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        _isOnPause = false;
+
         _currentMaxSpeedPlayer = _startSpeedPlayer;
         _playerAnimator.SetTrigger("Run");
         _playerAnimator.Play("Run_Animation_Tree", 0, 0f);
         VelocityHash = Animator.StringToHash("Blend");
 
         _doors[_doorsIndex].SetIsClosing(true);
+        _actualNextDoor = _doors[_doorsIndex];
 
         var customPass = _customPassVolume.customPasses[0] as FullScreenCustomPass;
         if (customPass != null)
@@ -145,88 +157,98 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        float y = Input.GetAxisRaw("Horizontal");
-        if (Input.GetKeyDown(KeyCode.Q) && _isOnGround)
+        if (!_isOnPause)
         {
-            UsingJump();
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            UsingLateralDash(new Vector3(y, 0, 0));
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            UsingInvert();
-        }
-
-        if (!_isRotating && !_isInverting)
-        {
-            if (Physics.SphereCastAll(_cameraFollow.Target.position, 0.2f, _currentGravityDirection, 1f, _wallLayer, QueryTriggerInteraction.Ignore).Length > 0)
+            float y = Input.GetAxisRaw("Horizontal");
+            if (Input.GetKeyDown(KeyCode.Q) && _isOnGround)
             {
-                _isOnGround = true;
-                _isBackToStartRot = false;
+                UsingJump();
+            }
 
-                if (_delayCoroutine != null)
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                UsingLateralDash(new Vector3(y, 0, 0));
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                UsingInvert();
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                UsingPassThrough();
+            }
+
+            if (!_isRotating && !_isInverting)
+            {
+                if (Physics.SphereCastAll(_cameraFollow.Target.position, 0.2f, _currentGravityDirection, 1f, _wallLayer, QueryTriggerInteraction.Ignore).Length > 0)
                 {
-                    StopCoroutine(_delayCoroutine);
-                    _delayCoroutine = null;
+                    _isOnGround = true;
+                    _isBackToStartRot = false;
+
+                    if (_delayCoroutine != null)
+                    {
+                        StopCoroutine(_delayCoroutine);
+                        _delayCoroutine = null;
+                    }
+                }
+                else
+                {
+                    _isOnGround = false;
+                    /*if (_delayCoroutine == null)
+                        _delayCoroutine = StartCoroutine(DelayResetGravity());*/
                 }
             }
-            else
-            {
-                _isOnGround = false;
-                /*if (_delayCoroutine == null)
-                    _delayCoroutine = StartCoroutine(DelayResetGravity());*/
-            }
+            if (!_isRotating && !_isInverting)
+                DetectWall(new Vector3(y, 0, 0));
+
+            SetCurrentAnimation();
+
+            //_lastSurfaceNormal = _currentSurfaceNormal;
         }
-        if (!_isRotating)
-            DetectWall(new Vector3(y, 0, 0));
-
-        SetCurrentAnimation();
-
-        //_lastSurfaceNormal = _currentSurfaceNormal;
-
     }
     private void FixedUpdate()
     {
-        float y = Input.GetAxisRaw("Horizontal");
-        Vector3 direction = new Vector3(y, 0, 0).normalized;
-
-        _smoothedSurfaceNormal = Vector3.Slerp(_smoothedSurfaceNormal, _currentSurfaceNormal, Time.deltaTime * 20f);
-
-        ApplyGravityForce();
-        RotatePlayer();
-        MoveCharacter(direction);
-
-        if (_isOnGround)
-            SnapToSurface();
-
-        if (_isAddingSpeed)
+        if (!_isOnPause)
         {
-            if (_currentSpeedPlayer < _currentMaxSpeedPlayer && Mathf.Abs(_currentSpeedPlayer - _currentMaxSpeedPlayer) >= 0.01f)
-            {
-                _currentSpeedPlayer += Time.deltaTime * 10;
-                _cameraFollow.SetFieldOfview(_energy.CurrentEnergy);
-            }
-            else
-                _isAddingSpeed = false;
-        }
-        else if (_isLosingSpeed)
-        {
-            if (_currentSpeedPlayer > _currentMaxSpeedPlayer && Mathf.Abs(_currentSpeedPlayer - _currentMaxSpeedPlayer) >= 0.01f)
-            {
-                _currentSpeedPlayer -= Time.deltaTime * 10;
-                _cameraFollow.SetFieldOfview(_energy.CurrentEnergy);
-            }
-            else
-                _isLosingSpeed = false;
-        }
+            float y = Input.GetAxisRaw("Horizontal");
+            Vector3 direction = new Vector3(y, 0, 0).normalized;
 
-        ChangeAlphaOfSpeedLine();
+            _smoothedSurfaceNormal = Vector3.Slerp(_smoothedSurfaceNormal, _currentSurfaceNormal, Time.deltaTime * 20f);
 
-        _effectSystem.UpdateEffect();
+            ApplyGravityForce();
+            RotatePlayer();
+            MoveCharacter(direction);
+
+            if (_isOnGround)
+                SnapToSurface();
+
+            if (_isAddingSpeed)
+            {
+                if (_currentSpeedPlayer < _currentMaxSpeedPlayer && Mathf.Abs(_currentSpeedPlayer - _currentMaxSpeedPlayer) >= 0.01f)
+                {
+                    _currentSpeedPlayer += Time.deltaTime * 10;
+                    _cameraFollow.SetFieldOfview(_energy.CurrentEnergy);
+                }
+                else
+                    _isAddingSpeed = false;
+            }
+            else if (_isLosingSpeed)
+            {
+                if (_currentSpeedPlayer > _currentMaxSpeedPlayer && Mathf.Abs(_currentSpeedPlayer - _currentMaxSpeedPlayer) >= 0.01f)
+                {
+                    _currentSpeedPlayer -= Time.deltaTime * 10;
+                    _cameraFollow.SetFieldOfview(_energy.CurrentEnergy);
+                }
+                else
+                    _isLosingSpeed = false;
+            }
+
+            ChangeAlphaOfSpeedLine();
+
+            _effectSystem.UpdateEffect();
+        }
     }
 
     private void MoveCharacter(Vector3 direction)
@@ -280,7 +302,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
+    private void UsingPassThrough()
+    {
+        if (_energy.CurrentEnergy >= _powersManager.EnergyCost)
+        {
+            _powersManager.ActivePassThroughMode(gameObject);
+            _energy.CurrentEnergy -= _powersManager.EnergyCost;
+            SetMaxSpeed(_energy.CurrentEnergy * (_highestSpeedPlayer - _lowestSpeedPlayer) / _energy.MaxEnergy + _lowestSpeedPlayer);
+            _isLosingSpeed = true;
+            _uiManager.refreshEnergyJauge(_energy.CurrentEnergy, _energy.MaxEnergy);
+        }
+    }
 
     public float SetMaxSpeed(float amountToAdd)
     {
@@ -461,6 +493,7 @@ public class PlayerController : MonoBehaviour
             if (_doorsIndex < _doors.Count - 1)
                 _doorsIndex++;
             _doors[_doorsIndex].SetIsClosing(true);
+            _actualNextDoor = _doors[_doorsIndex];
         }
 
     }
@@ -475,7 +508,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (MainGame.Instance.ObstacleLayer.value == 1 << collision.gameObject.layer)
+        if (MainGame.Instance.ObstacleLayer.value == 1 << collision.gameObject.layer || MainGame.Instance.DoorLayer.value == 1 << collision.gameObject.layer)
         {
             StartCoroutine(DelayBeforeRestart());
         }

@@ -9,21 +9,19 @@ public class MainGame : MonoBehaviour
     public static MainGame Instance;
     public LayerMask TransitionLayer => _transitionLayer;
     public LayerMask ObstacleLayer => _obstacleLayer;
+    public LayerMask DoorLayer => _doorLayer;
     public LayerMask WallLayer => _wallLayer;
-    public SaveSystem SaveSystem => _saveSystem;
     public PlayerController PlayerController => _playerController;
 
-    //public EffectSystem EffectSystem { get; }
-
+    [Header("Scripts")]
+    public SaveSystem SaveSystem;
+    public UIManager UIManager;
+    public PlayerController _playerController;
+    
     [SerializeField] LayerMask _transitionLayer;
     [SerializeField] LayerMask _obstacleLayer;
+    [SerializeField] LayerMask _doorLayer;
     [SerializeField] LayerMask _wallLayer;
-    [SerializeField] SaveSystem _saveSystem;
-    [SerializeField] UIManager _uiManager;
-    [SerializeField] PlayerController _playerController;
-
-    /*[Header("Scripts")]
-    [SerializeField] EffectSystem _effectSystem;*/
 
     private void Awake()
     {
@@ -43,6 +41,12 @@ public class MainGame : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
         if (Input.GetKeyDown(KeyCode.O))
-            _uiManager.DisplayScorePanel(_playerController.Score);
+            UIManager.DisplayScorePanel(_playerController.Score);
     }
+
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
 }

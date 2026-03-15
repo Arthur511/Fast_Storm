@@ -17,7 +17,7 @@ public class EffectSystem : MonoBehaviour
     {
         foreach (StepSpeedEffect step in _stepsSpeed)
         {
-            if (PlayerController.Instance.SpeedPlayer >= step._lowSpeedThreshold && PlayerController.Instance.SpeedPlayer < step._highSpeedThreshold)
+            if (PlayerController.Instance.CurrentSpeedPlayer >= step._lowSpeedThreshold && PlayerController.Instance.CurrentSpeedPlayer < step._highSpeedThreshold)
             {
                 if (step != _lastStepBefore)
                 {
