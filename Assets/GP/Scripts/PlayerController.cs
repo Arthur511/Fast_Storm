@@ -181,7 +181,7 @@ public class PlayerController : MonoBehaviour
                     _delayCoroutine = StartCoroutine(DelayResetGravity());*/
             }
         }
-        if (!_isInverting)
+        if (!_isRotating)
             DetectWall(new Vector3(y, 0, 0));
 
         SetCurrentAnimation();
@@ -234,16 +234,12 @@ public class PlayerController : MonoBehaviour
         Vector3 forward = Vector3.ProjectOnPlane(transform.forward, _smoothedSurfaceNormal).normalized;
         Vector3 right = Vector3.ProjectOnPlane(transform.right, _smoothedSurfaceNormal).normalized;
 
-        //Debug.Log(right);
+        //_rb.AddForce(forward * _currentSpeedPlayer, ForceMode.Acceleration);
 
-        _rb.AddForce(forward * _currentSpeedPlayer, ForceMode.Acceleration);
-
-
-        float forwardSpeed = Vector3.Dot(_rb.linearVelocity, forward);
         float gravitySpeed = Vector3.Dot(_rb.linearVelocity, _currentGravityDirection);
         float targetLateralSpeed = direction.x * _lateralSpeed;
 
-        _rb.linearVelocity = forward * forwardSpeed
+        _rb.linearVelocity = forward * (_currentSpeedPlayer * 10)
                            + right * targetLateralSpeed
                            + _currentGravityDirection * gravitySpeed;
 
