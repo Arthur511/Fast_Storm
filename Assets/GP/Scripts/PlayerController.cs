@@ -46,11 +46,17 @@ public class PlayerController : MonoBehaviour
         get => _isInverting;
         set => _isInverting = value;
     }
+    public bool IsDashing
+    {
+        get => _isDashing;
+        set => _isDashing = value;
+    }
     public bool IsOnPause
     {
         get => _isOnPause;
         set => _isOnPause = value;
     }
+
 
 
     [Header("Speed parameters")]
@@ -111,6 +117,7 @@ public class PlayerController : MonoBehaviour
 
     bool _isBackToStartRot = false;
     bool _isInverting = false;
+    bool _isDashing = false;
     bool _isOnPause = false;
 
     List<Vector3> _groundPlan = new List<Vector3>
@@ -267,7 +274,7 @@ public class PlayerController : MonoBehaviour
         //_rb.AddForce(forward * _currentSpeedPlayer, ForceMode.Acceleration);
 
         float gravitySpeed = Vector3.Dot(_rb.linearVelocity, _currentGravityDirection);
-        float targetLateralSpeed = direction.x * _lateralSpeed;
+        float targetLateralSpeed = _isDashing ? Vector3.Dot(_rb.linearVelocity, right) : direction.x * _lateralSpeed;
 
         _rb.linearVelocity = forward * (_currentSpeedPlayer * 10)
                            + right * targetLateralSpeed

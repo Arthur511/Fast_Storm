@@ -23,8 +23,10 @@ public class PowersManager : MonoBehaviour
     }
     IEnumerator DashDuration(GameObject g)
     {
+        MainGame.Instance.PlayerController.IsDashing = true;
         yield return new WaitForSeconds(_dashDuration);
-        g.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, g.GetComponent<Rigidbody>().linearVelocity.z);
+        MainGame.Instance.PlayerController.IsDashing = false;
+        //g.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, g.GetComponent<Rigidbody>().linearVelocity.z);
     }
 
     public void MakeJump(GameObject g)
