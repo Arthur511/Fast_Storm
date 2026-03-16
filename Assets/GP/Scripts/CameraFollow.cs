@@ -64,7 +64,7 @@ public class CameraFollow : MonoBehaviour
             {
                 float t  = _velocityTransitionCurve.Evaluate(normalizedTimer);
                 float Z = Mathf.Lerp(_startPosition, _startPosition - 5, t);
-                transform.localPosition = new Vector3(0, 3, Z);
+                transform.localPosition = new Vector3(0, 7, Z);
             }
             else
                 _hasPassedDoors = false;
