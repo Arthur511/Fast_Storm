@@ -50,9 +50,15 @@ public class PowersManager : MonoBehaviour
 
             player.IsInverting = true;
 
+            player.SmoothedSurfaceNormal = hit.normal;
+
+            //player.GetComponent<Rigidbody>().position = hit.point + hit.normal * 0.5f;
+            player.transform.position = hit.point + hit.normal * 0.5f;
+            Physics.SyncTransforms();
+
             float currentSpeed = GetComponent<Rigidbody>().linearVelocity.magnitude;
             GetComponent<Rigidbody>().linearVelocity = player.transform.forward * currentSpeed;
-            player.transform.position = hit.point;
+
         }
     }
 

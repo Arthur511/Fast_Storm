@@ -36,6 +36,11 @@ public class PlayerController : MonoBehaviour
         get => _currentGravityDirection;
         set => _currentGravityDirection = value;
     }
+    public Vector3 SmoothedSurfaceNormal
+    {
+        get => _smoothedSurfaceNormal;
+        set => _smoothedSurfaceNormal = value;
+    }
     public bool IsInverting
     {
         get => _isInverting;
