@@ -43,7 +43,6 @@ public class PowersManager : MonoBehaviour
         Vector3 direction = -player.CurrentGravityDirection;
         if (Physics.Raycast(origin, direction, out hit, 1000f, player.WallLayer, QueryTriggerInteraction.Ignore))
         {
-            player.transform.position = hit.point+ hit.normal * 0.1f;
             //player.transform.rotation = Quaternion.AngleAxis(180, player.transform.forward) * player.transform.rotation;
 
             player.CurrentSurfaceNormal = hit.normal;
@@ -53,6 +52,7 @@ public class PowersManager : MonoBehaviour
 
             float currentSpeed = GetComponent<Rigidbody>().linearVelocity.magnitude;
             GetComponent<Rigidbody>().linearVelocity = player.transform.forward * currentSpeed;
+            player.transform.position = hit.point;
         }
     }
 

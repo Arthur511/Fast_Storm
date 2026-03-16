@@ -2,17 +2,6 @@ using UnityEngine;
 
 public class Doors : MonoBehaviour
 {
-    public float Progression
-    {
-        get => _progression;
-        set => _progression = value;
-    }
-    public bool IsClosing
-    {
-        get => _isClosing;
-        set => _isClosing = value;
-    }
-
     [Header("Values")]
     [SerializeField] float _doorTimer;
     float _currentTime = 0;
@@ -56,5 +45,13 @@ public class Doors : MonoBehaviour
     {
         _isClosing = value;
     }
+
+    public void ResetDoors()
+    {
+        _progression = 0;
+        _currentTime = 0;
+        _isClosing = true;
+    }
+
 
 }

@@ -7,7 +7,7 @@ public class EndLevel : MonoBehaviour
     {
         if (other.gameObject.GetComponent<PlayerController>())
         {
-            MainGame.Instance.UIManager.DisplayScorePanel(MainGame.Instance.PlayerController.Score);
+            MainGame.Instance.UIManager.DisplayScorePanel(MainGame.Instance.PlayerController.Score + 1000/(int)MainGame.Instance.TimerScript.CurrentTimeInSeconds);
             MainGame.Instance.PlayerController.IsOnPause = true;
         }
     }

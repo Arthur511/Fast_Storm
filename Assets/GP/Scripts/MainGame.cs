@@ -12,11 +12,13 @@ public class MainGame : MonoBehaviour
     public LayerMask DoorLayer => _doorLayer;
     public LayerMask WallLayer => _wallLayer;
     public PlayerController PlayerController => _playerController;
+    public Timer TimerScript => _timerScript;
 
     [Header("Scripts")]
     public SaveSystem SaveSystem;
     public UIManager UIManager;
     public PlayerController _playerController;
+    public Timer _timerScript;
     
     [SerializeField] LayerMask _transitionLayer;
     [SerializeField] LayerMask _obstacleLayer;

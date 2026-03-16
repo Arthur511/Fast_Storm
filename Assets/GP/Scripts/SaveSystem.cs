@@ -21,6 +21,7 @@ public class SaveSystem : MonoBehaviour
             StartPlayerSectionSpeed = controller.CurrentSpeedPlayer,
             EnergyInStock = controller.gameObject.GetComponent<Energy>().CurrentEnergy,
             Score = controller.Score,
+            Timer = MainGame.Instance.TimerScript.CurrentTimeInSeconds,
             ActualNextdoor = controller.ActualNextDoor,
         };
 
@@ -36,10 +37,11 @@ public class SaveSystem : MonoBehaviour
         string jsonData = System.IO.File.ReadAllText(filePath);
         GameData gameData = JsonUtility.FromJson<GameData>(jsonData);
 
-
         controller.transform.position = gameData.PlayerPosition;
+        controller.CurrentSpeedPlayer = gameData.StartPlayerSectionSpeed;
         controller.gameObject.GetComponent<Energy>().CurrentEnergy = gameData.EnergyInStock;
         controller.Score = gameData.Score;
+        MainGame.Instance.TimerScript.CurrentTimeInSeconds = gameData.Timer;
         controller.GetComponentInChildren<MeshRenderer>().enabled = true;
         foreach (ElectronicDevice device in _electronicDevices)
         {
@@ -50,9 +52,10 @@ public class SaveSystem : MonoBehaviour
             transporter.SetActive(true);
             transporter.GetComponentInChildren<TransporterObstacle>().ResetTransportersPosition();
         }
-        controller.ActualNextDoor.Progression = 0;
-        controller.ActualNextDoor.IsClosing = true;
+        controller.ActualNextDoor.ResetDoors();
+        controller.CameraFollow.SetFieldOfview(controller.gameObject.GetComponent<Energy>().CurrentEnergy);
 
+        MainGame.Instance.UIManager.RefreshTimerDisplay((int)MainGame.Instance.TimerScript.CurrentTimeInSeconds);
         MainGame.Instance.UIManager.refreshEnergyJauge(controller.gameObject.GetComponent<Energy>().CurrentEnergy, controller.gameObject.GetComponent<Energy>().MaxEnergy);
 
 
@@ -66,5 +69,6 @@ public class GameData
     public float StartPlayerSectionSpeed;
     public float EnergyInStock;
     public int Score;
+    public float Timer;
     public Doors ActualNextdoor;
 }

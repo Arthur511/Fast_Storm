@@ -13,7 +13,12 @@ public class PlayerController : MonoBehaviour
 {
 
     public static PlayerController Instance;
-    public float CurrentSpeedPlayer => _currentSpeedPlayer;
+    public CameraFollow CameraFollow => _cameraFollow;
+    public float CurrentSpeedPlayer 
+    {
+        get => _currentSpeedPlayer;
+        set => _currentSpeedPlayer = value;
+    }
     public LayerMask WallLayer => _wallLayer;
     public Doors ActualNextDoor => _actualNextDoor;
     public int Score
@@ -204,8 +209,6 @@ public class PlayerController : MonoBehaviour
                 DetectWall(new Vector3(y, 0, 0));
 
             SetCurrentAnimation();
-
-            //_lastSurfaceNormal = _currentSurfaceNormal;
         }
     }
     private void FixedUpdate()
