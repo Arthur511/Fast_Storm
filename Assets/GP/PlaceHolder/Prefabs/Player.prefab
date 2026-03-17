@@ -89,7 +89,7 @@ MonoBehaviour:
   _lowestSpeedPlayer: 20
   _highestSpeedPlayer: 100
   _speedRotation: 200
-  _playerAnimator: {fileID: 2621228351818137000}
+  _playerAnimator: {fileID: 8372521102878922750}
   _wallCheckDistance: 1.5
   _wallLayer:
     serializedVersion: 2
@@ -151,10 +151,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 1.7775612
+  m_Height: 7.338516
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 1.461998, z: -1.2775612}
 --- !u!54 &753528982787838952
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5829,7 +5829,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6831225032764564134}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: d0d26f55468643d4badfb6ca04cbfc59, type: 3}
   m_Controller: {fileID: 9100000, guid: 5d62d19263e8171408f5a38c243a7c3f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
