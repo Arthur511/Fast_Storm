@@ -351,8 +351,8 @@ public class PlayerController : MonoBehaviour
 
 
         #region SetCurrentAnimationV2
-        _playerAnimator.speed = _currentSpeedPlayer / 100;
-        _playerAnimator.SetFloat(VelocityHash, _playerAnimator.speed * 100);
+        _playerAnimator.speed = 1;
+        _playerAnimator.SetFloat(VelocityHash, _currentSpeedPlayer);
         #endregion
     }
 
@@ -532,7 +532,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator DelayBeforeRestart()
     {
         _effectSystem.DisplayDeathParticle(transform.position);
-        GetComponentInChildren<MeshRenderer>().enabled = false;
+        GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
         yield return new WaitForSeconds(1f);
         MainGame.Instance.SaveSystem?.LoadData();
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

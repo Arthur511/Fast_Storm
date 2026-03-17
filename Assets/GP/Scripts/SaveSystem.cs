@@ -42,7 +42,7 @@ public class SaveSystem : MonoBehaviour
         controller.gameObject.GetComponent<Energy>().CurrentEnergy = gameData.EnergyInStock;
         controller.Score = gameData.Score;
         MainGame.Instance.TimerScript.CurrentTimeInSeconds = gameData.Timer;
-        controller.GetComponentInChildren<MeshRenderer>().enabled = true;
+        controller.GetComponentInChildren<SkinnedMeshRenderer>().enabled = true;
         foreach (ElectronicDevice device in _electronicDevices)
         {
             device.ResetEnergy();
