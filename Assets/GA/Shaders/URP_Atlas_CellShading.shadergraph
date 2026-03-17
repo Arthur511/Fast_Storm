@@ -290,20 +290,6 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
-                    "m_Id": "2c5e2b7be4864cd3abbd1a776f993d69"
-                },
-                "m_SlotId": 2
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "754de4e942ca464ab887fcd2d77b63e3"
-                },
-                "m_SlotId": 0
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
                     "m_Id": "3499e0ac3a454f5599f52ecf7b857b65"
                 },
                 "m_SlotId": 3
@@ -663,6 +649,20 @@
                     "m_Id": "2c5e2b7be4864cd3abbd1a776f993d69"
                 },
                 "m_SlotId": 1
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "b1bfc005eab84117a0b8e2e8798baaf0"
+                },
+                "m_SlotId": 2
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "754de4e942ca464ab887fcd2d77b63e3"
+                },
+                "m_SlotId": 0
             }
         },
         {
@@ -1064,8 +1064,8 @@
     "m_ObjectId": "09fec59274ee47b6a2978656f35b1741",
     "m_Title": "Logic comparator - HUE",
     "m_Position": {
-        "x": -2905.0,
-        "y": 182.0
+        "x": -2905.000244140625,
+        "y": 181.99993896484376
     }
 }
 
@@ -2578,8 +2578,8 @@
     "m_ObjectId": "5fd448941c4446cb8b13d03902b85143",
     "m_Title": "Logic comparator - SATURATION",
     "m_Position": {
-        "x": -2919.0,
-        "y": 1331.999755859375
+        "x": -2919.000244140625,
+        "y": 1332.0001220703125
     }
 }
 
@@ -5030,7 +5030,7 @@
     "m_Title": "Multiple Lights Detection",
     "m_Position": {
         "x": -3802.0,
-        "y": -116.99977111816406
+        "y": -117.0
     }
 }
 
@@ -5228,7 +5228,7 @@
     "m_Title": "Logic comparator - VALUE",
     "m_Position": {
         "x": -2905.0,
-        "y": -1570.999755859375
+        "y": -1571.0
     }
 }
 
