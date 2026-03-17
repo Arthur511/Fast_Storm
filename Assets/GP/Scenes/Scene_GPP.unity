@@ -289,6 +289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1064814
@@ -4670,6 +4671,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &32181047
@@ -9465,6 +9467,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &63961626
@@ -23038,6 +23041,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &163556165
@@ -26701,6 +26705,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &179368178
@@ -29894,6 +29899,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &205692011
@@ -32560,6 +32566,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &225555881
@@ -33356,6 +33363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &230730086
@@ -33868,6 +33876,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &234206203
@@ -45520,7 +45529,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _movementType: 3
-  _obstacleMovementSpeed: 10
+  _obstacleMovementSpeed: 20
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &299027948
@@ -60612,6 +60622,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &402740005
@@ -69407,6 +69418,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &467554917
@@ -72220,6 +72232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &480451391
@@ -73916,6 +73929,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &489443002
@@ -75371,6 +75385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &499201971
@@ -82322,6 +82337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &564894409
@@ -83683,6 +83699,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &572452219
@@ -86845,6 +86862,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 3
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &608912684
@@ -86955,6 +86973,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &610281151
@@ -89037,6 +89056,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &622519251
@@ -89177,6 +89197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &622698635
@@ -97081,6 +97102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &664468453
@@ -104533,6 +104555,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &718983166
@@ -109482,6 +109505,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 3
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &746639605
@@ -110749,6 +110773,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 0
   _obstacleMovementSpeed: 0
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &756064984
@@ -113662,6 +113687,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &782464805
@@ -123107,6 +123133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &839815917
@@ -129897,6 +129924,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &881768129
@@ -130940,6 +130968,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &890373976
@@ -136556,6 +136585,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &917015333
@@ -138157,6 +138187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &924284742
@@ -138399,6 +138430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &926638890
@@ -140294,6 +140326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &935465433
@@ -143757,6 +143790,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &964798865
@@ -144405,6 +144439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &971588014
@@ -148954,6 +148989,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1011788710
@@ -153942,6 +153978,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1045784786
@@ -156118,6 +156155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1061921197
@@ -164812,6 +164850,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1128911136
@@ -172185,6 +172224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1177855730
@@ -172655,6 +172695,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1179776738
@@ -174476,6 +174517,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1192163900
@@ -176668,6 +176710,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1204247076
@@ -176785,7 +176828,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3385864876349819149, guid: 30cd1b08de194dc42b1a693b74fbef12, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.2
+      value: 8.8
       objectReference: {fileID: 0}
     - target: {fileID: 3385864876349819149, guid: 30cd1b08de194dc42b1a693b74fbef12, type: 3}
       propertyPath: m_LocalPosition.z
@@ -177436,6 +177479,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1208977885
@@ -185393,6 +185437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1264877710
@@ -185518,6 +185563,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1265636224
@@ -189263,6 +189309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1282200462
@@ -201522,6 +201569,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!4 &1380840139 stripped
@@ -202693,6 +202741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1391018588
@@ -203097,6 +203146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1393201644
@@ -206600,6 +206650,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1416228033
@@ -206710,6 +206761,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1418042894
@@ -208886,6 +208938,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1434142447
@@ -213995,6 +214048,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1457595537
@@ -214617,6 +214671,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1462835167
@@ -217642,6 +217697,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1488562043
@@ -219261,6 +219317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1501246932
@@ -219534,6 +219591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1506615084
@@ -222346,6 +222404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1525169069
@@ -223234,6 +223293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1532668294
@@ -224295,6 +224355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1542655716
@@ -225095,6 +225156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1548170561
@@ -232510,7 +232572,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1595639225
 Transform:
   m_ObjectHideFlags: 0
@@ -232520,8 +232582,8 @@ Transform:
   m_GameObject: {fileID: 1595639224}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 506, y: 17.4, z: 1135}
-  m_LocalScale: {x: 26.897968, y: 40.884, z: 0.4}
+  m_LocalPosition: {x: 525.5, y: 23.6, z: 1341.8}
+  m_LocalScale: {x: 19.606735, y: 42.891403, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 560755982}
@@ -232538,8 +232600,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 695ffee147b9cac439014c00432a37c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementType: 0
-  _obstacleMovementSpeed: 0
+  _movementType: 1
+  _obstacleMovementSpeed: 7.5
+  _translateDistanceObstacle: 40
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1595639227
@@ -244418,6 +244481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1677102623
@@ -250194,6 +250258,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1713758315
@@ -254583,6 +254648,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1737327109
@@ -257053,6 +257119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1751494999
@@ -260625,6 +260692,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1783276830
@@ -265227,6 +265295,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1822864622
@@ -265852,6 +265921,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1832120929
@@ -267842,6 +267912,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1841460482
@@ -270042,6 +270113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1866624701
@@ -275689,6 +275761,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1898566027
@@ -283292,6 +283365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &1947935917
@@ -291757,6 +291831,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &2006596004
@@ -292646,6 +292721,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &2017408181
@@ -293143,6 +293219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &2025193114
@@ -293659,6 +293736,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &2027148677
@@ -295635,6 +295713,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &2043189949
@@ -298943,6 +299022,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &2070258864
@@ -303472,6 +303552,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &2097102340
@@ -304387,6 +304468,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &2101960927
@@ -308537,6 +308619,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementType: 1
   _obstacleMovementSpeed: 10
+  _translateDistanceObstacle: 0
   _restartPointChainMovement: {fileID: 0}
   _limitPointChainMovement: {fileID: 0}
 --- !u!65 &2124999719

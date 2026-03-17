@@ -17,7 +17,7 @@ public class TranslationMovement : IObstacleMovement
             _positionMedian = obj.GetComponent<Obstacle>().StartPosition;
             _initialized = true;
         }
-        float x = Mathf.Sin(Time.time * speed) * 10;
+        float x = Mathf.Sin(Time.time * speed) * obj.GetComponent<Obstacle>().TranslateDistanceObstacle;
         obj.position = _positionMedian + new Vector3(x, 0, 0);
     }
 }

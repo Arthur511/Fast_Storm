@@ -177,7 +177,7 @@ public class PlayerController : MonoBehaviour
         if (!_isOnPause)
         {
             float y = Input.GetAxisRaw("Horizontal");
-            if (Input.GetKeyDown(KeyCode.Q) && _isOnGround)
+            if (Input.GetKeyDown(KeyCode.Space) && _isOnGround)
             {
                 UsingJump();
             }
@@ -187,7 +187,7 @@ public class PlayerController : MonoBehaviour
                 UsingLateralDash(new Vector3(y, 0, 0));
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Q))
             {
                 UsingInvert();
             }

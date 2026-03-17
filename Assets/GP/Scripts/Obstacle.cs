@@ -4,12 +4,15 @@ public class Obstacle : MonoBehaviour
 {
     public enum MovementType { Static, Translation, Chain, Rotation }
     public Vector3 StartPosition => _startPosition;
+    public float TranslateDistanceObstacle => _translateDistanceObstacle;
     public Transform RestartPointChainMovement => _restartPointChainMovement;
     public Transform LimitPointChainDistance => _limitPointChainMovement;
     //public BoxCollider TriggerForwardMovement => _triggerForwardMovement;
 
     [SerializeField] MovementType _movementType;
     [SerializeField] float _obstacleMovementSpeed;
+
+    [SerializeField] float _translateDistanceObstacle;
 
     [SerializeField] Transform _restartPointChainMovement;
     [SerializeField] Transform _limitPointChainMovement;
