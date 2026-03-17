@@ -75,7 +75,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _HSV_StepValue: 2
+    - _HSV_StepValue: 0.27
     - _Hue_Amount: 2
     - _QueueControl: 0
     - _QueueOffset: 0
