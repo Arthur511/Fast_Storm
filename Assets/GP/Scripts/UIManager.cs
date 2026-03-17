@@ -11,6 +11,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] Image _scorePanel;
     [SerializeField] TextMeshProUGUI _scoreAmountText;
 
+    [SerializeField] TextMeshProUGUI _timerText;
+
     public void refreshEnergyJauge(float currentEnergy, int maxEnergy)
     {
         _energyJauge.fillAmount = currentEnergy / maxEnergy;
@@ -41,4 +43,10 @@ public class UIManager : MonoBehaviour
         }
         _scoreAmountText.text = score.ToString();
     }
+
+    public void RefreshTimerDisplay(int time)
+    {
+        _timerText.text = string.Format("{0:00} : {1:00}", (time / 60), (time%60));
+    }
+
 }

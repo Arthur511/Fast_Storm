@@ -11,8 +11,8 @@ public class PowersManager : MonoBehaviour
     [SerializeField] float _dashSpeed = 20f;
     [SerializeField] float _dashDuration = 1.0f;
     [Header("PassThroughPower")]
-    [SerializeField] float _passThroughDuration = 1.0f;
- 
+    [SerializeField] float _passThroughDuration = 3.0f;
+
     public void MakeLateralDash(GameObject g, Vector3 direction)
     {
 
@@ -23,18 +23,45 @@ public class PowersManager : MonoBehaviour
     }
     IEnumerator DashDuration(GameObject g)
     {
+        MainGame.Instance.PlayerController.IsDashing = true;
         yield return new WaitForSeconds(_dashDuration);
-        g.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, g.GetComponent<Rigidbody>().linearVelocity.z);
+        MainGame.Instance.PlayerController.IsDashing = false;
+        //g.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, g.GetComponent<Rigidbody>().linearVelocity.z);
     }
 
     public void MakeJump(GameObject g)
     {
-        g.GetComponent<Rigidbody>().linearVelocity = new Vector3(g.GetComponent<Rigidbody>().linearVelocity.x, _jumpSpeed, g.GetComponent<Rigidbody>().linearVelocity.z);
+
+        Vector3 velocityRun = g.GetComponent<Rigidbody>().linearVelocity - MainGame.Instance.PlayerController.CurrentSurfaceNormal;
+        g.GetComponent<Rigidbody>().linearVelocity = velocityRun + MainGame.Instance.PlayerController.CurrentSurfaceNormal * _jumpSpeed;
     }
 
     public void MakeInvertTeleportation()
     {
+        RaycastHit hit;
+        var player = MainGame.Instance.PlayerController;
 
+        Vector3 origin = player.transform.position;
+        Vector3 direction = -player.CurrentGravityDirection;
+        if (Physics.Raycast(origin, direction, out hit, 1000f, player.WallLayer, QueryTriggerInteraction.Ignore))
+        {
+            //player.transform.rotation = Quaternion.AngleAxis(180, player.transform.forward) * player.transform.rotation;
+
+            player.CurrentSurfaceNormal = hit.normal;
+            player.CurrentGravityDirection = -hit.normal;
+
+            player.IsInverting = true;
+
+            player.SmoothedSurfaceNormal = hit.normal;
+
+            //player.GetComponent<Rigidbody>().position = hit.point + hit.normal * 0.5f;
+            player.transform.position = hit.point + hit.normal * 0.5f;
+            Physics.SyncTransforms();
+
+            float currentSpeed = GetComponent<Rigidbody>().linearVelocity.magnitude;
+            GetComponent<Rigidbody>().linearVelocity = player.transform.forward * currentSpeed;
+
+        }
     }
 
     public void ActivePassThroughMode(GameObject g)
@@ -44,7 +71,9 @@ public class PowersManager : MonoBehaviour
 
     IEnumerator DelayEndPassThrough(GameObject g)
     {
+        g.GetComponent<Collider>().excludeLayers = MainGame.Instance.ObstacleLayer;
         yield return new WaitForSeconds(_passThroughDuration);
+        g.GetComponent<Collider>().excludeLayers = new LayerMask();
     }
 
 }

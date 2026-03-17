@@ -45,6 +45,9 @@ public class Obstacle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _typeMovement.Move(transform, _obstacleMovementSpeed);
+        if (_typeMovement != null)
+        {
+            _typeMovement.Move(transform, _obstacleMovementSpeed);
+        }
     }
 }
