@@ -71,11 +71,11 @@ public class PowersManager : MonoBehaviour
 
     IEnumerator DelayEndPassThrough(GameObject g)
     {
-        Material[] currentMats = gameObject.GetComponentInChildren<MeshRenderer>().materials;
-        gameObject.GetComponentInChildren<MeshRenderer>().material = _passThroughMaterial;
+        Material[] currentMats = gameObject.GetComponentInChildren<SkinnedMeshRenderer>().materials;
+        gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material = _passThroughMaterial;
         g.GetComponent<Collider>().excludeLayers = MainGame.Instance.ObstacleLayer;
         yield return new WaitForSeconds(_passThroughDuration);
-        gameObject.GetComponentInChildren<MeshRenderer>().materials = currentMats;
+        gameObject.GetComponentInChildren<SkinnedMeshRenderer>().materials = currentMats;
         g.GetComponent<Collider>().excludeLayers = new LayerMask();
     }
 
