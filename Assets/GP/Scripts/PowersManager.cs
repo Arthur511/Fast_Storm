@@ -12,6 +12,7 @@ public class PowersManager : MonoBehaviour
     [SerializeField] float _dashDuration = 1.0f;
     [Header("PassThroughPower")]
     [SerializeField] float _passThroughDuration = 3.0f;
+    [SerializeField] Material _passThroughMaterial;
 
     public void MakeLateralDash(GameObject g, Vector3 direction)
     {
@@ -26,7 +27,6 @@ public class PowersManager : MonoBehaviour
         MainGame.Instance.PlayerController.IsDashing = true;
         yield return new WaitForSeconds(_dashDuration);
         MainGame.Instance.PlayerController.IsDashing = false;
-        //g.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, g.GetComponent<Rigidbody>().linearVelocity.z);
     }
 
     public void MakeJump(GameObject g)
@@ -71,8 +71,11 @@ public class PowersManager : MonoBehaviour
 
     IEnumerator DelayEndPassThrough(GameObject g)
     {
+        Material[] currentMats = gameObject.GetComponentInChildren<MeshRenderer>().materials;
+        gameObject.GetComponentInChildren<MeshRenderer>().material = _passThroughMaterial;
         g.GetComponent<Collider>().excludeLayers = MainGame.Instance.ObstacleLayer;
         yield return new WaitForSeconds(_passThroughDuration);
+        gameObject.GetComponentInChildren<MeshRenderer>().materials = currentMats;
         g.GetComponent<Collider>().excludeLayers = new LayerMask();
     }
 

@@ -231783,7 +231783,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4926417881670739327, guid: dd397b9b05dc53a4b87f8eb7e5aeb11f, type: 3}
       propertyPath: _transporters.Array.size
-      value: 20
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4926417881670739327, guid: dd397b9b05dc53a4b87f8eb7e5aeb11f, type: 3}
       propertyPath: '_transporters.Array.data[0]'
@@ -231812,51 +231812,51 @@ PrefabInstance:
     - target: {fileID: 4926417881670739327, guid: dd397b9b05dc53a4b87f8eb7e5aeb11f, type: 3}
       propertyPath: '_transporters.Array.data[6]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 926638888}
     - target: {fileID: 4926417881670739327, guid: dd397b9b05dc53a4b87f8eb7e5aeb11f, type: 3}
       propertyPath: '_transporters.Array.data[7]'
       value: 
-      objectReference: {fileID: 926638888}
+      objectReference: {fileID: 1434142445}
     - target: {fileID: 4926417881670739327, guid: dd397b9b05dc53a4b87f8eb7e5aeb11f, type: 3}
       propertyPath: '_transporters.Array.data[8]'
       value: 
-      objectReference: {fileID: 1434142445}
+      objectReference: {fileID: 1751494996}
     - target: {fileID: 4926417881670739327, guid: dd397b9b05dc53a4b87f8eb7e5aeb11f, type: 3}
       propertyPath: '_transporters.Array.data[9]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 499201968}
     - target: {fileID: 4926417881670739327, guid: dd397b9b05dc53a4b87f8eb7e5aeb11f, type: 3}
       propertyPath: '_transporters.Array.data[10]'
       value: 
-      objectReference: {fileID: 1751494996}
+      objectReference: {fileID: 1841460479}
     - target: {fileID: 4926417881670739327, guid: dd397b9b05dc53a4b87f8eb7e5aeb11f, type: 3}
       propertyPath: '_transporters.Array.data[11]'
       value: 
-      objectReference: {fileID: 499201968}
+      objectReference: {fileID: 2043189946}
     - target: {fileID: 4926417881670739327, guid: dd397b9b05dc53a4b87f8eb7e5aeb11f, type: 3}
       propertyPath: '_transporters.Array.data[12]'
       value: 
-      objectReference: {fileID: 1841460479}
+      objectReference: {fileID: 1391018586}
     - target: {fileID: 4926417881670739327, guid: dd397b9b05dc53a4b87f8eb7e5aeb11f, type: 3}
       propertyPath: '_transporters.Array.data[13]'
       value: 
-      objectReference: {fileID: 2043189946}
+      objectReference: {fileID: 1282200460}
     - target: {fileID: 4926417881670739327, guid: dd397b9b05dc53a4b87f8eb7e5aeb11f, type: 3}
       propertyPath: '_transporters.Array.data[14]'
       value: 
-      objectReference: {fileID: 1391018586}
+      objectReference: {fileID: 1011788707}
     - target: {fileID: 4926417881670739327, guid: dd397b9b05dc53a4b87f8eb7e5aeb11f, type: 3}
       propertyPath: '_transporters.Array.data[15]'
       value: 
-      objectReference: {fileID: 1282200460}
+      objectReference: {fileID: 234206200}
     - target: {fileID: 4926417881670739327, guid: dd397b9b05dc53a4b87f8eb7e5aeb11f, type: 3}
       propertyPath: '_transporters.Array.data[16]'
       value: 
-      objectReference: {fileID: 1011788707}
+      objectReference: {fileID: 1265636221}
     - target: {fileID: 4926417881670739327, guid: dd397b9b05dc53a4b87f8eb7e5aeb11f, type: 3}
       propertyPath: '_transporters.Array.data[17]'
       value: 
-      objectReference: {fileID: 234206200}
+      objectReference: {fileID: 1061921194}
     - target: {fileID: 4926417881670739327, guid: dd397b9b05dc53a4b87f8eb7e5aeb11f, type: 3}
       propertyPath: '_transporters.Array.data[18]'
       value: 
@@ -309099,6 +309099,10 @@ PrefabInstance:
       propertyPath: _passThroughDuration
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 145924815387571198, guid: 8cecb5b8b793f6e4f8303e07af52b236, type: 3}
+      propertyPath: _passThroughMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 9172a8af2c08b8c40b6f057801be1877, type: 2}
     - target: {fileID: 753528982787838952, guid: 8cecb5b8b793f6e4f8303e07af52b236, type: 3}
       propertyPath: m_CollisionDetection
       value: 2
