@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour
     int VelocityHash;
     float _groundCheckDistance = 1.5f;
 
-    float _minSurfaceAngle = 45f;
+    float _minSurfaceAngle = 15f;
     Vector3 _currentGravityDirection = Vector3.down;
     Vector3 _targetGravityDirection = Vector3.down;
     Vector3 _currentSurfaceNormal = Vector3.up;
@@ -140,7 +140,6 @@ public class PlayerController : MonoBehaviour
     RaycastHit _surfaceHit;
     RaycastHit[] _hit;
     float _velocity;
-
 
     private void Awake()
     {
@@ -276,6 +275,9 @@ public class PlayerController : MonoBehaviour
         float gravitySpeed = Vector3.Dot(_rb.linearVelocity, _currentGravityDirection);
         float targetLateralSpeed = _isDashing ? Vector3.Dot(_rb.linearVelocity, right) : direction.x * _lateralSpeed;
 
+        if (_isOnGround)
+        gravitySpeed = Mathf.Min(gravitySpeed, 0f);
+
         _rb.linearVelocity = forward * (_currentSpeedPlayer * 10)
                            + right * targetLateralSpeed
                            + _currentGravityDirection * gravitySpeed;
@@ -365,7 +367,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 wallDetection = direction.x > 0 ? _cameraFollow.Target.right : -_cameraFollow.Target.right;
 
-        if (Physics.Raycast(_cameraFollow.Target.position, wallDetection, out _surfaceHit, _wallCheckDistance, _wallLayer, QueryTriggerInteraction.Ignore))
+        if (Physics.Raycast(_cameraFollow.Target.position + Vector3.up*0.5f, wallDetection, out _surfaceHit, _wallCheckDistance, _wallLayer, QueryTriggerInteraction.Ignore))
         {
             float angle = Vector3.Angle(_cameraFollow.Target.up, _surfaceHit.normal);
             if (angle > _minSurfaceAngle || wallDetection == _currentGravityDirection)
