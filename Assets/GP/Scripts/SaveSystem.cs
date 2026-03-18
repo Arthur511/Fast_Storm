@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class SaveSystem : MonoBehaviour
 {
@@ -53,7 +55,7 @@ public class SaveSystem : MonoBehaviour
             transporter.GetComponentInChildren<TransporterObstacle>().ResetTransportersPosition();
         }
         controller.ActualNextDoor.ResetDoors();
-        controller.CameraFollow.SetFieldOfview(controller.gameObject.GetComponent<Energy>().CurrentEnergy);
+        controller.CameraFollow.ResetFieldOfview(gameData.EnergyInStock);
 
         MainGame.Instance.UIManager.RefreshTimerDisplay((int)MainGame.Instance.TimerScript.CurrentTimeInSeconds);
         MainGame.Instance.UIManager.refreshEnergyJauge(controller.gameObject.GetComponent<Energy>().CurrentEnergy, controller.gameObject.GetComponent<Energy>().MaxEnergy);

@@ -312023,6 +312023,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2220160082158224809, guid: 8cecb5b8b793f6e4f8303e07af52b236, type: 3}
+      propertyPath: _target
+      value: 
+      objectReference: {fileID: 2098744452}
     - target: {fileID: 3578926189209365344, guid: 8cecb5b8b793f6e4f8303e07af52b236, type: 3}
       propertyPath: m_Height
       value: 3.868866

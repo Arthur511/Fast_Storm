@@ -87,6 +87,10 @@ public class CameraFollow : MonoBehaviour
         float targetFOV = _maxFOV - energy;
         _mainCamera.fieldOfView = Mathf.Lerp(_mainCamera.fieldOfView, targetFOV, Time.deltaTime);
     }
+    public void ResetFieldOfview(float energy)
+    {
+        _mainCamera.fieldOfView = _maxFOV - energy;
+    }
 
     public void SetHasPassedDoorsGood()
     {
